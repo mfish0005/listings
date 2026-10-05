@@ -1,0 +1,162 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>Button Component</h1>
+    <p>Versatile button component with multiple variants, sizes, and states.</p>
+  </div>
+
+  <div class="demo-section">
+    <h2>Variants</h2>
+    <p>Different visual styles based on your fish-styles theme.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-button 
+          variant="primary"
+          (click)="onButtonClick('primary')">
+          Primary
+        </fish-button>
+        <code>variant="primary"</code>
+      </div>
+      <div class="demo-item">
+        <fish-button 
+          variant="secondary"
+          (click)="onButtonClick('secondary')">
+          Secondary
+        </fish-button>
+        <code>variant="secondary"</code>
+      </div>
+      <div class="demo-item">
+        <fish-button 
+          variant="success"
+          (click)="onButtonClick('success')">
+          Success
+        </fish-button>
+        <code>variant="success"</code>
+      </div>
+      <div class="demo-item">
+        <fish-button 
+          variant="warning"
+          (click)="onButtonClick('warning')">
+          Warning
+        </fish-button>
+        <code>variant="warning"</code>
+      </div>
+      <div class="demo-item">
+        <fish-button 
+          variant="danger"
+          (click)="onButtonClick('danger')">
+          Danger
+        </fish-button>
+        <code>variant="danger"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Sizes</h2>
+    <p>Different button sizes for various contexts.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-button 
+          size="small"
+          (click)="onButtonClick('small')">
+          Small
+        </fish-button>
+        <code>size="small"</code>
+      </div>
+      <div class="demo-item">
+        <fish-button 
+          size="medium"
+          (click)="onButtonClick('medium')">
+          Medium
+        </fish-button>
+        <code>size="medium"</code>
+      </div>
+      <div class="demo-item">
+        <fish-button 
+          size="large"
+          (click)="onButtonClick('large')">
+          Large
+        </fish-button>
+        <code>size="large"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>States</h2>
+    <p>Different button states and interactions.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-button>
+          Normal
+        </fish-button>
+        <code>Default state</code>
+      </div>
+      <div class="demo-item">
+        <fish-button [disabled]="true">
+          Disabled
+        </fish-button>
+        <code>[disabled]="true"</code>
+      </div>
+      <div class="demo-item">
+        <fish-button [loading]="true">
+          Loading
+        </fish-button>
+        <code>[loading]="true"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Usage</h2>
+    <div class="code-example">
+      <h3>Import</h3>
+      <pre><code>import &#123; ButtonComponent &#125; from 'fish-ui';</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Template</h3>
+      <pre><code>&lt;fish-button 
+  variant="primary" 
+  size="medium"
+  (click)="handleClick()"&gt;
+  Click me!
+&lt;/fish-button&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Properties</h2>
+    <div class="properties-table">
+      <div class="property-row header">
+        <div class="property-name">Property</div>
+        <div class="property-type">Type</div>
+        <div class="property-default">Default</div>
+        <div class="property-description">Description</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">variant</div>
+        <div class="property-type">string</div>
+        <div class="property-default">'primary'</div>
+        <div class="property-description">Button style variant</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">size</div>
+        <div class="property-type">string</div>
+        <div class="property-default">'medium'</div>
+        <div class="property-description">Button size</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">disabled</div>
+        <div class="property-type">boolean</div>
+        <div class="property-default">false</div>
+        <div class="property-description">Disable the button</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">loading</div>
+        <div class="property-type">boolean</div>
+        <div class="property-default">false</div>
+        <div class="property-description">Show loading state</div>
+      </div>
+    </div>
+  </div>
+</div>

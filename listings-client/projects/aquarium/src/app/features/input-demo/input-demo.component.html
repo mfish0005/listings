@@ -1,0 +1,297 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>Input Component</h1>
+    <p>Versatile input component with multiple variants, sizes, and states for the Fish UI library.</p>
+  </div>
+
+  <!-- Variants -->
+  <div class="demo-section">
+    <h2>Variants</h2>
+    <p>Different visual styles based on your fish-styles theme.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-input 
+          placeholder="Default input" 
+          variant="default"
+          (click)="onInputClick('default')">
+        </fish-input>
+        <code>variant="default"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input 
+          placeholder="Success input" 
+          variant="success"
+          (click)="onInputClick('success')">
+        </fish-input>
+        <code>variant="success"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input 
+          placeholder="Warning input" 
+          variant="warning"
+          (click)="onInputClick('warning')">
+        </fish-input>
+        <code>variant="warning"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input 
+          placeholder="Danger input" 
+          variant="danger"
+          (click)="onInputClick('danger')">
+        </fish-input>
+        <code>variant="danger"</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <div class="demo-section">
+    <h2>Sizes</h2>
+    <p>Different sizes for various use cases.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-input 
+          placeholder="Small input" 
+          size="small"
+          (click)="onInputClick('small')">
+        </fish-input>
+        <code>size="small"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input 
+          placeholder="Medium input (default)" 
+          size="medium"
+          (click)="onInputClick('medium')">
+        </fish-input>
+        <code>size="medium"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input 
+          placeholder="Large input" 
+          size="large"
+          (click)="onInputClick('large')">
+        </fish-input>
+        <code>size="large"</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- States -->
+  <div class="demo-section">
+    <h2>States</h2>
+    <p>Different states for form inputs.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-input placeholder="Normal input"></fish-input>
+        <code>Normal state</code>
+      </div>
+      <div class="demo-item">
+        <fish-input placeholder="Disabled input" [disabled]="true"></fish-input>
+        <code>[disabled]="true"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input placeholder="Readonly input" [readonly]="true" value="Readonly value"></fish-input>
+        <code>[readonly]="true"</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Types -->
+  <div class="demo-section">
+    <h2>Input Types</h2>
+    <p>Different HTML input types supported.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-input placeholder="Text input" type="text"></fish-input>
+        <code>type="text"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input placeholder="Email input" type="email"></fish-input>
+        <code>type="email"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input placeholder="Password input" type="password"></fish-input>
+        <code>type="password"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input placeholder="Number input" type="number"></fish-input>
+        <code>type="number"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input placeholder="URL input" type="url"></fish-input>
+        <code>type="url"</code>
+      </div>
+      <div class="demo-item">
+        <fish-input placeholder="Search input" type="search"></fish-input>
+        <code>type="search"</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Example -->
+  <div class="demo-section">
+    <h2>Interactive Example</h2>
+    <p>Complete form example with validation and reactive forms.</p>
+    
+    @if (form()) {
+      <form [formGroup]="form()!" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <fish-input 
+            formControlName="name"
+            placeholder="Enter your name"
+            variant="default">
+          </fish-input>
+
+          <fish-input 
+            formControlName="email"
+            type="email"
+            placeholder="Enter your email"
+            variant="default">
+          </fish-input>
+
+          <fish-input 
+            formControlName="age"
+            type="number"
+            placeholder="Enter your age"
+            variant="default">
+          </fish-input>
+
+          <fish-input 
+            formControlName="website"
+            type="url"
+            placeholder="https://example.com"
+            variant="default">
+          </fish-input>
+        </div>
+
+        <div class="form-actions">
+          <fish-button 
+            type="submit" 
+            variant="primary" 
+            size="large"
+            [disabled]="form()?.invalid || false">
+            Submit Form
+          </fish-button>
+          
+          <fish-button 
+            type="button" 
+            variant="secondary" 
+            size="large"
+            (click)="onReset()">
+            Reset
+          </fish-button>
+        </div>
+      </form>
+    }
+
+    @if (submitted()) {
+      <div class="form-result">
+        <h3>Form Submitted!</h3>
+        <pre>{{ formData() | json }}</pre>
+      </div>
+    }
+  </div>
+
+  <!-- Usage -->
+  <div class="demo-section">
+    <h2>Usage</h2>
+    <div class="code-example">
+      <h3>Import</h3>
+      <pre><code>import &#123; InputComponent &#125; from 'fish-ui';</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Basic Usage</h3>
+      <pre><code>&lt;fish-input 
+  placeholder="Enter your name"
+  [value]="inputValue"
+  (valueChange)="onInputChange($event)"&gt;
+&lt;/fish-input&gt;</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>With Variant and Size</h3>
+      <pre><code>&lt;fish-input 
+  placeholder="Success input"
+  variant="success"
+  size="large"
+  type="email"&gt;
+&lt;/fish-input&gt;</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Reactive Forms</h3>
+      <pre><code>&lt;form [formGroup]="myForm"&gt;
+  &lt;fish-input 
+    formControlName="email"
+    type="email"
+    placeholder="Enter your email"&gt;
+  &lt;/fish-input&gt;
+&lt;/form&gt;</code></pre>
+    </div>
+  </div>
+
+  <!-- Properties -->
+  <div class="demo-section">
+    <h2>Properties</h2>
+    <div class="properties-table">
+      <div class="property-row header">
+        <div class="property-name">Property</div>
+        <div class="property-type">Type</div>
+        <div class="property-default">Default</div>
+        <div class="property-description">Description</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">value</div>
+        <div class="property-type">string</div>
+        <div class="property-default">''</div>
+        <div class="property-description">Input value for two-way binding</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">placeholder</div>
+        <div class="property-type">string</div>
+        <div class="property-default">''</div>
+        <div class="property-description">Placeholder text</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">type</div>
+        <div class="property-type">string</div>
+        <div class="property-default">'text'</div>
+        <div class="property-description">HTML input type</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">variant</div>
+        <div class="property-type">'default' | 'success' | 'warning' | 'danger'</div>
+        <div class="property-default">'default'</div>
+        <div class="property-description">Visual variant of the input</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">size</div>
+        <div class="property-type">'small' | 'medium' | 'large'</div>
+        <div class="property-default">'medium'</div>
+        <div class="property-description">Size of the input</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">disabled</div>
+        <div class="property-type">boolean</div>
+        <div class="property-default">false</div>
+        <div class="property-description">Whether the input is disabled</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">readonly</div>
+        <div class="property-type">boolean</div>
+        <div class="property-default">false</div>
+        <div class="property-description">Whether the input is readonly</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">maxLength</div>
+        <div class="property-type">number | null</div>
+        <div class="property-default">null</div>
+        <div class="property-description">Maximum number of characters</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">minLength</div>
+        <div class="property-type">number | null</div>
+        <div class="property-default">null</div>
+        <div class="property-description">Minimum number of characters</div>
+      </div>
+    </div>
+  </div>
+</div>

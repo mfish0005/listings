@@ -1,0 +1,228 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>Badge Component</h1>
+    <p>Small status indicators and labels with multiple variants and sizes.</p>
+  </div>
+
+  <div class="demo-section">
+    <h2>Variants</h2>
+    <p>Colors generated from your fish-styles theme</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-badge variant="primary">Primary</fish-badge>
+        <code>variant="primary"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="secondary">Secondary</fish-badge>
+        <code>variant="secondary"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="success">Success</fish-badge>
+        <code>variant="success"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="warning">Warning</fish-badge>
+        <code>variant="warning"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="danger">Danger</fish-badge>
+        <code>variant="danger"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="info">Info</fish-badge>
+        <code>variant="info"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Sizes</h2>
+    <p>Different badge sizes for various contexts.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-badge size="small">Small</fish-badge>
+        <code>size="small"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge size="medium">Medium</fish-badge>
+        <code>size="medium"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge size="large">Large</fish-badge>
+        <code>size="large"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Styles</h2>
+    <p>Different visual styles and shapes.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-badge variant="primary">Default</fish-badge>
+        <code>Default style</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="primary" [rounded]="true">Rounded</fish-badge>
+        <code>[rounded]="true"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="primary" [outline]="true">Outline</fish-badge>
+        <code>[outline]="true"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="primary" [rounded]="true" [outline]="true">Both</fish-badge>
+        <code>[rounded]="true" [outline]="true"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Custom Colors</h2>
+    <p>Use custom colors for colors outside your theme</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-badge variant="custom" customColor="#ff6b35">Custom Orange</fish-badge>
+        <code>variant="custom" customColor="#ff6b35"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="custom" customColor="#6c5ce7">Custom Purple</fish-badge>
+        <code>variant="custom" customColor="#6c5ce7"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="custom" customColor="#00b894">Custom Teal</fish-badge>
+        <code>variant="custom" customColor="#00b894"</code>
+      </div>
+      <div class="demo-item">
+        <fish-badge variant="custom" customColor="#e17055" [rounded]="true">Custom Rounded</fish-badge>
+        <code>Custom with rounded</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Use Cases</h2>
+    <p>Common badge implementations</p>
+    <div class="demo-grid demo-grid--use-cases">
+      <div class="demo-item demo-item--wide">
+        <div class="use-case-example">
+          <div class="notification-item">
+            <span class="notification-title">New Message</span>
+            <fish-badge variant="danger" size="small" [rounded]="true">3</fish-badge>
+          </div>
+          <div class="notification-item">
+            <span class="notification-title">Tasks Completed</span>
+            <fish-badge variant="success" size="small">12</fish-badge>
+          </div>
+          <div class="notification-item">
+            <span class="notification-title">Pending Review</span>
+            <fish-badge variant="warning" size="small" [outline]="true">5</fish-badge>
+          </div>
+        </div>
+        <code>Notification badges</code>
+      </div>
+      
+      <div class="demo-item">
+        <div class="status-example">
+          <h4>User Status</h4>
+          <div class="status-list">
+            <div class="status-item">
+              <span>John Doe</span>
+              <fish-badge variant="success" size="small" [rounded]="true">Online</fish-badge>
+            </div>
+            <div class="status-item">
+              <span>Jane Smith</span>
+              <fish-badge variant="warning" size="small" [rounded]="true">Away</fish-badge>
+            </div>
+            <div class="status-item">
+              <span>Bob Wilson</span>
+              <fish-badge variant="secondary" size="small" [rounded]="true">Offline</fish-badge>
+            </div>
+          </div>
+        </div>
+        <code>Status indicators</code>
+      </div>
+      
+      <div class="demo-item">
+        <div class="category-example">
+          <h4>Content Tags</h4>
+          <div class="tag-list">
+            <fish-badge variant="primary" size="small">TypeScript</fish-badge>
+            <fish-badge variant="info" size="small">Angular</fish-badge>
+            <fish-badge variant="success" size="small">SCSS</fish-badge>
+            <fish-badge variant="custom" customColor="#f39c12" size="small">JavaScript</fish-badge>
+          </div>
+        </div>
+        <code>Category tags</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Usage</h2>
+    <div class="code-example">
+      <h3>Import</h3>
+      <pre><code>import &#123; BadgeComponent &#125; from '@fish-ui/components';</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Template</h3>
+      <pre><code>&lt;fish-badge 
+  variant="primary" 
+  size="medium"
+  [rounded]="true"
+  [outline]="false"&gt;
+  Badge Text
+&lt;/fish-badge&gt;
+
+&lt;!-- Custom color badge --&gt;
+&lt;fish-badge 
+  variant="custom"
+  customColor="#6c5ce7"
+  size="small"&gt;
+  Custom
+&lt;/fish-badge&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Properties</h2>
+    <div class="properties-table">
+      <div class="property-row header">
+        <div class="property-name">Property</div>
+        <div class="property-type">Type</div>
+        <div class="property-default">Default</div>
+        <div class="property-description">Description</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">variant</div>
+        <div class="property-type">'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'custom'</div>
+        <div class="property-default">'primary'</div>
+        <div class="property-description">Badge color variant</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">size</div>
+        <div class="property-type">'small' | 'medium' | 'large'</div>
+        <div class="property-default">'medium'</div>
+        <div class="property-description">Badge size</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">rounded</div>
+        <div class="property-type">boolean</div>
+        <div class="property-default">false</div>
+        <div class="property-description">Make badge fully rounded</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">outline</div>
+        <div class="property-type">boolean</div>
+        <div class="property-default">false</div>
+        <div class="property-description">Use outline style instead of filled</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">customColor</div>
+        <div class="property-type">string</div>
+        <div class="property-default">undefined</div>
+        <div class="property-description">Custom background color (only with variant="custom")</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,203 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>Select Component</h1>
+    <p>A customizable dropdown select component with multiple variants, sizes, and states.</p>
+  </div>
+
+  <div class="demo-section">
+    <h2>Basic Usage</h2>
+    <p>Simple select with basic options and placeholder text.</p>
+
+    <div class="demo-grid">
+      <div class="demo-item">
+        <h3>Basic Select</h3>
+        <fish-select [options]="basicOptions" placeholder="Choose an option" (selectionChange)="onBasicChange($event)">
+        </fish-select>
+        <div class="demo-value">Selected: {{ basicValue() || 'None' }}</div>
+      </div>
+    </div>
+
+    <div class="code-example">
+      <pre><code>&lt;fish-select
+  [options]="basicOptions"
+  placeholder="Choose an option"
+  (selectionChange)="onBasicChange($event)"&gt;
+&lt;/fish-select&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Variants</h2>
+    <p>Different visual styles for the select component.</p>
+
+    <div class="demo-grid">
+      <div class="demo-item">
+        <h3>Default</h3>
+        <fish-select [options]="fishOptions" placeholder="Choose a Fish" variant="default"
+          (selectionChange)="onVariantChange($event)">
+        </fish-select>
+      </div>
+
+      <div class="demo-item">
+        <h3>Outline</h3>
+        <fish-select [options]="fishOptions" placeholder="Choose a Fish" variant="outline"
+          (selectionChange)="onVariantChange($event)">
+        </fish-select>
+      </div>
+
+      <div class="demo-item">
+        <h3>Filled</h3>
+        <fish-select [options]="fishOptions" placeholder="Choose a Fish" variant="filled"
+          (selectionChange)="onVariantChange($event)">
+        </fish-select>
+      </div>
+    </div>
+
+    <div class="code-example">
+      <pre><code>&lt;fish-select variant="default"&gt;&lt;/fish-select&gt;
+&lt;fish-select variant="outline"&gt;&lt;/fish-select&gt;
+&lt;fish-select variant="filled"&gt;&lt;/fish-select&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Sizes</h2>
+    <p>Different sizes for various use cases.</p>
+
+    <div class="demo-grid">
+      <div class="demo-item">
+        <h3>Small</h3>
+        <fish-select [options]="sizeOptions" placeholder="Small select" size="small"
+          (selectionChange)="onSizeChange($event)">
+        </fish-select>
+      </div>
+
+      <div class="demo-item">
+        <h3>Medium</h3>
+        <fish-select [options]="sizeOptions" placeholder="Medium select" size="medium"
+          (selectionChange)="onSizeChange($event)">
+        </fish-select>
+      </div>
+
+      <div class="demo-item">
+        <h3>Large</h3>
+        <fish-select [options]="sizeOptions" placeholder="Large select" size="large"
+          (selectionChange)="onSizeChange($event)">
+        </fish-select>
+      </div>
+    </div>
+
+    <div class="code-example">
+      <pre><code>&lt;fish-select size="small"&gt;&lt;/fish-select&gt;
+&lt;fish-select size="medium"&gt;&lt;/fish-select&gt;
+&lt;fish-select size="large"&gt;&lt;/fish-select&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>States</h2>
+    <p>Different states including disabled and error states.</p>
+
+    <div class="demo-grid">
+      <div class="demo-item">
+        <h3>Normal</h3>
+        <fish-select [options]="stateOptions" placeholder="Normal state" (selectionChange)="onStateChange($event)">
+        </fish-select>
+      </div>
+
+      <div class="demo-item">
+        <h3>Disabled</h3>
+        <fish-select [options]="stateOptions" placeholder="Disabled state" [disabled]="true"
+          (selectionChange)="onStateChange($event)">
+        </fish-select>
+      </div>
+
+      <div class="demo-item">
+        <h3>Error</h3>
+        <fish-select [options]="stateOptions" placeholder="Error state" [error]="true"
+          errorMessage="This field is required" (selectionChange)="onErrorChange($event)">
+        </fish-select>
+      </div>
+    </div>
+
+    <div class="code-example">
+      <pre><code>&lt;fish-select [disabled]="true"&gt;&lt;/fish-select&gt;
+&lt;fish-select 
+  [error]="true" 
+  errorMessage="This field is required"&gt;
+&lt;/fish-select&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Disabled Options</h2>
+    <p>Individual options can be disabled while keeping the select enabled.</p>
+
+    <div class="demo-grid">
+      <div class="demo-item">
+        <h3>Mixed Options</h3>
+        <fish-select [options]="disabledOptions" placeholder="Some options disabled"
+          (selectionChange)="onDisabledChange($event)">
+        </fish-select>
+        <div class="demo-value">Selected: {{ disabledValue() || 'None' }}</div>
+      </div>
+    </div>
+
+    <div class="code-example">
+      <pre><code>const options = [
+  {{ '{' }} value: 'option1', label: 'Available Option' {{ '}' }},
+  {{ '{' }} value: 'option2', label: 'Disabled Option', disabled: true {{ '}' }},
+  {{ '{' }} value: 'option3', label: 'Another Available Option' {{ '}' }}
+];</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Usage</h2>
+    <p>The select component provides a flexible dropdown interface with keyboard navigation and accessibility features.
+    </p>
+
+    <div class="properties-table">
+      <div class="property-row">
+        <div class="property-name">options</div>
+        <div class="property-type">SelectOption[]</div>
+        <div class="property-description">Array of options to display in the dropdown</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">placeholder</div>
+        <div class="property-type">string</div>
+        <div class="property-description">Placeholder text when no option is selected</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">variant</div>
+        <div class="property-type">'default' | 'outline' | 'filled'</div>
+        <div class="property-description">Visual style variant</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">size</div>
+        <div class="property-type">'small' | 'medium' | 'large'</div>
+        <div class="property-description">Size of the select component</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">disabled</div>
+        <div class="property-type">boolean</div>
+        <div class="property-description">Whether the select is disabled</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">required</div>
+        <div class="property-type">boolean</div>
+        <div class="property-description">Whether the select is required</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">error</div>
+        <div class="property-type">boolean</div>
+        <div class="property-description">Whether to show error state</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">errorMessage</div>
+        <div class="property-type">string</div>
+        <div class="property-description">Error message to display</div>
+      </div>
+    </div>
+  </div>
+</div>

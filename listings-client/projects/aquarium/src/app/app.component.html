@@ -1,0 +1,41 @@
+<div class="aquarium-container">
+  <header class="aquarium-header">
+    <div class="aquarium-logo">
+      <div class="fish-icon">🐠</div>
+      <h1>Fish UI Aquarium</h1>
+      <p class="tagline">Where components swim</p>
+    </div>
+  </header>
+
+  <nav class="aquarium-nav">
+    <div class="nav-section">
+      <h3>Overview</h3>
+      <a routerLink="/overview" routerLinkActive="active">Getting Started</a>
+    </div>
+    
+    <div class="nav-section">
+      <h3>Components</h3>
+      <a routerLink="/components/button" routerLinkActive="active">Button</a>
+      <a routerLink="/components/card" routerLinkActive="active">Card</a>
+      <a routerLink="/components/badge" routerLinkActive="active">Badge</a>
+      <a routerLink="/components/spinner" routerLinkActive="active">Spinner</a>
+      <a routerLink="/components/search" routerLinkActive="active">Search</a>
+      <a routerLink="/components/icon" routerLinkActive="active">Icon</a>      
+      <a routerLink="/components/input" routerLinkActive="active">Input</a>
+      <a routerLink="/components/textarea" routerLinkActive="active">Textarea</a>
+      <a routerLink="/components/select" routerLinkActive="active">Select</a>
+    </div>
+    
+    <div class="nav-section">
+      <h3>Documentation</h3>
+      <a routerLink="/docs/getting-started" routerLinkActive="active">Getting Started</a>
+      <a routerLink="/docs/theming" routerLinkActive="active">Theming</a>
+      <a routerLink="/docs/variables" routerLinkActive="active">Variables</a>
+      <a routerLink="/docs/helpers" routerLinkActive="active">Helper Classes</a>
+    </div>
+  </nav>
+
+  <main class="aquarium-content">
+    <router-outlet />
+  </main>
+</div>

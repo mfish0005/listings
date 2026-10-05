@@ -1,0 +1,109 @@
+// Colors
+$aqua-blue: #00bcd4;
+$aqua-blue-light: #4dd0e1;
+$aqua-blue-dark: #00acc1;
+
+$deep-blue: #0277bd;
+$deep-blue-light: #0288d1;
+$deep-blue-dark: #01579b;
+
+$sea-green: #26a69a;
+$sea-green-light: #4db6ac;
+$sea-green-dark: #00695c;
+
+$coral: #ff7043;
+$coral-light: #ff8a65;
+$coral-dark: #e64a19;
+
+$sand: #f5f5dc;
+$sand-light: #f8f8dc;
+$sand-dark: #e6e6cd;
+
+$white: #ffffff;
+$gray-lightest: #fafafa;
+$gray-lighter: #f5f5f5;
+$gray-light: #eeeeee;
+$gray: #e0e0e0;
+$gray-dark: #bdbdbd;
+$gray-darker: #9e9e9e;
+$gray-darkest: #757575;
+
+$primary: $aqua-blue;
+$primary-light: $aqua-blue-light;
+$primary-dark: $aqua-blue-dark;
+
+$secondary: $deep-blue;
+$secondary-light: $deep-blue-light;
+$secondary-dark: $deep-blue-dark;
+
+$success: $sea-green;
+$success-light: $sea-green-light;
+$success-dark: $sea-green-dark;
+
+$warning: $sand;
+$warning-light: $sand-light;
+$warning-dark: $sand-dark;
+
+$danger: $coral;
+$danger-light: $coral-light;
+$danger-dark: $coral-dark;
+
+$info: $deep-blue;
+$info-light: $deep-blue-light;
+$info-dark: $deep-blue-dark;
+
+$colorMap: (
+  "white": ($white),
+  "aqua-blue": ($aqua-blue),
+  "deep-blue": ($deep-blue),
+  "sea-green": ($sea-green),
+  "coral": ($coral),
+  "sand": ($sand),
+  "gray": ($gray),
+  "primary": ($primary),
+  "secondary": ($secondary),
+  "success": ($success),
+  "warning": ($warning),
+  "danger": ($danger),
+  "info": ($info)
+);
+
+$shadeMap: (
+  "aqua-blue-light": $aqua-blue-light,
+  "aqua-blue-dark": $aqua-blue-dark,
+  "deep-blue-light": $deep-blue-light,
+  "deep-blue-dark": $deep-blue-dark,
+  "sea-green-light": $sea-green-light,
+  "sea-green-dark": $sea-green-dark,
+  "coral-light": $coral-light,
+  "coral-dark": $coral-dark,
+  "sand-light": $sand-light,
+  "sand-dark": $sand-dark,
+  "gray-lightest": $gray-lightest,
+  "gray-lighter": $gray-lighter,
+  "gray-light": $gray-light,
+  "gray-dark": $gray-dark,
+  "gray-darker": $gray-darker,
+  "gray-darkest": $gray-darkest
+);
+
+// Typography
+$family-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+$family-monospace: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+
+$family-primary: $family-sans-serif;
+$family-secondary: $family-monospace;
+
+$size-1: 3rem;      // 48px - Large headings
+$size-2: 2.25rem;   // 36px - Medium headings
+$size-3: 1.875rem;  // 30px - Small headings
+$size-4: 1.5rem;    // 24px - Large text
+$size-5: 1.25rem;   // 20px - Medium text
+$size-6: 1rem;      // 16px - Base text
+$size-7: 0.875rem;  // 14px - Small text
+
+// Import library last to override the defaults
+@import '../../../fish-ui/src/styles/fish-styles/all.scss';
+
+
+

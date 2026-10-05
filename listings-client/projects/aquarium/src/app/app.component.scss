@@ -1,0 +1,144 @@
+@import '../styles/aquarium-theme.scss';
+
+.aquarium-container {
+  display: grid;
+  grid-template-areas: 
+    "header header"
+    "nav content";
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+.aquarium-header {
+  grid-area: header;
+  background: linear-gradient(135deg, $deep-blue 0%, $aqua-blue 100%);
+  color: $white;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.aquarium-logo {
+  text-align: center;
+  
+  .fish-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    animation: swim 3s ease-in-out infinite;
+  }
+  
+  h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+  
+  .tagline {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 1.1rem;
+    font-weight: 300;
+  }
+}
+
+@keyframes swim {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(10px) rotate(5deg); }
+  50% { transform: translateX(0) rotate(0deg); }
+  75% { transform: translateX(-10px) rotate(-5deg); }
+}
+
+.aquarium-nav {
+  grid-area: nav;
+  background: $white;
+  border-right: 1px solid $gray-light;
+  padding: 2rem 0;
+  overflow-y: auto;
+  
+  .nav-section {
+    margin-bottom: 2rem;
+    padding: 0 1.5rem;
+    
+    h3 {
+      margin: 0 0 1rem 0;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: $gray-darker;
+    }
+    
+    a {
+      display: block;
+      padding: 0.75rem 1rem;
+      margin: 0.25rem 0;
+      color: $gray-darkest;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+      
+      &:hover {
+        background: $gray-lighter;
+        transform: translateX(2px);
+      }
+      
+      &.active {
+        background: linear-gradient(135deg, rgba($aqua-blue, 0.15), rgba($sea-green, 0.15));
+        color: $deep-blue;
+        border-left-color: $deep-blue;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.aquarium-content {
+  grid-area: content;
+  padding: 2rem;
+  overflow-y: auto;
+  background: $white;
+}
+
+@media (max-width: 768px) {
+  .aquarium-container {
+    grid-template-areas: 
+      "header"
+      "nav"
+      "content";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+  
+  .aquarium-nav {
+    border-right: none;
+    border-bottom: 1px solid $gray-light;
+    padding: 1rem 0;
+    
+    .nav-section {
+      display: inline-block;
+      vertical-align: top;
+      width: 200px;
+      margin-right: 1rem;
+    }
+  }
+  
+  .aquarium-header {
+    padding: 1.5rem;
+    
+    .aquarium-logo {
+      .fish-icon {
+        font-size: 2rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .tagline {
+        font-size: 1rem;
+      }
+    }
+  }
+}

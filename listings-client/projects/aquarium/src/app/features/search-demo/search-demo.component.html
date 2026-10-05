@@ -1,0 +1,128 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>Search Component</h1>
+    <p>Interactive search input with built-in clear functionality and keyboard support.</p>
+  </div>
+
+  <div class="demo-section">
+    <h2>Search by Fish Name</h2>
+    <p>Find fish by their species name - try typing "clown", "betta", or "gold".</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-search
+          placeholder="Type at least 2 characters (e.g., 'clown', 'betta')..."
+          (search)="onNameSearch($event)"
+          (clear)="onNameClear()">
+        </fish-search>
+        
+        @if (nameSearchResults.length > 0) {
+          <div class="search-results">
+            <div class="results-header">
+              <span>{{ nameSearchResults.length }} fish found</span>
+            </div>
+            <div class="results-grid">
+              @for (fish of nameSearchResults; track fish.id) {
+                <div class="fish-card">
+                  <div class="fish-emoji">{{ fish.emoji }}</div>
+                  <div class="fish-name">{{ fish.title }}</div>
+                  <div class="fish-category" [style.background-color]="getCategoryColor(fish.category)">
+                    {{ fish.category }}
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        } @else if (nameSearchQuery && nameSearchResults.length === 0) {
+          <div class="no-results-small">
+            No fish found with "{{ nameSearchQuery }}"
+          </div>
+        }
+
+        <code>Search by fish name</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Keyboard Support</h2>
+    <p>The search component includes built-in keyboard shortcuts.</p>
+    <div class="keyboard-demo">
+      <fish-search
+        placeholder="Type at least 2 characters, then press Escape to clear..."
+        (search)="onSearch($event)"
+        (clear)="onClear()">
+      </fish-search>
+      <div class="keyboard-info">
+        <div class="keyboard-shortcut">
+          <kbd>Esc</kbd>
+          <span>Clear search</span>
+        </div>
+        <div class="keyboard-shortcut">
+          <kbd>Enter</kbd>
+          <span>Submit search (if needed)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Usage</h2>
+    <div class="code-example">
+      <h3>Import</h3>
+      <pre><code>import &#123; SearchComponent &#125; from '@fish-ui/components';</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Template</h3>
+      <pre><code>&lt;fish-search
+  placeholder="Search..."
+  (search)="onSearch($event)"
+  (clear)="onClear()"&gt;
+&lt;/fish-search&gt;</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Component</h3>
+      <pre><code>export class MyComponent &#123;
+  onSearch(query: string) &#123;
+    // Handle search query
+    console.log('Search:', query);
+  &#125;
+
+  onClear() &#123;
+    // Handle search clear
+    console.log('Search cleared');
+  &#125;
+&#125;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Properties & Events</h2>
+    <div class="properties-table">
+      <div class="property-row header">
+        <div class="property-name">Property/Event</div>
+        <div class="property-type">Type</div>
+        <div class="property-default">Default</div>
+        <div class="property-description">Description</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">placeholder</div>
+        <div class="property-type">string</div>
+        <div class="property-default">'Search...'</div>
+        <div class="property-description">Placeholder text for the input</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">(search)</div>
+        <div class="property-type">EventEmitter&lt;string&gt;</div>
+        <div class="property-default">-</div>
+        <div class="property-description">Emitted when search input changes</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">(clear)</div>
+        <div class="property-type">EventEmitter&lt;void&gt;</div>
+        <div class="property-default">-</div>
+        <div class="property-description">Emitted when search is cleared</div>
+      </div>
+    </div>
+  </div>
+
+</div>

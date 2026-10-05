@@ -1,0 +1,17 @@
+<div class="fish-input-wrapper">
+  <input
+    [class]="inputClasses"
+    [type]="type"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [required]="required"
+    [attr.maxlength]="maxLength"
+    [attr.minlength]="minLength"
+    [attr.pattern]="pattern"
+    [value]="internalValue()"
+    (input)="onInput($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+  />
+</div>

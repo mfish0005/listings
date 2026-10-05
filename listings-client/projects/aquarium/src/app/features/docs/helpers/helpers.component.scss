@@ -1,0 +1,224 @@
+@import '../../../../styles/aquarium-theme.scss';
+
+.docs-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.docs-header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h1 {
+    font-size: $size-2;
+    margin: 0 0 1rem 0;
+    color: $gray-darkest;
+  }
+
+  p {
+    font-size: $size-5;
+    color: $gray-darker;
+    margin: 0;
+  }
+}
+
+.docs-section {
+  margin-bottom: 4rem;
+
+  h2 {
+    font-size: $size-4;
+    margin: 0 0 1rem 0;
+    color: $gray-darkest;
+    border-bottom: 2px solid $gray-lighter;
+    padding-bottom: 0.5rem;
+  }
+
+  > p {
+    font-size: $size-6;
+    color: $gray-darker;
+    margin: 0 0 2rem 0;
+  }
+}
+
+.helper-category {
+  margin-bottom: 3rem;
+
+  h3 {
+    font-size: $size-5;
+    margin: 0 0 1rem 0;
+    color: $gray-darkest;
+    font-weight: 600;
+  }
+
+  .demo-examples {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+
+    p, h1, h2, h3, small {
+      margin: 0;
+      padding: 0.5rem;
+      border: 1px solid $gray-light;
+      border-radius: 4px;
+    }
+
+    h1, h2, h3 {
+      background: $gray-lightest;
+    }
+
+    p {
+      background: $white;
+    }
+
+    small {
+      background: $gray-lighter;
+    }
+  }
+}
+
+.demo-container {
+  padding: 1rem;
+  border: 1px solid $gray-light;
+  border-radius: 4px;
+  background: $gray-lightest;
+  margin-bottom: 1rem;
+
+  &.is-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &.is-flex-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 120px;
+  }
+}
+
+.demo-box {
+  padding: 0.75rem 1rem;
+  border: 1px solid $gray-light;
+  border-radius: 4px;
+  background: $white;
+  font-size: 0.875rem;
+  line-height: 1.4;
+
+  &.section {
+    margin: 0;
+    background: $gray-lightest;
+    border: 2px solid $primary;
+  }
+}
+
+.demo-button {
+  background: $primary;
+  color: $white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: $primary-dark;
+  }
+
+  &:active {
+    background: $primary;
+  }
+}
+
+.code-block {
+  margin-top: 1.5rem;
+  border: 1px solid $gray-light;
+  border-radius: 6px;
+  overflow: hidden;
+
+  .code-header {
+    background: $gray-lightest;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid $gray-light;
+
+    .code-label {
+      font-size: $size-7;
+      font-weight: 600;
+      color: $gray-darker;
+      font-family: $family-secondary;
+    }
+  }
+
+  pre {
+    margin: 0;
+    padding: 1rem;
+    background: $white;
+    overflow-x: auto;
+
+    code {
+      font-size: $size-7;
+      line-height: 1.5;
+      color: $gray-darkest;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .docs-container {
+    padding: 1rem;
+  }
+
+  .docs-header {
+    h1 {
+      font-size: $size-4;
+    }
+  }
+
+  .helper-category .demo-examples {
+    gap: 0.5rem;
+  }
+
+  .demo-box {
+    padding: 0.5rem 0.75rem;
+    font-size: $size-7;
+  }
+
+  .code-block pre {
+    padding: 0.75rem;
+    font-size: $size-7;
+  }
+}
+
+@media (max-width: 480px) {
+  .docs-section h2 {
+    font-size: $size-4;
+  }
+
+  .helper-category h3 {
+    font-size: $size-5;
+  }
+
+  .demo-container {
+    padding: 0.75rem;
+
+    &.is-flex {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  .code-block {
+    .code-header {
+      padding: 0.5rem 0.75rem;
+    }
+
+    pre {
+      padding: 0.5rem 0.75rem;
+    }
+  }
+}

@@ -1,0 +1,55 @@
+<div class="fish-select" 
+     [class.fish-select--small]="size === 'small'"
+     [class.fish-select--medium]="size === 'medium'"
+     [class.fish-select--large]="size === 'large'"
+     [class.fish-select--default]="variant === 'default'"
+     [class.fish-select--outline]="variant === 'outline'"
+     [class.fish-select--filled]="variant === 'filled'"
+     [class.fish-select--disabled]="disabled"
+     [class.fish-select--error]="error">
+  
+  <div class="fish-select__trigger" 
+       (click)="toggleDropdown()"
+       (focus)="onFocus()"
+       (blur)="onBlur()"
+       tabindex="0"
+       [attr.aria-expanded]="isOpen()"
+       [attr.aria-disabled]="disabled"
+       [attr.aria-required]="required">
+    
+    <span class="fish-select__value" 
+          [class.fish-select__value--placeholder]="!selectedOption()">
+      {{ displayValue }}
+    </span>
+    
+    <svg class="fish-select__arrow" 
+         [class.fish-select__arrow--open]="isOpen()"
+         width="16" 
+         height="16" 
+         viewBox="0 0 16 16" 
+         fill="none">
+      <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  @if (isOpen()) {
+    <div class="fish-select__dropdown">
+      <div class="fish-select__options">
+        @for (option of options; track option.value) {
+          <div class="fish-select__option"
+               [class.fish-select__option--selected]="option.value === internalValue()"
+               [class.fish-select__option--disabled]="option.disabled"
+               (click)="selectOption(option)">
+            {{ option.label }}
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (hasError) {
+    <div class="fish-select__error">
+      {{ errorMessage }}
+    </div>
+  }
+</div>

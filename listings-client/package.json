@@ -1,0 +1,62 @@
+{
+  "name": "listings-client",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve listings",
+    "build": "ng build listings",
+    "watch": "ng build listings --watch --configuration development",
+    "test": "ng test listings --watch=false --browsers=ChromeHeadless",
+    "serve-listings": "ng serve listings",
+    "serve-aquarium": "ng serve aquarium --port 4201",
+    "build-listings": "ng build listings",
+    "build-aquarium": "ng build aquarium",
+    "build-fish-ui": "ng build fish-ui",
+    "build-all": "npm run build-fish-ui && npm run build-listings && npm run build-aquarium",
+    "test-listings": "ng test listings --watch=false --browsers=ChromeHeadless",
+    "test-fish-ui": "ng test fish-ui --watch=false --browsers=ChromeHeadless"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "^20.2.0",
+    "@angular/compiler": "^20.2.0",
+    "@angular/core": "^20.2.0",
+    "@angular/forms": "^20.2.0",
+    "@angular/platform-browser": "^20.2.0",
+    "@angular/router": "^20.2.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^20.2.0",
+    "@angular/build": "^20.2.1",
+    "@angular/cli": "^20.2.1",
+    "@angular/compiler-cli": "^20.2.0",
+    "@types/jasmine": "~5.1.0",
+    "css-loader": "^7.1.2",
+    "jasmine-core": "~5.9.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "ng-packagr": "^20.2.0",
+    "sass": "^1.91.0",
+    "sass-loader": "^13.3.3",
+    "style-loader": "^4.0.0",
+    "typescript": "~5.9.2"
+  }
+}

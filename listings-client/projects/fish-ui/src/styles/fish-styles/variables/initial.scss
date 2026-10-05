@@ -1,0 +1,67 @@
+/*
+Initial(aka literal) variables are declared here.  They are then derived from in the _derived.scss file.
+This allows easy switching of themes later if desired
+*/
+
+// Colors
+$white: #fff !default;
+$black: #000 !default;
+
+$gray-lightest: #eceff1 !default;
+$gray-lighter: #cfd8dc !default;
+$gray-light: #b0bec5 !default;
+$gray: #90a4ae !default;
+$gray-dark: #718792 !default;
+$gray-darker: #455a64 !default;
+$gray-darkest: #1c313a !default;
+
+$green-light: #8ddb56 !default;
+$green: #50a000 !default;
+$green-dark: #438500 !default;
+
+$orange-light: #ffa726 !default;
+$orange: #ff9800 !default;
+$orange-dark: #e96100 !default;
+
+$blue-light: #3462ae !default;
+$blue: #17489e !default;
+$blue-dark: #17489e !default;
+
+$yellow-light: #fae64e !default;
+$yellow: #f5d80c !default;
+$yellow-dark: #e0ad09 !default;
+
+$red-light: #d32f2f !default;
+$red: #a91818 !default;
+$red-dark: #7f0000 !default;
+
+$purple-light: #ce93d8 !default;
+$purple: #7b1fa2 !default;
+$purple-dark: #4a0072 !default;
+
+// Typography
+$size-1: 2.5rem !default;
+$size-2: 2rem !default;
+$size-3: 1.75rem !default;
+$size-4: 1.5rem !default;
+$size-5: 1.25rem !default;
+$size-6: 1rem !default;
+$size-7: 0.75rem !default;
+
+$weight-semibold: 600 !default;
+$weight-bold: 700 !default;
+$weight-normal: 500 !default;
+$weight-light: 400 !default;
+
+$family-monospace: 'Press Start 2P', monospace !default;
+$family-sans-serif: 'Open Sans', 'Helvetica Neue', sans-serif !default;
+
+// Spacing
+$spacing-0-5: 0.125rem !default;
+$spacing-1: 0.25rem !default;
+$spacing-2: 0.5rem !default;
+$spacing-3: 0.75rem !default;
+$spacing-4: 1rem !default;
+$spacing-5: 1.25rem !default;
+$spacing-6: 1.5rem !default;
+$spacing-8: 2rem !default;

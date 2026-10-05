@@ -1,0 +1,317 @@
+<div class="docs-container">
+  <header class="docs-header">
+    <h1>Variables</h1>
+    <p>Understand the difference between initial and derived SCSS variables in Fish UI.</p>
+  </header>
+
+  <section class="docs-section">
+    <h2>Initial vs Derived Variables</h2>
+
+    <div class="concept-grid">
+      <div class="concept-item">
+        <div class="concept-icon"><fish-icon name="settings" size="large"></fish-icon></div>
+        <h3>Initial Variables</h3>
+        <p>Literal values that serve as the foundation. These are the raw colors, sizes, and other basic values.</p>
+        <div class="code-block">
+          <pre><code>$green: #50a000;
+$size-1: 2.5rem;
+$weight-bold: 700;</code></pre>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-icon"><fish-icon name="link" size="large"></fish-icon></div>
+        <h3>Derived Variables</h3>
+        <p>Variables that inherit from initial variables for better modularity and theming.</p>
+        <div class="code-block">
+          <pre><code>$primary: $green;
+$family-primary: $family-sans-serif;</code></pre>
+        </div>
+      </div>
+
+      <div class="concept-item">
+        <div class="concept-icon"><fish-icon name="target" size="large"></fish-icon></div>
+        <h3>Best Practice</h3>
+        <p>Always use derived variables when possible. This allows changing themes with minimal code changes.</p>
+        <div class="highlight-box">
+          <strong>Use:</strong> <code>$primary</code> instead of <code>$green</code><br>
+          <strong>Use:</strong> <code>$family-primary</code> instead of <code>$family-sans-serif</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2>Variable Hierarchy</h2>
+
+    <div class="hierarchy-diagram">
+      <div class="hierarchy-level">
+        <h4><fish-icon name="settings" size="small"></fish-icon> Initial Variables</h4>
+        <p>Literal values that don't change often</p>
+        <div class="code-example">
+          <code>$green: #50a000</code><br>
+          <code>$size-1: 2.5rem</code><br>
+          <code>$weight-bold: 700</code>
+        </div>
+      </div>
+
+      <div class="hierarchy-arrow">↓</div>
+
+      <div class="hierarchy-level">
+        <h4><fish-icon name="link" size="small"></fish-icon> Derived Variables</h4>
+        <p>Derive from initial variables for modularity</p>
+        <div class="code-example">
+          <code>$primary: $green</code><br>
+          <code>$family-primary: $family-sans-serif</code><br>          
+        </div>
+      </div>
+
+      <div class="hierarchy-arrow">↓</div>
+
+      <div class="hierarchy-level">
+        <h4><fish-icon name="target" size="small"></fish-icon> Component Usage</h4>
+        <p>Use derived variables in components</p>
+        <div class="code-example">
+          <code>color: $primary</code><br>
+          <code>font-family: $family-primary</code><br>
+          <code>&lt;h2 class="is-size-1 has-text-primary"&gt;Use helper classes&lt;/h2&gt;</code><br>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2>Usage Guidelines</h2>
+
+    <div class="guidelines-grid">
+      <div class="guideline-item">
+        <h4>✅ Use derived variables first</h4>
+        <div class="code-block">
+          <pre><code>// Good - uses derived variable
+.my-button {{ '{' }}
+  background: $primary;
+  color: $text;
+{{ '}' }}</code></pre>
+        </div>
+      </div>
+
+      <div class="guideline-item">
+        <h4>❌ Avoid using initial variables where possible</h4>
+        <div class="code-block">
+          <pre><code>// Bad - makes it more work to change themes later
+.my-button {{ '{' }}
+  background: $green; // Use $primary instead
+{{ '}' }}</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2>All Variables</h2>
+
+    <h3>Base Colors</h3>
+    <div class="variables-table">
+      <div class="variable-row">
+        <code>$white</code>
+        <span>Base white color (#ffffff)</span>
+      </div>
+      <div class="variable-row">
+        <code>$black</code>
+        <span>Base black color (#000000)</span>
+      </div>
+      <div class="variable-row">
+        <code>$gray-lightest</code>
+        <span>Lightest gray (#fafafa) - very subtle backgrounds</span>
+      </div>
+      <div class="variable-row">
+        <code>$gray-lighter</code>
+        <span>Lighter gray (#f5f5f5) - card backgrounds, subtle borders</span>
+      </div>
+      <div class="variable-row">
+        <code>$gray-light</code>
+        <span>Light gray (#eeeeee) - borders, dividers, inactive states</span>
+      </div>
+      <div class="variable-row">
+        <code>$gray</code>
+        <span>Medium gray (#e0e0e0) - secondary text, muted elements</span>
+      </div>
+      <div class="variable-row">
+        <code>$gray-dark</code>
+        <span>Dark gray (#bdbdbd) - icon colors, secondary borders</span>
+      </div>
+      <div class="variable-row">
+        <code>$gray-darker</code>
+        <span>Darker gray (#9e9e9e) - placeholder text, disabled states</span>
+      </div>
+      <div class="variable-row">
+        <code>$gray-darkest</code>
+        <span>Darkest gray (#757575) - primary text, strong elements</span>
+      </div>
+    </div>
+
+    <h3>Color Palette</h3>
+    <div class="variables-table">
+      <div class="variable-row">
+        <code>$green / $green-light / $green-dark</code>
+        <span>Green color variants for primary/success states</span>
+      </div>
+      <div class="variable-row">
+        <code>$blue / $blue-light / $blue-dark</code>
+        <span>Blue color variants for info/primary states</span>
+      </div>
+      <div class="variable-row">
+        <code>$red / $red-light / $red-dark</code>
+        <span>Red color variants for danger/error states</span>
+      </div>
+      <div class="variable-row">
+        <code>$orange / $orange-light / $orange-dark</code>
+        <span>Orange color variants for warning states</span>
+      </div>
+      <div class="variable-row">
+        <code>$yellow / $yellow-light / $yellow-dark</code>
+        <span>Yellow color variants for warning/attention</span>
+      </div>
+      <div class="variable-row">
+        <code>$purple / $purple-light / $purple-dark</code>
+        <span>Purple color variants for accent states</span>
+      </div>
+    </div>
+
+    <h3>Semantic Colors</h3>
+    <div class="variables-table">
+      <div class="variable-row">
+        <code>$primary</code>
+        <span>Main brand color (buttons, links, focus states) - derived from $green</span>
+      </div>
+      <div class="variable-row">
+        <code>$secondary</code>
+        <span>Secondary color (outline buttons, muted elements) - derived from $gray-dark</span>
+      </div>
+      <div class="variable-row">
+        <code>$success</code>
+        <span>Success color (positive feedback, confirmations) - derived from $green</span>
+      </div>
+      <div class="variable-row">
+        <code>$warning</code>
+        <span>Warning color (cautions, alerts) - derived from $orange</span>
+      </div>
+      <div class="variable-row">
+        <code>$danger</code>
+        <span>Danger color (errors, destructive actions) - derived from $red</span>
+      </div>
+      <div class="variable-row">
+        <code>$info</code>
+        <span>Info color (neutral information, tips) - derived from $blue</span>
+      </div>
+      <div class="variable-row">
+        <code>$text</code>
+        <span>Default text color for readability - derived from $gray-darker</span>
+      </div>
+    </div>
+
+    <h3>Typography</h3>
+    <div class="variables-table">
+      <div class="variable-row">
+        <code>$family-monospace</code>
+        <span>Monospace font family (code, technical content) - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$family-sans-serif</code>
+        <span>Sans-serif font family (UI, headings, body text) - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$family-primary</code>
+        <span>Main font family (headings, UI elements) - derived from $family-sans-serif</span>
+      </div>
+      <div class="variable-row">
+        <code>$family-secondary</code>
+        <span>Secondary font family (code blocks, accents) - derived from $family-monospace</span>
+      </div>
+    </div>
+
+    <h3>Font Sizes</h3>
+    <div class="variables-table">
+      <div class="variable-row">
+        <code>$size-1</code>
+        <span>Largest size (2.5rem - hero titles) - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$size-2</code>
+        <span>Very large (2rem - page titles) - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$size-3</code>
+        <span>Large (1.75rem - section headings) - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$size-4</code>
+        <span>Medium-large (1.5rem - subsections) - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$size-5</code>
+        <span>Medium (1.25rem - large text) - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$size-6</code>
+        <span>Base size (1rem - body text) - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$size-7</code>
+        <span>Small (0.75rem - captions, small text) - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$sizes</code>
+        <span>Array of all sizes for helper class generation - derived variable</span>
+      </div>
+    </div>
+
+    <h3>Font Weights</h3>
+    <div class="variables-table">
+      <div class="variable-row">
+        <code>$weight-light</code>
+        <span>Light weight (400) for subtle text - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$weight-normal</code>
+        <span>Normal weight (500) for body text - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$weight-semibold</code>
+        <span>Semibold weight (600) for emphasis - initial variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$weight-bold</code>
+        <span>Bold weight (700) for strong emphasis - initial variable</span>
+      </div>
+    </div>
+
+    <h3>Color Maps</h3>
+    <div class="variables-table">
+      <div class="variable-row">
+        <code>$colorMap</code>
+        <span>Map of color names to values (used by .has-text-* and .has-background-* classes) - derived variable</span>
+      </div>
+      <div class="variable-row">
+        <code>$shadeMap</code>
+        <span>Map of shade names to values (used for hover states and variations) - derived variable</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2>Next Steps</h2>
+    <div class="next-steps">
+      <article class="step">
+        <h4><fish-icon name="settings" size="small"></fish-icon> Theming</h4>
+        <p>Learn how to override variables for custom themes</p>
+        <a routerLink="/docs/theming" class="step-link" aria-label="Learn about theming">View Theming →</a>
+      </article>
+      <article class="step">
+        <h4>🛠️ Helper Classes</h4>
+        <p>Explore utility classes powered by these variables</p>
+        <a routerLink="/docs/helpers" class="step-link" aria-label="View helper classes documentation">View Helpers →</a>
+      </article>
+    </div>
+  </section>
+</div>

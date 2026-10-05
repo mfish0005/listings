@@ -1,0 +1,246 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>Card Component</h1>
+    <p>Flexible container component with elevation, padding, and interaction options.</p>
+  </div>
+
+  <div class="demo-section">
+    <h2>Elevation Levels</h2>
+    <p>Different shadow depths to create visual hierarchy.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-card elevation="small" padding="medium">
+          <h4>Small Elevation</h4>
+          <p>Subtle shadow for gentle separation</p>
+        </fish-card>
+        <code>elevation="small"</code>
+      </div>
+      <div class="demo-item">
+        <fish-card elevation="medium" padding="medium">
+          <h4>Medium Elevation</h4>
+          <p>Moderate shadow for clear distinction</p>
+        </fish-card>
+        <code>elevation="medium"</code>
+      </div>
+      <div class="demo-item">
+        <fish-card elevation="large" padding="medium">
+          <h4>Large Elevation</h4>
+          <p>Strong shadow for prominent display</p>
+        </fish-card>
+        <code>elevation="large"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Padding Options</h2>
+    <p>Control internal spacing for different content types.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-card elevation="small" padding="small">
+          <h4>Small Padding</h4>
+          <p>Compact spacing for dense layouts</p>
+        </fish-card>
+        <code>padding="small"</code>
+      </div>
+      <div class="demo-item">
+        <fish-card elevation="small" padding="medium">
+          <h4>Medium Padding</h4>
+          <p>Balanced spacing for most content</p>
+        </fish-card>
+        <code>padding="medium"</code>
+      </div>
+      <div class="demo-item">
+        <fish-card elevation="small" padding="large">
+          <h4>Large Padding</h4>
+          <p>Generous spacing for important content</p>
+        </fish-card>
+        <code>padding="large"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Interactive States</h2>
+    <p>Cards can respond to user interactions.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-card elevation="small" padding="medium">
+          <h4>Static Card</h4>
+          <p>No interaction states</p>
+        </fish-card>
+        <code>Default behavior</code>
+      </div>
+      <div class="demo-item">
+        <fish-card elevation="small" padding="medium" [hoverable]="true">
+          <h4>Hoverable Card</h4>
+          <p>Elevation increases on hover</p>
+        </fish-card>
+        <code>[hoverable]="true"</code>
+      </div>
+      <div class="demo-item">
+        <fish-card 
+          elevation="small" 
+          padding="medium" 
+          [clickable]="true"
+          (click)="onCardClick('clickable')">
+          <h4>Clickable Card</h4>
+          <p>Shows pointer cursor and click effects</p>
+        </fish-card>
+        <code>[clickable]="true"</code>
+      </div>
+      <div class="demo-item">
+        <fish-card 
+          elevation="small" 
+          padding="medium" 
+          [hoverable]="true"
+          [clickable]="true"
+          (click)="onCardClick('interactive')">
+          <h4>Interactive Card</h4>
+          <p>Both hover and click effects</p>
+        </fish-card>
+        <code>[hoverable]="true" [clickable]="true"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Content Examples</h2>
+    <p>Various ways to structure content within cards.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-card elevation="small" padding="medium">
+          <h4>Simple Card</h4>
+          <p>Basic text content with title and description.</p>
+        </fish-card>
+        <code>Basic text content</code>
+      </div>
+      <div class="demo-item">
+        <fish-card elevation="small" padding="medium">
+          <div class="card-header">
+            <h4><fish-icon name="fish" size="small"></fish-icon> Card with Header</h4>
+          </div>
+          <div class="card-content">
+            <p>Structured content with distinct sections.</p>
+          </div>
+          <div class="card-actions">
+            <fish-button size="small" variant="primary">Action</fish-button>
+          </div>
+        </fish-card>
+        <code>Structured sections</code>
+      </div>
+      <div class="demo-item">
+        <fish-card elevation="small" padding="none">
+          <div class="card-image">
+            <div class="demo-image"><fish-icon name="wave" [size]="48" color="white"></fish-icon></div>
+          </div>
+          <div class="card-body">
+            <h4>Media Card</h4>
+            <p>Card with image and content sections.</p>
+          </div>
+        </fish-card>
+        <code>Media content</code>
+      </div>
+      <div class="demo-item">
+        <fish-card elevation="small" padding="medium">
+          <div class="card-stats">
+            <div class="stat">
+              <div class="stat-number">42</div>
+              <div class="stat-label">Fish</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">18</div>
+              <div class="stat-label">Species</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">3</div>
+              <div class="stat-label">Tanks</div>
+            </div>
+          </div>
+        </fish-card>
+        <code>Statistics display</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Usage</h2>
+    <div class="code-example">
+      <h3>Import</h3>
+      <pre><code>import &#123; CardComponent &#125; from 'fish-ui';</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Basic Template</h3>
+      <pre><code>&lt;fish-card 
+  elevation="small" 
+  padding="medium"&gt;
+  &lt;h3&gt;Card Title&lt;/h3&gt;
+  &lt;p&gt;Card content goes here.&lt;/p&gt;
+&lt;/fish-card&gt;</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Interactive Card</h3>
+      <pre><code>&lt;fish-card 
+  elevation="small" 
+  padding="medium"
+  [hoverable]="true"
+  [clickable]="true"
+  (click)="handleCardClick()"&gt;
+  &lt;h3&gt;Interactive Card&lt;/h3&gt;
+  &lt;p&gt;Click me for action!&lt;/p&gt;
+&lt;/fish-card&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Properties</h2>
+    <div class="properties-table">
+      <div class="property-row header">
+        <div class="property-name">Property</div>
+        <div class="property-type">Type</div>
+        <div class="property-default">Default</div>
+        <div class="property-description">Description</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">elevation</div>
+        <div class="property-type">'none' | 'small' | 'medium' | 'large'</div>
+        <div class="property-default">'small'</div>
+        <div class="property-description">Shadow depth level</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">padding</div>
+        <div class="property-type">'none' | 'small' | 'medium' | 'large'</div>
+        <div class="property-default">'medium'</div>
+        <div class="property-description">Internal spacing amount</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">hoverable</div>
+        <div class="property-type">boolean</div>
+        <div class="property-default">false</div>
+        <div class="property-description">Enable hover elevation effect</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">clickable</div>
+        <div class="property-type">boolean</div>
+        <div class="property-default">false</div>
+        <div class="property-description">Enable click cursor and effects</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Events</h2>
+    <div class="properties-table">
+      <div class="property-row header">
+        <div class="property-name">Event</div>
+        <div class="property-type">Type</div>
+        <div class="property-description">Description</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">(click)</div>
+        <div class="property-type">MouseEvent</div>
+        <div class="property-description">Emitted when card is clicked (requires clickable="true")</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,232 @@
+@import '../../../styles/aquarium-theme.scss';
+
+.demo-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.demo-header {
+  margin-bottom: 3rem;
+  
+  h1 {
+    font-size: $size-2;
+    margin: 0 0 1rem 0;
+    color: $gray-darkest;
+    font-weight: 300;
+  }
+  
+  p {
+    font-size: $size-5;
+    color: $gray-darker;
+    margin: 0;
+    line-height: 1.6;
+  }
+}
+
+.demo-section {
+  margin-bottom: 3rem;
+  
+  h2 {
+    font-size: $size-3;
+    margin: 0 0 0.75rem 0;
+    color: $gray-darkest;
+    font-weight: 400;
+  }
+  
+  > p {
+    color: $gray-darker;
+    margin: 0 0 2rem 0;
+    line-height: 1.6;
+  }
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.demo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  
+  code {
+    background: $gray-lighter;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: $size-7;
+    color: $gray-darker;
+    font-family: $family-secondary;
+    text-align: center;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.form-result {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: $gray-lighter;
+  border: 1px solid $gray-light;
+  border-radius: 8px;
+  
+  h3 {
+    margin: 0 0 0.75rem 0;
+    color: $gray-darkest;
+    font-size: $size-5;
+    font-weight: 500;
+  }
+  
+  pre {
+    margin: 0;
+    font-family: $family-secondary;
+    font-size: $size-7;
+    color: $gray-darkest;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
+
+.code-example {
+  margin-bottom: 2rem;
+  
+  h3 {
+    margin: 0 0 0.75rem 0;
+    color: $gray-darkest;
+    font-size: $size-5;
+    font-weight: 500;
+  }
+  
+  pre {
+    background: $gray-lighter;
+    border: 1px solid $gray-light;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 0;
+    overflow-x: auto;
+    
+    code {
+      font-family: $family-secondary;
+      font-size: $size-7;
+      color: $gray-darkest;
+      line-height: 1.5;
+    }
+  }
+}
+
+.properties-table {
+  background: $white;
+  border: 1px solid $gray-light;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.property-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 2fr;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid $gray-light;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &.header {
+    background: $gray-lighter;
+    font-weight: 600;
+    color: $gray-darkest;
+  }
+  
+  .property-name {
+    font-family: $family-secondary;
+    font-size: $size-7;
+    color: $deep-blue;
+  }
+  
+  .property-type {
+    font-family: $family-secondary;
+    font-size: $size-7;
+    color: $sea-green;
+  }
+  
+  .property-default {
+    font-family: $family-secondary;
+    font-size: $size-7;
+    color: $coral;
+  }
+  
+  .property-description {
+    color: $gray-darker;
+    font-size: $size-7;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 768px) {
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .properties-table {
+    overflow-x: auto;
+  }
+  
+  .property-row {
+    grid-template-columns: 100px 80px 80px 1fr;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: $size-7;
+  }
+  
+  .demo-header h1 {
+    font-size: $size-4;
+  }
+}
+
+@media (max-width: 480px) {
+  .property-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    
+    &.header {
+      display: none;
+    }
+    
+    > div {
+      display: flex;
+      
+      &::before {
+        content: attr(data-label);
+        font-weight: 600;
+        margin-right: 0.5rem;
+        min-width: 80px;
+      }
+    }
+  }
+}

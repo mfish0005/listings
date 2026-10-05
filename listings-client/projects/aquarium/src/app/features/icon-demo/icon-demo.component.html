@@ -1,0 +1,271 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>Icon Component</h1>
+    <p>Comprehensive SVG icon set</p>
+  </div>
+
+  <div class="demo-section">
+    <h2>Interactive Preview</h2>
+    <p>Customize icon properties to see how they work together.</p>
+    
+    <div class="interactive-demo">
+      <div class="icon-preview">
+        <fish-icon 
+          [name]="selectedIcon" 
+          [size]="selectedSize === 'custom' ? customSize : selectedSize"
+          [color]="selectedColor === 'currentColor' ? undefined : selectedColor">
+        </fish-icon>
+      </div>
+      
+      <div class="controls">
+        <div class="control-group">
+          <label>Icon:</label>
+          <select (change)="onIconChange($any($event.target).value)" [value]="selectedIcon">
+            <optgroup label="Navigation">
+              @for (icon of navigationIcons; track icon) {
+                <option [value]="icon">{{ icon }}</option>
+              }
+            </optgroup>
+            <optgroup label="Actions">
+              @for (icon of actionIcons; track icon) {
+                <option [value]="icon">{{ icon }}</option>
+              }
+            </optgroup>
+            <optgroup label="Aquarium">
+              @for (icon of aquariumIcons; track icon) {
+                <option [value]="icon">{{ icon }}</option>
+              }
+            </optgroup>
+          </select>
+        </div>
+        
+        <div class="control-group">
+          <label>Size:</label>
+          <select (change)="onSizeChange($any($event.target).value)" [value]="selectedSize">
+            @for (size of sizes; track size) {
+              <option [value]="size">{{ size }}</option>
+            }
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        
+        @if (selectedSize === 'custom') {
+          <div class="control-group">
+            <label>Custom Size:</label>
+            <input type="range" min="12" max="64" [value]="customSize" (input)="onCustomSizeChange($event)">
+            <span>{{ customSize }}px</span>
+          </div>
+        }
+        
+        <div class="control-group">
+          <label>Color:</label>
+          <select (change)="onColorChange($any($event.target).value)" [value]="selectedColor">
+            @for (color of colors; track color) {
+              <option [value]="color">{{ color === 'currentColor' ? 'Current Color' : color }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Navigation Icons</h2>
+    <p>Icons for navigation and directional actions.</p>
+    <div class="icon-grid">
+      @for (icon of navigationIcons; track icon) {
+        <div class="icon-item">
+          <fish-icon [name]="icon" size="large"></fish-icon>
+          <code>{{ icon }}</code>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Action Icons</h2>
+    <p>Icons for user actions and interactions.</p>
+    <div class="icon-grid">
+      @for (icon of actionIcons; track icon) {
+        <div class="icon-item">
+          <fish-icon [name]="icon" size="large"></fish-icon>
+          <code>{{ icon }}</code>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Status & Feedback Icons</h2>
+    <p>Icons for displaying status, alerts, and user feedback.</p>
+    <div class="icon-grid">
+      @for (icon of statusIcons; track icon) {
+        <div class="icon-item">
+          <fish-icon [name]="icon" size="large"></fish-icon>
+          <code>{{ icon }}</code>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Content Icons</h2>
+    <p>Icons representing different types of content and components.</p>
+    <div class="icon-grid">
+      @for (icon of contentIcons; track icon) {
+        <div class="icon-item">
+          <fish-icon [name]="icon" size="large"></fish-icon>
+          <code>{{ icon }}</code>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>UI & Layout Icons</h2>
+    <p>Icons for interface elements and layout controls.</p>
+    <div class="icon-grid">
+      @for (icon of uiIcons; track icon) {
+        <div class="icon-item">
+          <fish-icon [name]="icon" size="large"></fish-icon>
+          <code>{{ icon }}</code>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Aquarium Theme Icons</h2>
+    <p>Special icons with aquarium and ocean themes.</p>
+    <div class="icon-grid">
+      @for (icon of aquariumIcons; track icon) {
+        <div class="icon-item">
+          <fish-icon [name]="icon" size="large"></fish-icon>
+          <code>{{ icon }}</code>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Development & Tools Icons</h2>
+    <p>Icons for development, documentation, and tools.</p>
+    <div class="icon-grid">
+      @for (icon of toolIcons; track icon) {
+        <div class="icon-item">
+          <fish-icon [name]="icon" size="large"></fish-icon>
+          <code>{{ icon }}</code>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Size Variants</h2>
+    <p>Different sizes for various use cases.</p>
+    <div class="size-demo">
+      <div class="size-item">
+        <fish-icon name="fish" size="small"></fish-icon>
+        <code>size="small" (16px)</code>
+      </div>
+      <div class="size-item">
+        <fish-icon name="fish" size="medium"></fish-icon>
+        <code>size="medium" (24px)</code>
+      </div>
+      <div class="size-item">
+        <fish-icon name="fish" size="large"></fish-icon>
+        <code>size="large" (32px)</code>
+      </div>
+      <div class="size-item">
+        <fish-icon name="fish" [size]="48"></fish-icon>
+        <code>[size]="48" (custom)</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Color Examples</h2>
+    <p>Icons inherit color from their parent or can have custom colors.</p>
+    <div class="color-demo">
+      <div class="color-item">
+        <fish-icon name="heart" size="large"></fish-icon>
+        <code>Default (currentColor)</code>
+      </div>
+      <div class="color-item text-primary">
+        <fish-icon name="star" size="large"></fish-icon>
+        <code>Inherited (text-primary)</code>
+      </div>
+      <div class="color-item">
+        <fish-icon name="fish" size="large" color="#00bcd4"></fish-icon>
+        <code>Custom color="#00bcd4"</code>
+      </div>
+      <div class="color-item">
+        <fish-icon name="fish" size="large" color="#ff7043"></fish-icon>
+        <code>Custom color="#ff7043"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Usage</h2>
+    <div class="code-example">
+      <h3>Import</h3>
+      <pre><code>import &#123; IconComponent &#125; from 'fish-ui';</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Basic Usage</h3>
+      <pre><code>&lt;fish-icon name="fish"&gt;&lt;/fish-icon&gt;</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>With Size and Color</h3>
+      <pre><code>&lt;fish-icon 
+  name="heart" 
+  size="large" 
+  color="#ff4444"&gt;
+&lt;/fish-icon&gt;</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Custom Size</h3>
+      <pre><code>&lt;fish-icon 
+  name="star" 
+  [size]="48"&gt;
+&lt;/fish-icon&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Properties</h2>
+    <div class="properties-table">
+      <div class="property-row header">
+        <div class="property-name">Property</div>
+        <div class="property-type">Type</div>
+        <div class="property-default">Default</div>
+        <div class="property-description">Description</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">name</div>
+        <div class="property-type">IconName</div>
+        <div class="property-default">required</div>
+        <div class="property-description">The icon to display</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">size</div>
+        <div class="property-type">'small' | 'medium' | 'large' | number</div>
+        <div class="property-default">'medium'</div>
+        <div class="property-description">Icon size (preset or custom pixels)</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">color</div>
+        <div class="property-type">string</div>
+        <div class="property-default">undefined</div>
+        <div class="property-description">Custom color (defaults to currentColor)</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">strokeWidth</div>
+        <div class="property-type">number</div>
+        <div class="property-default">2</div>
+        <div class="property-description">SVG stroke width</div>
+      </div>
+    </div>
+  </div>
+</div>

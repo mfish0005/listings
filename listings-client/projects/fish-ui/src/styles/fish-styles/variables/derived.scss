@@ -1,0 +1,61 @@
+/*
+Variables that derive from those declared in initial.scss belong here
+*/
+
+// Colors - Configurable with !default
+$primary: $green !default;
+$secondary: $gray-dark !default;
+$success: $green !default;
+$warning: $orange !default;
+$info: $blue !default;
+$danger: $red !default;
+
+// Text colors
+$text: $gray-darker !default;
+
+// Colors - Maps are configurable with !default
+$colorMap: (
+  "white": ($white),
+  "black": ($black),
+  "green": ($green),
+  "blue": ($blue),
+  "yellow": ($yellow),
+  "red": ($red),
+  "purple": ($purple),
+  "gray": ($gray),
+  "orange": ($orange),
+  "primary": ($primary),
+  "secondary": ($secondary),
+  "info": ($info),
+  "success": ($success),
+  "warning": ($warning),
+  "danger": ($danger),
+) !default;
+
+$shadeMap: (
+  "gray-light": $gray-light,
+  "gray-lighter": $gray-lighter,
+  "gray-lightest": $gray-lightest,
+  "gray-dark": $gray-dark,
+  "gray-darker": $gray-darker,
+  "gray-darkest": $gray-darkest,
+  "green-light": $green-light,
+  "green-dark": $green-dark,
+  "orange-light": $orange-light,
+  "orange-dark": $orange-dark,
+  "blue-light": $blue-light,
+  "blue-dark": $blue-dark,
+  "yellow-light": $yellow-light,
+  "yellow-dark": $yellow-dark,
+  "red-light": $red-light,
+  "red-dark": $red-dark,
+  "purple-light": $purple-light,
+  "purple-dark": $purple-dark,
+) !default;
+
+// Typography - Configurable with !default
+$family-primary: $family-monospace !default;
+$family-secondary: $family-monospace !default;
+
+// This defines our custom sizes so we can do .is-size-1 and .is-size-7 etc.
+$sizes: $size-1, $size-2, $size-3, $size-4, $size-5, $size-6, $size-7 !default;

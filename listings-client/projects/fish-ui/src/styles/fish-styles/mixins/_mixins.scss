@@ -1,0 +1,84 @@
+@mixin clearfix {
+  &::after {
+    clear: both;
+    content: " ";
+    display: table;
+  }
+}
+
+@mixin fish-input-base {
+  box-sizing: border-box;
+  margin: 0;
+  vertical-align: middle;
+  
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+@mixin truncate-text-by-width($width: 100%) {
+  max-width: $width;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Button color variant mixin
+// Handles hover and active states for button variants
+@mixin button-variant($border-color, $hover-bg: null, $hover-border: null, $hover-text: null) {
+  border-color: $border-color;
+  
+  &:hover:not(:disabled) {
+    @if $hover-bg {
+      background-color: $hover-bg !important;
+    }
+    @if $hover-border {
+      border-color: $hover-border;
+    }
+    @if $hover-text {
+      color: $hover-text !important;
+    }
+  }
+  
+  &:active:not(:disabled) {
+    @if $hover-bg {
+      background-color: $hover-bg !important;
+    }
+    transform: translateY(1px);
+  }
+}
+
+// Solid button variant (filled background)
+@mixin button-solid-variant($base-color, $dark-shade-name) {
+  border-color: $base-color;
+  
+  &:hover:not(:disabled),
+  &:active:not(:disabled) {
+    background-color: map-get($shadeMap, $dark-shade-name) !important;
+    border-color: map-get($shadeMap, $dark-shade-name);
+  }
+  
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+}
+
+// Ghost/outline button variant
+@mixin button-ghost-variant($text-color, $light-shade-name, $lighter-shade-name) {
+  background-color: transparent;
+  color: $text-color;
+  border-color: transparent;
+  
+  &:hover:not(:disabled) {
+    background-color: map-get($shadeMap, $light-shade-name) !important;
+  }
+  
+  &:active:not(:disabled) {
+    background-color: map-get($shadeMap, $lighter-shade-name) !important;
+    transform: translateY(1px);
+  }
+}

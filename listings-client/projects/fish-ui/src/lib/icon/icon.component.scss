@@ -1,0 +1,81 @@
+@import '../../styles/fish-styles/all.scss';
+
+.fish-icon {
+  display: inline-block;
+  vertical-align: middle;
+  color: currentColor;
+  transition: all 0.2s ease-in-out;
+  
+  &--small {
+    width: 16px;
+    height: 16px;
+  }
+
+  &--medium {
+    width: 24px;
+    height: 24px;
+  }
+
+  &--large {
+    width: 32px;
+    height: 32px;
+  }
+
+  &--heart {
+    &:hover {
+      color: $danger;
+      transform: scale(1.1);
+    }
+  }
+
+  &--star {
+    &:hover {
+      color: $warning;
+      transform: scale(1.1);
+    }
+  }
+
+  &--fish {
+    &:hover {
+      color: $primary;
+      transform: translateX(2px);
+    }
+  }
+
+  &--wave {
+    animation: wave 2s ease-in-out infinite;
+  }
+
+  &--spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &.text-primary { color: $primary; }
+  &.text-secondary { color: $secondary; }
+  &.text-success { color: $success; }
+  &.text-warning { color: $warning; }
+  &.text-danger { color: $danger; }
+  &.text-info { color: $info; }
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

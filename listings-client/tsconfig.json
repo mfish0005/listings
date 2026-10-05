@@ -1,0 +1,54 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "fish-ui": [
+        "./dist/fish-ui"
+      ],
+      "@fish-ui/*": [
+        "./projects/fish-ui/src/lib/*"
+      ],
+      "@fish-ui/components": [
+        "./projects/fish-ui/src/public-api"
+      ]
+    },
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/fish-ui/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/fish-ui/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/aquarium/tsconfig.app.json"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+@import '../variables/all';
+
+.is-marginless {
+  margin: 0 !important;
+}
+
+.is-paddingless {
+  padding: 0 !important;
+}
+
+$spacing-amounts: (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
+$sides: (top, bottom, left, right);
+
+// Generates helpers for .has-margin-right-2, .has-padding-bottom-10 etc.
+@each $space in $spacing-amounts {
+  @each $side in $sides {
+    .has-margin-#{$side}-#{$space} {
+      margin-#{$side}: #{$space}rem !important;
+    }
+
+    .has-padding-#{$side}-#{$space} {
+      padding-#{$side}: #{$space}rem !important;
+    }
+  }
+}

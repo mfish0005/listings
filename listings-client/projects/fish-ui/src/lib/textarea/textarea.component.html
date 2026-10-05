@@ -1,0 +1,17 @@
+<div class="fish-textarea-wrapper">
+  <textarea
+    [class]="textareaClasses"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [required]="required"
+    [rows]="rows"
+    [attr.maxlength]="maxLength"
+    [attr.minlength]="minLength"
+    [style.resize]="resizeStyle"
+    [value]="internalValue()"
+    (input)="onInput($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+  ></textarea>
+</div>

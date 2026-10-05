@@ -1,0 +1,10 @@
+<span 
+  class="fish-badge is-inline-flex has-text-weight-semibold"
+  [class]="'fish-badge--' + size + ' ' + 
+           (size === 'large' ? 'is-size-6' : 'is-size-7') + ' ' +
+           (variant !== 'custom' ? 'fish-badge--' + variant : '')"
+  [class.fish-badge--rounded]="rounded"
+  [class.fish-badge--outline]="outline"
+  [style]="customStyles">
+  <ng-content></ng-content>
+</span>

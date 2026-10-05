@@ -1,0 +1,128 @@
+@import '../../styles/fish-styles/all.scss';
+
+.fish-search {
+  position: relative;
+  width: 100%;
+}
+
+.fish-search__input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.fish-search__input {
+  width: 100%;
+  padding: 0.75rem 3rem 0.75rem 1rem;
+  border: 2px solid $gray-light;
+  border-radius: 0.5rem;
+  font-size: $size-6;
+  font-family: $family-primary;
+  background-color: $white;
+  color: $text;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+
+  &::placeholder {
+    color: $gray;
+  }
+
+  &:hover {
+    border-color: $gray;
+  }
+}
+
+.fish-search__icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $gray;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fish-search__clear-btn {
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: $gray;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: $text;
+    background-color: $gray-lightest;
+  }
+
+  &:focus {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
+}
+
+/* Variants */
+.fish-search--small {
+  .fish-search__input {
+    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+    font-size: $size-7;
+  }
+
+  .fish-search__icon {
+    right: 0.5rem;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .fish-search__clear-btn {
+    right: 2rem;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+.fish-search--large {
+  .fish-search__input {
+    padding: 1rem 3.5rem 1rem 1.25rem;
+    font-size: $size-5;
+  }
+
+  .fish-search__icon {
+    right: 1rem;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .fish-search__clear-btn {
+    right: 3rem;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}

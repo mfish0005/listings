@@ -1,0 +1,27 @@
+@import '../variables/all';
+
+// Uses the $colorMap from our derived.scss file
+// Allows setting colors via .has-text-green, .has-background-primary, etc.
+@each $name, $pair in $colorMap {
+  $color: nth($pair, 1);
+
+  .has-text-#{$name} {
+    color: $color !important;
+  }
+
+  .has-background-#{$name} {
+    background-color: $color !important;
+  }
+}
+
+// Uses the $shades collection from our derived.scss file
+// Allows setting shades via .has-text-green-light, .has-background-red-darkest, etc.
+@each $name, $shade in $shadeMap {
+  .has-text-#{$name} {
+    color: $shade !important;
+  }
+
+  .has-background-#{$name} {
+    background-color: $shade !important;
+  }
+}

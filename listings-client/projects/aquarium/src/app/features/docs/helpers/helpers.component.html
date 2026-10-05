@@ -1,0 +1,304 @@
+<div class="docs-container">
+  <header class="docs-header">
+    <h1>Helper Classes</h1>
+    <p>Utility classes for rapid development and consistent styling.</p>
+  </header>
+
+  <section class="docs-section">
+    <h2><fish-icon name="settings" size="medium"></fish-icon> Color Helpers</h2>
+    <p>Classes for text and background colors.</p>
+
+    <div class="helper-category">
+      <h3>Text Colors (.has-text-{{ '{' }}color{{ '}' }})</h3>
+      <div class="demo-examples">
+        <p class="has-text-primary">Primary text color</p>
+        <p class="has-text-success">Success text color</p>
+        <p class="has-text-danger">Danger text color</p>
+        <p class="has-text-warning has-background-gray-darker">Warning text color</p>
+        <p class="has-text-info">Info text color</p>        
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Text Colors</span>
+        </div>
+        <pre><code>&lt;p class="has-text-primary"&gt;Primary text&lt;/p&gt;
+&lt;p class="has-text-success"&gt;Success text&lt;/p&gt;
+&lt;p class="has-text-danger"&gt;Danger text&lt;/p&gt;
+&lt;p class="has-text-warning"&gt;Warning text&lt;/p&gt;
+&lt;p class="has-text-info"&gt;Info text&lt;/p&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="helper-category">
+      <h3>Background Colors (.has-background-{{ '{' }}color{{ '}' }})</h3>
+      <div class="demo-examples">
+        <div class="demo-box has-background-primary has-text-white">Primary background</div>
+        <div class="demo-box has-background-success">Success background</div>
+        <div class="demo-box has-background-danger">Danger background</div>
+        <div class="demo-box has-background-warning">Warning background</div>
+        <div class="demo-box has-background-info">Info background</div>        
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Background Colors</span>
+        </div>
+        <pre><code>&lt;div class="has-background-primary"&gt;Primary background&lt;/div&gt;
+&lt;div class="has-background-success"&gt;Success background&lt;/div&gt;
+&lt;div class="has-background-danger"&gt;Danger background&lt;/div&gt;
+&lt;div class="has-background-warning"&gt;Warning background&lt;/div&gt;
+&lt;div class="has-background-info"&gt;Info background&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2>📝 Typography Helpers</h2>
+    <p>Classes for font sizes, weights, alignment, and text styling.</p>
+
+    <div class="helper-category">
+      <h3>Font Sizes (.is-size-{{ '{' }}1-7{{ '}' }})</h3>
+      <div class="demo-examples">
+        <h1 class="is-size-1">Heading 1 (3rem)</h1>
+        <h2 class="is-size-2">Heading 2 (2.25rem)</h2>
+        <h3 class="is-size-3">Heading 3 (1.875rem)</h3>
+        <p class="is-size-4">Size 4 (1.5rem)</p>
+        <p class="is-size-5">Size 5 (1.25rem)</p>
+        <p class="is-size-6">Size 6 (1rem)</p>
+        <small class="is-size-7">Size 7 (0.875rem)</small>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Font Sizes</span>
+        </div>
+        <pre><code>&lt;h1 class="is-size-1"&gt;Large heading&lt;/h1&gt;
+&lt;h2 class="is-size-2"&gt;Medium heading&lt;/h2&gt;
+&lt;h3 class="is-size-3"&gt;Small heading&lt;/h3&gt;
+&lt;p class="is-size-6"&gt;Body text&lt;/p&gt;
+&lt;small class="is-size-7"&gt;Small text&lt;/small&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="helper-category">
+      <h3>Font Weights</h3>
+      <div class="demo-examples">
+        <p class="has-text-weight-light">Light weight (300)</p>
+        <p class="has-text-weight-normal">Normal weight (400)</p>
+        <p class="has-text-weight-semibold">Semibold weight (500)</p>
+        <p class="has-text-weight-bold">Bold weight (700)</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Font Weights</span>
+        </div>
+        <pre><code>&lt;p class="has-text-weight-light"&gt;Light weight (300)&lt;/p&gt;
+&lt;p class="has-text-weight-normal"&gt;Normal weight (400)&lt;/p&gt;
+&lt;p class="has-text-weight-semibold"&gt;Semibold weight (500)&lt;/p&gt;
+&lt;p class="has-text-weight-bold"&gt;Bold weight (700)&lt;/p&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="helper-category">
+      <h3>Text Alignment (.has-text-{{ '{' }}alignment{{ '}' }})</h3>
+      <div class="demo-examples">
+        <div class="demo-box has-text-left">Left aligned text</div>
+        <div class="demo-box has-text-centered">Center aligned text</div>
+        <div class="demo-box has-text-right">Right aligned text</div>
+        <div class="demo-box has-text-justified">Justified text - this is a longer sentence that will demonstrate justification by filling the available space evenly across the line.</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Text Alignment</span>
+        </div>
+        <pre><code>&lt;div class="has-text-left"&gt;Left aligned text&lt;/div&gt;
+&lt;div class="has-text-centered"&gt;Center aligned text&lt;/div&gt;
+&lt;div class="has-text-right"&gt;Right aligned text&lt;/div&gt;
+&lt;div class="has-text-justified"&gt;Justified text - fills available space&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="helper-category">
+      <h3>Text Styling</h3>
+      <div class="demo-examples">
+        <p class="is-capitalized">capitalized text</p>
+        <p class="is-lowercase">LOWERCASE TEXT</p>
+        <p class="is-uppercase">uppercase text</p>
+        <p class="is-italic">Italic text</p>
+        <p class="is-underlined">Underlined text</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Text Styling</span>
+        </div>
+        <pre><code>&lt;p class="is-capitalized"&gt;capitalized text&lt;/p&gt;
+&lt;p class="is-lowercase"&gt;LOWERCASE TEXT&lt;/p&gt;
+&lt;p class="is-uppercase"&gt;uppercase text&lt;/p&gt;
+&lt;p class="is-italic"&gt;Italic text&lt;/p&gt;
+&lt;p class="is-underlined"&gt;Underlined text&lt;/p&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2>📏 Spacing Helpers</h2>
+    <p>Classes for margins and padding.</p>
+
+    <div class="helper-category">
+      <h3>Section Spacing (.section)</h3>
+      <div class="demo-box section">This div has 2rem of padding</div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Section Spacing</span>
+        </div>
+        <pre><code>&lt;section class="section"&gt;
+  Content with 2rem padding
+&lt;/section&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="helper-category">
+      <h3>Margin Helpers (.has-margin-{{ '{' }}side{{ '}' }}-{{ '{' }}1-20{{ '}' }})</h3>
+      <div class="demo-examples">
+        <div class="demo-box has-margin-bottom-2">Bottom margin 2rem</div>
+        <div class="demo-box has-margin-top-3">Top margin 3rem</div>
+        <div class="demo-box has-margin-left-4">Left margin 4rem</div>
+        <div class="demo-box has-margin-right-5">Right margin 5rem</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Margins</span>
+        </div>
+        <pre><code>&lt;div class="has-margin-bottom-2"&gt;Bottom margin 2rem&lt;/div&gt;
+&lt;div class="has-margin-top-3"&gt;Top margin 3rem&lt;/div&gt;
+&lt;div class="has-margin-left-4"&gt;Left margin 4rem&lt;/div&gt;
+&lt;div class="has-margin-right-5"&gt;Right margin 5rem&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="helper-category">
+      <h3>Padding Helpers (.has-padding-{{ '{' }}side{{ '}' }}-{{ '{' }}1-20{{ '}' }})</h3>
+      <div class="demo-examples">
+        <div class="demo-box has-padding-2">All padding 2rem</div>
+        <div class="demo-box has-padding-top-3">Top padding 3rem</div>
+        <div class="demo-box has-padding-left-4">Left padding 4rem</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Padding</span>
+        </div>
+        <pre><code>&lt;div class="has-padding-2"&gt;All padding 2rem&lt;/div&gt;
+&lt;div class="has-padding-top-3"&gt;Top padding 3rem&lt;/div&gt;
+&lt;div class="has-padding-left-4"&gt;Left padding 4rem&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="helper-category">
+      <h3>Spacing Utilities</h3>
+      <div class="demo-examples">
+        <div class="demo-box is-marginless">No margins</div>
+        <div class="demo-box is-paddingless">No padding</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Spacing Utilities</span>
+        </div>
+        <pre><code>&lt;p class="is-marginless"&gt;No margins&lt;/p&gt;
+&lt;p class="is-paddingless"&gt;No padding&lt;/p&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2><fish-icon name="eye" size="medium"></fish-icon> Visibility Helpers</h2>
+    <p>Classes for showing and hiding elements.</p>
+
+    <div class="helper-category">
+      <h3>Visibility States</h3>
+      <div class="demo-examples">
+        <div class="demo-box">Normal visible element</div>
+        <div class="demo-box is-invisible" style="opacity: 0.3;">Invisible element (takes up space)</div>
+        <div class="demo-box is-sr-only" style="background: transparent; color: inherit;">Screen reader only element</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Static Visibility</span>
+        </div>
+        <pre><code>&lt;div&gt;Normal visible element&lt;/div&gt;
+&lt;div class="is-invisible"&gt;Takes up space but invisible&lt;/div&gt;
+&lt;div class="is-sr-only"&gt;Only visible to screen readers&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="helper-category">
+      <h3>Interactive Visibility</h3>
+      <p>Click to toggle element visibility:</p>
+      <button class="demo-button" (click)="toggleVisibility()">Toggle Element</button>
+      <div class="demo-examples">
+        <div class="demo-box" [class.is-visible]="isVisible" [class.is-invisible]="!isVisible">
+          This element can be shown/hidden dynamically!
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Dynamic Visibility</span>
+        </div>
+        <pre><code>&lt;div [class.is-visible]="isVisible"
+     [class.is-invisible]="!isVisible"&gt;
+  Dynamic content
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section">
+    <h2><fish-icon name="target" size="medium"></fish-icon> Positioning Helpers</h2>
+    <p>Classes for positioning and layout.</p>
+
+    <div class="helper-category">
+      <h3>Flex Push Utilities</h3>
+      <div class="demo-examples">
+        <div class="demo-container is-flex">
+          <div class="demo-box">Left item</div>
+          <div class="demo-box push-right">Right item (pushed)</div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Flex Push</span>
+        </div>
+        <pre><code>&lt;div class="is-flex"&gt;
+  &lt;div&gt;Left item&lt;/div&gt;
+  &lt;div class="push-right"&gt;Right item&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="helper-category">
+      <h3>Centering (.is-flex-centered)</h3>
+      <div class="demo-container is-flex-centered">
+        <div class="demo-box">Centered content</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">HTML - Centering</span>
+        </div>
+        <pre><code>&lt;div class="is-flex-centered"&gt;
+  &lt;div&gt;Centered content&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+</div>

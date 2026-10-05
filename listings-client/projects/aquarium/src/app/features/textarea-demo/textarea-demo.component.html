@@ -1,0 +1,341 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>Textarea Component</h1>
+    <p>Multi-line text input component with multiple variants, sizes, and states for the Fish UI library.</p>
+  </div>
+  
+  <div class="demo-section">
+    <h2>Variants</h2>
+    <p>Different visual styles based on your fish-styles theme.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-textarea 
+          placeholder="Default textarea" 
+          variant="default"
+          [rows]="3"
+          (click)="onTextareaClick('default')">
+        </fish-textarea>
+        <code>variant="default"</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea 
+          placeholder="Success textarea" 
+          variant="success"
+          [rows]="3"
+          (click)="onTextareaClick('success')">
+        </fish-textarea>
+        <code>variant="success"</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea 
+          placeholder="Warning textarea" 
+          variant="warning"
+          [rows]="3"
+          (click)="onTextareaClick('warning')">
+        </fish-textarea>
+        <code>variant="warning"</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea 
+          placeholder="Danger textarea" 
+          variant="danger"
+          [rows]="3"
+          (click)="onTextareaClick('danger')">
+        </fish-textarea>
+        <code>variant="danger"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Sizes</h2>
+    <p>Different sizes for various use cases.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-textarea 
+          placeholder="Small textarea" 
+          size="small"
+          [rows]="2"
+          (click)="onTextareaClick('small')">
+        </fish-textarea>
+        <code>size="small"</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea 
+          placeholder="Medium textarea (default)" 
+          size="medium"
+          [rows]="3"
+          (click)="onTextareaClick('medium')">
+        </fish-textarea>
+        <code>size="medium"</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea 
+          placeholder="Large textarea" 
+          size="large"
+          [rows]="4"
+          (click)="onTextareaClick('large')">
+        </fish-textarea>
+        <code>size="large"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>States</h2>
+    <p>Different states for textarea inputs.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-textarea placeholder="Normal textarea" [rows]="3"></fish-textarea>
+        <code>Normal state</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea placeholder="Disabled textarea" [disabled]="true" [rows]="3"></fish-textarea>
+        <code>[disabled]="true"</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea 
+          placeholder="Readonly textarea" 
+          [readonly]="true" 
+          value="This is readonly content"
+          [rows]="3">
+        </fish-textarea>
+        <code>[readonly]="true"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Resize Options</h2>
+    <p>Different resize behaviors for textarea.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-textarea placeholder="No resize" resize="none" [rows]="3"></fish-textarea>
+        <code>resize="none"</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea placeholder="Vertical resize" resize="vertical" [rows]="3"></fish-textarea>
+        <code>resize="vertical"</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea placeholder="Horizontal resize" resize="horizontal" [rows]="3"></fish-textarea>
+        <code>resize="horizontal"</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea placeholder="Both directions" resize="both" [rows]="3"></fish-textarea>
+        <code>resize="both"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Character Limits</h2>
+    <p>Textarea with character count and limits.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-textarea 
+          placeholder="Max 100 characters" 
+          [maxLength]="100"
+          [rows]="3">
+        </fish-textarea>
+        <code>[maxLength]="100"</code>
+      </div>
+      <div class="demo-item">
+        <fish-textarea 
+          placeholder="Min 10 characters" 
+          [minLength]="10"
+          [rows]="3">
+        </fish-textarea>
+        <code>[minLength]="10"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Interactive Example</h2>
+    <p>Complete form example with validation and reactive forms.</p>
+    
+    @if (form()) {
+      <form [formGroup]="form()!" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Bio (10-500 characters)</label>
+            <fish-textarea 
+              formControlName="bio"
+              placeholder="Tell us about yourself..."
+              [rows]="4"
+              [maxLength]="500"
+              variant="default">
+            </fish-textarea>
+            @if (getFieldError('bio')) {
+              <div class="error-message">{{ getFieldError('bio') }}</div>
+            }
+          </div>
+
+          <div class="form-field">
+            <label>Comments (max 1000 characters)</label>
+            <fish-textarea 
+              formControlName="comments"
+              placeholder="Any additional comments..."
+              [rows]="3"
+              [maxLength]="1000"
+              variant="default">
+            </fish-textarea>
+            @if (getFieldError('comments')) {
+              <div class="error-message">{{ getFieldError('comments') }}</div>
+            }
+          </div>
+
+          <div class="form-field">
+            <label>Description (min 20 characters)</label>
+            <fish-textarea 
+              formControlName="description"
+              placeholder="Describe your project..."
+              [rows]="5"
+              [minLength]="20"
+              variant="default">
+            </fish-textarea>
+            @if (getFieldError('description')) {
+              <div class="error-message">{{ getFieldError('description') }}</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <fish-button 
+            type="submit" 
+            variant="primary" 
+            size="large"
+            [disabled]="form()?.invalid || false">
+            Submit Form
+          </fish-button>
+          
+          <fish-button 
+            type="button" 
+            variant="secondary" 
+            size="large"
+            (click)="onReset()">
+            Reset
+          </fish-button>
+        </div>
+      </form>
+    }
+
+    @if (submitted()) {
+      <div class="form-result">
+        <h3>Form Submitted!</h3>
+        <pre>{{ formData() | json }}</pre>
+      </div>
+    }
+  </div>
+
+  <div class="demo-section">
+    <h2>Usage</h2>
+    <div class="code-example">
+      <h3>Import</h3>
+      <pre><code>import &#123; TextareaComponent &#125; from 'fish-ui';</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Basic Usage</h3>
+      <pre><code>&lt;fish-textarea 
+  placeholder="Enter your message"
+  [rows]="4"
+  [value]="textareaValue"
+  (valueChange)="onTextareaChange($event)"&gt;
+&lt;/fish-textarea&gt;</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>With Variant and Size</h3>
+      <pre><code>&lt;fish-textarea 
+  placeholder="Success textarea"
+  variant="success"
+  size="large"
+  [rows]="5"
+  resize="vertical"&gt;
+&lt;/fish-textarea&gt;</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Reactive Forms</h3>
+      <pre><code>&lt;form [formGroup]="myForm"&gt;
+  &lt;fish-textarea 
+    formControlName="description"
+    placeholder="Enter description"
+    [rows]="4"
+    [maxLength]="500"&gt;
+  &lt;/fish-textarea&gt;
+&lt;/form&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Properties</h2>
+    <div class="properties-table">
+      <div class="property-row header">
+        <div class="property-name">Property</div>
+        <div class="property-type">Type</div>
+        <div class="property-default">Default</div>
+        <div class="property-description">Description</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">value</div>
+        <div class="property-type">string</div>
+        <div class="property-default">''</div>
+        <div class="property-description">Textarea value for two-way binding</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">placeholder</div>
+        <div class="property-type">string</div>
+        <div class="property-default">''</div>
+        <div class="property-description">Placeholder text</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">rows</div>
+        <div class="property-type">number</div>
+        <div class="property-default">3</div>
+        <div class="property-description">Number of visible text lines</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">variant</div>
+        <div class="property-type">'default' | 'success' | 'warning' | 'danger'</div>
+        <div class="property-default">'default'</div>
+        <div class="property-description">Visual variant of the textarea</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">size</div>
+        <div class="property-type">'small' | 'medium' | 'large'</div>
+        <div class="property-default">'medium'</div>
+        <div class="property-description">Size of the textarea</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">resize</div>
+        <div class="property-type">'none' | 'both' | 'horizontal' | 'vertical'</div>
+        <div class="property-default">'vertical'</div>
+        <div class="property-description">Resize behavior of the textarea</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">disabled</div>
+        <div class="property-type">boolean</div>
+        <div class="property-default">false</div>
+        <div class="property-description">Whether the textarea is disabled</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">readonly</div>
+        <div class="property-type">boolean</div>
+        <div class="property-default">false</div>
+        <div class="property-description">Whether the textarea is readonly</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">maxLength</div>
+        <div class="property-type">number | null</div>
+        <div class="property-default">null</div>
+        <div class="property-description">Maximum number of characters</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">minLength</div>
+        <div class="property-type">number | null</div>
+        <div class="property-default">null</div>
+        <div class="property-description">Minimum number of characters</div>
+      </div>
+    </div>
+  </div>
+</div>

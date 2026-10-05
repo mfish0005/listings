@@ -1,0 +1,84 @@
+@import '../../styles/fish-styles/all.scss';
+
+.fish-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Sizes */
+  &--small {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  &--medium {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  &--large {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  &--extra-large {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  /* Variants */
+  &--primary {
+    color: $primary;
+  }
+  
+  &--secondary {
+    color: $gray;
+  }
+  
+  &--white {
+    color: $white;
+  }
+}
+
+.fish-spinner__svg {
+  width: 100%;
+  height: 100%;
+  animation: fish-spinner-rotate 1s linear infinite;
+}
+
+.fish-spinner__circle {
+  opacity: 0.8;
+}
+
+.fish-spinner__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes fish-spinner-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

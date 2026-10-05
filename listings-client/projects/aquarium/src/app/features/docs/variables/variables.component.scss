@@ -1,0 +1,404 @@
+@import '../../../../styles/aquarium-theme.scss';
+
+.docs-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.docs-header {
+  margin-bottom: 3rem;
+  text-align: center;
+
+  h1 {
+    font-size: $size-2;
+    margin: 0 0 1rem 0;
+    color: $gray-darkest;
+    font-weight: 300;
+  }
+
+  p {
+    font-size: $size-5;
+    color: $gray-darker;
+    margin: 0;
+    line-height: 1.6;
+  }
+}
+
+.docs-section {
+  margin-bottom: 3rem;
+
+  h2 {
+    font-size: $size-3;
+    margin: 0 0 1rem 0;
+    color: $gray-darkest;
+    font-weight: 400;
+    border-bottom: 2px solid $primary;
+    padding-bottom: 0.5rem;
+  }
+
+  h3 {
+    font-size: $size-5;
+    margin: 2rem 0 1rem 0;
+    color: $gray-darkest;
+    font-weight: 500;
+  }
+
+  p {
+    color: $gray-darker;
+    margin: 0 0 1.5rem 0;
+    line-height: 1.6;
+    font-size: $size-6;
+  }
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+
+  .concept-item {
+    background: $white;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid $gray-light;
+    text-align: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .concept-icon {
+      font-size: $size-2;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      margin: 0 0 1rem 0;
+      color: $gray-darkest;
+      font-size: $size-5;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 0 1.5rem 0;
+      color: $gray-darker;
+      font-size: $size-7;
+      line-height: 1.4;
+    }
+
+    .code-block {
+      background: $gray-lightest;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid $gray-light;
+
+      pre {
+        margin: 0;
+        font-size: $size-7;
+      }
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, $success, darken($success, 10%));
+      color: white;
+      padding: 1rem;
+      border-radius: 6px;
+      font-size: $size-7;
+      line-height: 1.4;
+
+      strong {
+        font-weight: 700;
+      }
+
+      code {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.125rem 0.25rem;
+        border-radius: 3px;
+        font-size: $size-7;
+      }
+    }
+  }
+}
+
+.hierarchy-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  max-width: 800px;
+
+  .hierarchy-level {
+    background: $white;
+    padding: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid $gray-light;
+    text-align: left;
+    width: 100%;
+    min-height: 200px;
+    box-shadow: 0 2px 8px rgba($black, 0.08);
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba($black, 0.12);
+    }
+
+    h4 {
+      margin: 0 0 1rem 0;
+      color: $gray-darkest;
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 0 1.5rem 0;
+      color: $gray-darker;
+      font-size: $size-7;
+      line-height: 1.4;
+    }
+
+    .code-example {
+      background: $gray-lightest;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid $gray-light;
+      font-size: $size-7;
+      line-height: 1.6;
+
+      code {
+        color: $primary;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .hierarchy-arrow {
+    font-size: $size-4;
+    color: $gray-dark;
+    font-weight: bold;
+    margin: 0.5rem 0;
+    opacity: 0.7;
+  }
+}
+
+.guidelines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+
+  .guideline-item {
+    background: $white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid $gray-light;
+
+    h4 {
+      margin: 0 0 1rem 0;
+      color: $gray-darkest;
+      font-size: $size-6;
+      font-weight: 600;
+    }
+
+    .code-block {
+      margin: 0;
+      border: none;
+      background: transparent;
+      padding: 0;
+
+      pre {
+        background: $gray-lightest;
+        padding: 1rem;
+        border-radius: 6px;
+        border: 1px solid $gray-light;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.code-block {
+  margin: 1rem 0;
+  border: 1px solid $gray-light;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  pre {
+    margin: 0;
+    padding: 1rem;
+    background: $white;
+    overflow-x: auto;
+
+    code {
+      font-family: $family-secondary;
+      font-size: $size-7;
+      color: $gray-darkest;
+      line-height: 1.5;
+    }
+  }
+}
+
+.variables-table {
+  margin: 1rem 0;
+
+  .variable-row {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid $gray-lighter;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    code {
+      background: $gray-lighter;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: $size-7;
+      font-weight: 600;
+      color: $primary;
+      margin-right: 1rem;
+      flex-shrink: 0;
+      min-width: fit-content;
+    }
+
+    span {
+      color: $gray-darker;
+      font-size: $size-7;
+      line-height: 1.4;
+    }
+
+    &:hover {
+      background: $gray-lightest;
+      border-radius: 4px;
+      margin: 0 -0.5rem;
+      padding: 0.75rem 0.5rem;
+    }
+  }
+}
+
+.next-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+
+  .step {
+    background: linear-gradient(135deg, $white 0%, $gray-lightest 100%);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid $gray-light;
+    text-align: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    h4 {
+      margin: 0 0 0.5rem 0;
+      color: $gray-darkest;
+      font-size: $size-6;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 0 1rem 0;
+      color: $gray-darker;
+      font-size: $size-7;
+      line-height: 1.4;
+    }
+
+    .step-link {
+      display: inline-block;
+      background: $primary;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: $size-7;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: darken($primary, 10%);
+        transform: translateY(-1px);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .docs-container {
+    padding: 1rem;
+  }
+
+  .docs-header h1 {
+    font-size: $size-4;
+  }
+
+  .docs-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .concept-grid,
+  .guidelines-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hierarchy-diagram {
+    max-width: 100%;
+
+    .hierarchy-level {
+      padding: 2rem;
+      min-height: 180px;
+    }
+  }
+
+  .variables-table .variable-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    code {
+      margin-right: 0;
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  .code-block pre {
+    padding: 1rem;
+    font-size: $size-7;
+  }
+
+  .next-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .concept-grid .concept-item,
+  .guidelines-grid .guideline-item {
+    padding: 1.5rem;
+  }
+
+  .hierarchy-diagram .hierarchy-level {
+    padding: 1.5rem;
+    min-height: 160px;
+  }
+
+  .code-block pre {
+    padding: 0.75rem;
+  }
+
+  .next-steps .step {
+    padding: 1rem;
+  }
+}

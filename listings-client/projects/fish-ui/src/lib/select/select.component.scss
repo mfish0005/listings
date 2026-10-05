@@ -1,0 +1,173 @@
+@import '../../styles/fish-styles/all';
+
+.fish-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  font-family: $family-primary;
+
+  &__trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: $spacing-2 $spacing-3;
+    border: 1px solid $gray-light;
+    border-radius: 4px;
+    background-color: $white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+
+    &:hover:not(.fish-select--disabled) {
+      border-color: $gray;
+    }
+
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+  }
+
+  &__value {
+    flex: 1;
+    font-size: $size-6;
+    line-height: 1.5;
+    color: $gray-darkest;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &--placeholder {
+      color: $gray;
+    }
+  }
+
+  &__arrow {
+    flex-shrink: 0;
+    margin-left: $spacing-2;
+    color: $gray;
+    transition: transform 0.2s ease;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    margin-top: $spacing-1;
+    background-color: $white;
+    border: 1px solid $gray-light;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+
+  &__options {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  &__option {
+    padding: $spacing-2 $spacing-3;
+    font-size: $size-6;
+    line-height: 1.5;
+    color: $gray-darkest;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover:not(&--disabled) {
+      background-color: $gray-lightest;
+    }
+
+    &--selected {
+      background-color: rgba($primary, 0.1);
+      color: $primary;
+      font-weight: $weight-semibold;
+    }
+
+    &--disabled {
+      color: $gray-lighter;
+      cursor: not-allowed;
+    }
+  }
+
+  &__error {
+    margin-top: $spacing-1;
+    font-size: $size-7;
+    color: $danger;
+  }
+  
+  &--small {
+    .fish-select__trigger {
+      padding: $spacing-1 $spacing-2;
+    }
+
+    .fish-select__value,
+    .fish-select__option {
+      font-size: $size-7;
+    }
+  }
+
+  &--large {
+    .fish-select__trigger {
+      padding: $spacing-3 $spacing-4;
+    }
+
+    .fish-select__value,
+    .fish-select__option {
+      font-size: $size-5;
+    }
+  }
+  
+  &--outline {
+    .fish-select__trigger {
+      background-color: transparent;
+      border-width: 2px;
+    }
+  }
+
+  &--filled {
+    .fish-select__trigger {
+      background-color: $gray-lightest;
+      border-color: transparent;
+    }
+
+    &:hover:not(.fish-select--disabled) .fish-select__trigger {
+      background-color: $gray-lighter;
+    }
+  }
+  
+  &--disabled {
+    .fish-select__trigger {
+      background-color: $gray-lightest;
+      border-color: $gray-lighter;
+      cursor: not-allowed;
+    }
+
+    .fish-select__value {
+      color: $gray-lighter;
+    }
+
+    .fish-select__arrow {
+      color: $gray-lighter;
+    }
+  }
+
+  &--error {
+    .fish-select__trigger {
+      border-color: $danger;
+    }
+
+    &:focus .fish-select__trigger {
+      border-color: $danger;
+      box-shadow: 0 0 0 3px rgba($danger, 0.1);
+    }
+  }
+}

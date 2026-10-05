@@ -1,0 +1,204 @@
+<div class="docs-container">
+    <header class="docs-header">
+      <h1><fish-icon name="star" size="large"></fish-icon> Getting Started</h1>
+      <p>Quick start guide to install and set up Fish UI in your Angular project.</p>
+    </header>
+  
+    <section class="docs-section">
+      <h2><fish-icon name="settings" size="medium"></fish-icon> Setup</h2>
+      <p>After installation, you need to configure Fish UI in your Angular application.</p>
+  
+      <h3>1. Import Styles</h3>
+      <p>Add the Fish UI styles to your global styles file:</p>
+  
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">src/styles.scss</span>
+        </div>
+        <pre><code>@import '~fish-ui/styles/fish-styles/all.scss';</code></pre>
+      </div>
+  
+      <h3>2. Import Components</h3>
+      <p>Fish UI provides standalone components that can be imported directly where needed. This approach works for both module-based and standalone Angular applications:</p>
+  
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">Standalone Component Example</span>
+        </div>
+        <pre><code>import {{ '{' }} Component {{ '}' }} from '@angular/core';
+  import {{ '{' }} CommonModule {{ '}' }} from '@angular/common';
+  import {{ '{' }} RouterOutlet {{ '}' }} from '@angular/router';
+  
+  // Import Fish UI components individually
+  import {{ '{' }} ButtonComponent, CardComponent {{ '}' }} from 'fish-ui';
+  
+  @Component({{ '{' }}
+    selector: 'app-root',
+    standalone: true,
+    imports: [
+      CommonModule,
+      RouterOutlet,
+      ButtonComponent,  // Add components to imports
+      CardComponent
+    ],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
+  {{ '}' }})
+  export class AppComponent {{ '{' }}
+    title = 'my-app';
+  {{ '}' }}</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">Module-based Example</span>
+        </div>
+        <pre><code>import {{ '{' }} NgModule {{ '}' }} from '@angular/core';
+  import {{ '{' }} BrowserModule {{ '}' }} from '@angular/platform-browser';
+  import {{ '{' }} AppComponent {{ '}' }} from './app.component';
+  
+  // Import Fish UI components individually
+  import {{ '{' }} ButtonComponent, CardComponent {{ '}' }} from 'fish-ui';
+  
+  @NgModule({{ '{' }}
+    declarations: [
+      AppComponent
+    ],
+    imports: [
+      BrowserModule,
+      ButtonComponent,  // Add components to imports
+      CardComponent
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
+  {{ '}' }})
+  export class AppModule {{ '{' }} {{ '}' }}</code></pre>
+      </div>
+    </section>
+  
+    <section class="docs-section">
+      <h2><fish-icon name="settings" size="medium"></fish-icon> Theming</h2>
+      <p>Fish UI comes with a comprehensive theming system. Learn more about customizing colors, typography, and spacing.</p>
+  
+      <div class="theme-overview">
+        <article class="theme-item">
+          <h4><fish-icon name="settings" size="small"></fish-icon> Colors</h4>
+          <p>Customize primary, secondary, and accent colors</p>
+          <a routerLink="/docs/theming" class="theme-link" aria-label="Learn about theming">Learn about theming →</a>
+        </article>
+        <article class="theme-item">
+          <h4>📝 Typography</h4>
+          <p>Configure fonts, sizes, and line heights</p>
+          <a routerLink="/docs/theming" class="theme-link" aria-label="Learn about typography">Learn about typography →</a>
+        </article>
+        <article class="theme-item">
+          <h4>📏 Spacing</h4>
+          <p>Adjust margins, paddings, and layout spacing</p>
+          <a routerLink="/docs/theming" class="theme-link" aria-label="Learn about spacing">Learn about spacing →</a>
+        </article>
+      </div>
+    </section>
+  
+    <section class="docs-section">
+      <h2>🧩 Components</h2>
+      <p>Fish UI provides a comprehensive set of pre-built components:</p>
+  
+      <div class="components-grid">
+        <article class="component-item">
+          <div class="component-icon" aria-hidden="true"><fish-icon name="button" size="large"></fish-icon></div>
+          <h4>Button</h4>
+          <p>Interactive buttons with multiple variants and states</p>
+          <a routerLink="/components/button" class="component-link" aria-label="View Button component documentation">View Button →</a>
+        </article>
+        <article class="component-item">
+          <div class="component-icon" aria-hidden="true"><fish-icon name="card" size="large"></fish-icon></div>
+          <h4>Card</h4>
+          <p>Flexible container for content with shadows and padding</p>
+          <a routerLink="/components/card" class="component-link" aria-label="View Card component documentation">View Card →</a>
+        </article>
+        <article class="component-item">
+          <div class="component-icon" aria-hidden="true"><fish-icon name="badge" size="large"></fish-icon></div>
+          <h4>Badge</h4>
+          <p>Status indicators, labels, and counters</p>
+          <a routerLink="/components/badge" class="component-link" aria-label="View Badge component documentation">View Badge →</a>
+        </article>
+        <article class="component-item">
+          <div class="component-icon" aria-hidden="true"><fish-icon name="spinner" size="large"></fish-icon></div>
+          <h4>Spinner</h4>
+          <p>Loading indicators with size and color variants</p>
+          <a routerLink="/components/spinner" class="component-link" aria-label="View Spinner component documentation">View Spinner →</a>
+        </article>
+        <article class="component-item">
+          <div class="component-icon" aria-hidden="true"><fish-icon name="search" size="large"></fish-icon></div>
+          <h4>Search</h4>
+          <p>Interactive search input with keyboard support</p>
+          <a routerLink="/components/search" class="component-link" aria-label="View Search component documentation">View Search →</a>
+        </article>
+      </div>
+    </section>
+  
+    <section class="docs-section">
+      <h2><fish-icon name="book" size="medium"></fish-icon> Examples</h2>
+      <p>Here are some common usage patterns:</p>
+  
+      <h3>Basic Button</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">src/app/app.component.html</span>
+        </div>
+        <pre><code>&lt;fish-button variant="primary" (click)="handleClick()"&gt;
+    Click me!
+  &lt;/fish-button&gt;</code></pre>
+      </div>
+  
+      <h3>Card with Content</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">src/app/app.component.html</span>
+        </div>
+        <pre><code>&lt;fish-card&gt;
+    &lt;h3&gt;Card Title&lt;/h3&gt;
+    &lt;p&gt;Card content goes here.&lt;/p&gt;
+    &lt;fish-button&gt;Action&lt;/fish-button&gt;
+  &lt;/fish-card&gt;</code></pre>
+      </div>
+  
+      <h3>Search Component</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">src/app/app.component.html</span>
+        </div>
+        <pre><code>&lt;fish-search
+    placeholder="Search..."
+    (search)="onSearch($event)"
+    (clear)="onClear()"&gt;
+  &lt;/fish-search&gt;</code></pre>
+      </div>
+    </section>
+  
+    <section class="docs-section">
+      <h2><fish-icon name="arrow-right" size="medium"></fish-icon> Next Steps</h2>
+      <div class="next-steps">
+        <article class="step">
+          <h4>1. Explore Components</h4>
+          <p>Browse the component library to see what's available</p>
+          <a routerLink="/components" class="step-link" aria-label="View all components">View Components</a>
+        </article>
+        <article class="step">
+          <h4>2. Customize Theme</h4>
+          <p>Learn how to customize colors and styling</p>
+          <a routerLink="/docs/theming" class="step-link" aria-label="Learn about theming">Learn Theming</a>
+        </article>
+        <article class="step">
+          <h4>3. Check Variables</h4>
+          <p>Understand available SCSS variables</p>
+          <a routerLink="/docs/variables" class="step-link" aria-label="View SCSS variables">View Variables</a>
+        </article>
+        <article class="step">
+          <h4>4. Use Helpers</h4>
+          <p>Discover utility classes for rapid development</p>
+          <a routerLink="/docs/helpers" class="step-link" aria-label="View helper classes">View Helpers</a>
+        </article>
+      </div>
+    </section>
+  </div>

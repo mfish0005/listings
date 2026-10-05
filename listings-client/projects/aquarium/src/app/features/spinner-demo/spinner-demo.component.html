@@ -1,0 +1,188 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>Spinner Component</h1>
+    <p>Loading indicators with customizable sizes and colors.</p>
+  </div>
+
+  <div class="demo-section">
+    <h2>Sizes</h2>
+    <p>Different spinner sizes for various use cases.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-spinner size="small"></fish-spinner>
+        <code>size="small"</code>
+      </div>
+      <div class="demo-item">
+        <fish-spinner size="medium"></fish-spinner>
+        <code>size="medium"</code>
+      </div>
+      <div class="demo-item">
+        <fish-spinner size="large"></fish-spinner>
+        <code>size="large"</code>
+      </div>
+      <div class="demo-item">
+        <fish-spinner size="extra-large"></fish-spinner>
+        <code>size="extra-large"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Variants</h2>
+    <p>Different color variants based on your fish-styles theme.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-spinner variant="primary" size="large"></fish-spinner>
+        <code>variant="primary"</code>
+      </div>
+      <div class="demo-item">
+        <fish-spinner variant="secondary" size="large"></fish-spinner>
+        <code>variant="secondary"</code>
+      </div>
+      <div class="demo-item">
+        <div class="dark-bg">
+          <fish-spinner variant="white" size="large"></fish-spinner>
+        </div>
+        <code>variant="white"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Custom Labels</h2>
+    <p>Accessibility-friendly spinners with descriptive labels.</p>
+    <div class="demo-grid">
+      <div class="demo-item">
+        <fish-spinner size="medium" label="Loading data..."></fish-spinner>
+        <code>label="Loading data..."</code>
+      </div>
+      <div class="demo-item">
+        <fish-spinner size="medium" label="Saving changes..."></fish-spinner>
+        <code>label="Saving changes..."</code>
+      </div>
+      <div class="demo-item">
+        <fish-spinner size="medium" label="Uploading file..."></fish-spinner>
+        <code>label="Uploading file..."</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Use Cases</h2>
+    <p>Common spinner applications in real interfaces.</p>
+    <div class="demo-grid demo-grid--use-cases">
+
+      <div class="demo-item demo-item--wide">
+        <div class="loading-button">
+          <fish-spinner size="small" variant="white"></fish-spinner>
+          <span>Processing...</span>
+        </div>
+        <code>Loading button</code>
+      </div>
+
+      <div class="demo-item">
+        <div class="page-loader">
+          <fish-spinner size="large" variant="primary" label="Loading page..."></fish-spinner>
+          <p>Loading your content...</p>
+        </div>
+        <code>Page loader</code>
+      </div>
+
+      <div class="demo-item">
+        <div class="inline-loader">
+          <span>Loading data</span>
+          <fish-spinner size="small" variant="secondary" label="Loading data..."></fish-spinner>
+        </div>
+        <code>Inline loader</code>
+      </div>
+
+      <div class="demo-item">
+        <div class="card-loader">
+          <div class="card-placeholder">
+            <fish-spinner size="medium" variant="primary" label="Loading card..."></fish-spinner>
+            <div class="placeholder-text">Loading content...</div>
+          </div>
+        </div>
+        <code>Card content loader</code>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Full Page Loading</h2>
+    <p>Overlay spinner for full-page loading states.</p>
+    <div class="full-page-demo">
+      <div class="overlay">
+        <div class="overlay-content">
+          <fish-spinner size="extra-large" variant="white" label="Loading application..."></fish-spinner>
+          <p class="overlay-text">Initializing application...</p>
+        </div>
+      </div>
+      <div class="demo-content">
+        <h3>Sample Content</h3>
+        <p>This represents your application content behind the loading overlay.</p>
+        <div class="content-blocks">
+          <div class="block"></div>
+          <div class="block"></div>
+          <div class="block"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Usage</h2>
+    <div class="code-example">
+      <h3>Import</h3>
+      <pre><code>import &#123; SpinnerComponent &#125; from '@fish-ui/components';</code></pre>
+    </div>
+    <div class="code-example">
+      <h3>Template</h3>
+      <pre><code>&lt;fish-spinner
+  size="medium"
+  variant="primary"
+  label="Loading..."&gt;
+&lt;/fish-spinner&gt;
+
+&lt;!-- Page loading overlay --&gt;
+&lt;div class="loading-overlay"&gt;
+  &lt;fish-spinner
+    size="extra-large"
+    variant="white"
+    label="Loading page..."&gt;
+  &lt;/fish-spinner&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Properties</h2>
+    <div class="properties-table">
+      <div class="property-row header">
+        <div class="property-name">Property</div>
+        <div class="property-type">Type</div>
+        <div class="property-default">Default</div>
+        <div class="property-description">Description</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">size</div>
+        <div class="property-type">'small' | 'medium' | 'large' | 'extra-large'</div>
+        <div class="property-default">'medium'</div>
+        <div class="property-description">Spinner size</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">variant</div>
+        <div class="property-type">'primary' | 'secondary' | 'white'</div>
+        <div class="property-default">'primary'</div>
+        <div class="property-description">Spinner color variant</div>
+      </div>
+      <div class="property-row">
+        <div class="property-name">label</div>
+        <div class="property-type">string</div>
+        <div class="property-default">'Loading...'</div>
+        <div class="property-description">Accessibility label for screen readers</div>
+      </div>
+    </div>
+  </div>
+</div>
