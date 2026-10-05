@@ -1,11 +1,16 @@
-@import './styles/listings-theme.scss';
+@import './styles/variables';
+@import '../projects/fish-ui/src/styles/fish-styles/all';
+
+@include fish-theme-vars;
 
 html, body {
   margin: 0;
   padding: 0;
+  background-color: fish-color("gray-lightest");
+  color: fish-color("text");
 }
 
 * {
-  font-family: $family-primary;
+  font-family: fish-font("family-primary");
   box-sizing: border-box;
 }

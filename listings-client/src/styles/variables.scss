@@ -1,0 +1,22 @@
+// Slate neutrals with a teal brand color
+
+$gray-lightest: #f8fafc;
+$gray-lighter: #e2e8f0;
+$gray-light: #cbd5e1;
+$gray: #94a3b8;
+$gray-dark: #64748b;
+$gray-darker: #334155;
+$gray-darkest: #0f172a;
+
+$primary: #0f766e;
+$secondary: #475569;
+$success: #15803d;
+$warning: #b45309;
+$danger: #b91c1c;
+$info: #1d4ed8;
+
+$family-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+$family-primary: $family-sans-serif;
+$family-secondary: $family-sans-serif;
+
+@import '../../projects/fish-ui/src/styles/fish-styles/tools';

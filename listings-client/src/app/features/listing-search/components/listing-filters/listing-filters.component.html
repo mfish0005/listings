@@ -1,0 +1,41 @@
+<form class="filters" [formGroup]="form" (ngSubmit)="submit()">
+  <label class="filters__field">
+    <span class="is-size-7 has-text-weight-semibold">City</span>
+    <fish-input formControlName="city" placeholder="Springfield" />
+  </label>
+
+  <label class="filters__field">
+    <span class="is-size-7 has-text-weight-semibold">Keyword</span>
+    <fish-input formControlName="keyword" placeholder="Pet friendly" />
+  </label>
+
+  <label class="filters__field">
+    <span class="is-size-7 has-text-weight-semibold">Min price</span>
+    <fish-input formControlName="minPrice" placeholder="300000" />
+  </label>
+
+  <label class="filters__field">
+    <span class="is-size-7 has-text-weight-semibold">Max price</span>
+    <fish-input formControlName="maxPrice" placeholder="600000" />
+  </label>
+
+  <label class="filters__field">
+    <span class="is-size-7 has-text-weight-semibold">Min bedrooms</span>
+    <fish-input formControlName="minBedrooms" placeholder="2" />
+  </label>
+
+  <label class="filters__field">
+    <span class="is-size-7 has-text-weight-semibold">Target budget</span>
+    <fish-input formControlName="targetBudget" placeholder="450000" />
+  </label>
+
+  <label class="filters__field">
+    <span class="is-size-7 has-text-weight-semibold">Results per page</span>
+    <fish-input formControlName="pageSize" placeholder="5" />
+  </label>
+
+  <div class="filters__actions">
+    <fish-button type="submit">Search</fish-button>
+    <fish-button type="button" variant="ghost" (onClick)="clear()">Clear</fish-button>
+  </div>
+</form>

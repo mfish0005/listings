@@ -1,0 +1,47 @@
+<app-listing-filters [filters]="query()" (search)="onSearch($event)" />
+
+<section class="results" aria-live="polite">
+  @let current = state();
+
+  @if (current.status === 'loading') {
+    <div class="results__status">
+      <fish-spinner size="large" label="Loading listings" />
+    </div>
+  } @else if (current.status === 'error') {
+    <div class="results__status results__status--error" role="alert">
+      <h2 class="is-size-5 has-text-danger is-marginless">We couldn't load the listings</h2>
+      <p class="is-size-6 is-marginless">{{ current.message }}</p>
+      <fish-button variant="secondary" (onClick)="retry()">Try again</fish-button>
+    </div>
+  } @else {
+    @let result = current.page;
+
+    @if (result.totalCount === 0) {
+      <div class="results__status">
+        <h2 class="is-size-5 is-marginless">No listings match your search</h2>
+        <p class="is-size-6 has-text-gray-dark is-marginless">Try widening the price range or removing a filter.</p>
+      </div>
+    } @else {
+      @if (result.results.length > 0) {
+        <p class="results__summary is-size-6 has-text-gray-dark is-marginless">
+          Showing {{ firstResultNumber(result) }}&ndash;{{ lastResultNumber(result) }} of {{ result.totalCount }} listings
+        </p>
+
+        <ul class="results__list">
+          @for (listing of result.results; track listing.id) {
+            <li><app-listing-card [listing]="listing" /></li>
+          }
+        </ul>
+      } @else {
+        <div class="results__status">
+          <h2 class="is-size-5 is-marginless">There are no listings on page {{ result.page }}</h2>
+          <p class="is-size-6 has-text-gray-dark is-marginless">
+            This search has {{ result.totalPages }} {{ result.totalPages === 1 ? 'page' : 'pages' }}. Choose one below.
+          </p>
+        </div>
+      }
+
+      <fish-pagination [page]="result.page" [totalPages]="result.totalPages" (pageChange)="onPageChange($event)" />
+    }
+  }
+</section>

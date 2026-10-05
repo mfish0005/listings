@@ -1,0 +1,32 @@
+<fish-card>
+  <article class="listing-card">
+    <header class="listing-card__header">
+      <div>
+        <h2 class="is-size-5 has-text-weight-semibold is-marginless">{{ listing().address }}</h2>
+        <p class="is-size-7 has-text-gray-dark is-marginless">
+          {{ listing().city }}, {{ listing().state }} {{ listing().zip }}
+        </p>
+      </div>
+      <p class="is-size-4 has-text-weight-bold has-text-primary is-marginless">
+        {{ listing().price | currency: 'USD' : 'symbol' : '1.0-0' }}
+      </p>
+    </header>
+
+    <ul class="listing-card__facts is-size-6">
+      <li>{{ listing().bedrooms }} bd</li>
+      <li>{{ listing().bathrooms }} ba</li>
+      <li>{{ listing().sqft | number }} sqft</li>
+    </ul>
+
+    <p class="is-size-6 has-text-gray-darker is-marginless">{{ listing().description }}</p>
+
+    <footer class="listing-card__footer is-size-7 has-text-gray-dark">
+      <fish-badge size="small" [rounded]="true" [variant]="statusVariant()">{{ listing().status }}</fish-badge>
+      <fish-badge size="small" [rounded]="true" variant="secondary" [outline]="true">{{ listing().source }}</fish-badge>
+      <span>Listed {{ listing().listedDate | date: 'mediumDate' }}</span>
+      <span class="listing-card__score has-text-weight-semibold" title="Relevance score">
+        Score {{ listing().relevanceScore | number: '1.2-2' }}
+      </span>
+    </footer>
+  </article>
+</fish-card>

@@ -1,0 +1,23 @@
+@import '../../../../../styles/variables';
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  align-items: end;
+  padding: 1.25rem;
+  border: 1px solid fish-color("gray-lighter");
+  border-radius: 0.5rem;
+  background-color: fish-color("white");
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
