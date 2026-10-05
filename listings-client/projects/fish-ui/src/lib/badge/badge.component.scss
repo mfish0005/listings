@@ -1,4 +1,4 @@
-@import '../../styles/fish-styles/all.scss';
+@import '../../styles/fish-styles/tools';
 
 .fish-badge {
   align-items: center;
@@ -26,71 +26,71 @@
   
   /* Filled Variants */
   &--primary:not(.fish-badge--outline) {
-    @include button-solid-variant($primary, "green-dark");
+    @include button-solid-variant(fish-color("primary"), fish-color("primary-dark"));
     // Override border since it's a badge, not button
-    border-color: $primary;
+    border-color: fish-color("primary");
   }
   
   &--secondary:not(.fish-badge--outline) {
-    background-color: $gray;
-    color: map-get($colorMap, "white");
+    background-color: fish-color("gray");
+    color: fish-color("white");
   }
   
   &--success:not(.fish-badge--outline) {
-    background-color: $success;
-    color: map-get($colorMap, "white");
+    background-color: fish-color("success");
+    color: fish-color("white");
   }
   
   &--warning:not(.fish-badge--outline) {
-    background-color: $warning;
-    color: map-get($colorMap, "white");
+    background-color: fish-color("warning");
+    color: fish-color("white");
   }
   
   &--danger:not(.fish-badge--outline) {
-    background-color: $danger;
-    color: map-get($colorMap, "white");
+    background-color: fish-color("danger");
+    color: fish-color("white");
   }
   
   &--info:not(.fish-badge--outline) {
-    background-color: $info;
-    color: map-get($colorMap, "white");
+    background-color: fish-color("info");
+    color: fish-color("white");
   }
   
   /* Outline Variants */
   &--primary.fish-badge--outline {
     background-color: transparent;
-    color: $primary;
-    border-color: $primary;
+    color: fish-color("primary");
+    border-color: fish-color("primary");
   }
   
   &--secondary.fish-badge--outline {
     background-color: transparent;
-    color: $gray;
-    border-color: $gray;
+    color: fish-color("gray");
+    border-color: fish-color("gray");
   }
   
   &--success.fish-badge--outline {
     background-color: transparent;
-    color: $success;
-    border-color: $success;
+    color: fish-color("success");
+    border-color: fish-color("success");
   }
   
   &--warning.fish-badge--outline {
     background-color: transparent;
-    color: $warning;
-    border-color: $warning;
+    color: fish-color("warning");
+    border-color: fish-color("warning");
   }
   
   &--danger.fish-badge--outline {
     background-color: transparent;
-    color: $danger;
-    border-color: $danger;
+    color: fish-color("danger");
+    border-color: fish-color("danger");
   }
   
   &--info.fish-badge--outline {
     background-color: transparent;
-    color: $info;
-    border-color: $info;
+    color: fish-color("info");
+    border-color: fish-color("info");
   }
   
   /* Rounded Variant */

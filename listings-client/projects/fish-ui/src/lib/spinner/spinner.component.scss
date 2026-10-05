@@ -1,4 +1,4 @@
-@import '../../styles/fish-styles/all.scss';
+@import '../../styles/fish-styles/tools';
 
 .fish-spinner {
   display: inline-flex;
@@ -28,15 +28,15 @@
   
   /* Variants */
   &--primary {
-    color: $primary;
+    color: fish-color("primary");
   }
   
   &--secondary {
-    color: $gray;
+    color: fish-color("gray");
   }
   
   &--white {
-    color: $white;
+    color: fish-color("white");
   }
 }
 

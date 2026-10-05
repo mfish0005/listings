@@ -1,8 +1,8 @@
-@import '../../styles/fish-styles/all.scss';
+@import '../../styles/fish-styles/tools';
 
 .fish-card {
   border-radius: 0.5rem;
-  border: 1px solid $gray-lighter;
+  border: 1px solid fish-color("gray-lighter");
   overflow: hidden;
   transition: all 0.2s ease-in-out;
   

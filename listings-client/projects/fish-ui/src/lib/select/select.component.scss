@@ -1,10 +1,10 @@
-@import '../../styles/fish-styles/all';
+@import '../../styles/fish-styles/tools';
 
 .fish-select {
   position: relative;
   display: inline-block;
   width: 100%;
-  font-family: $family-primary;
+  font-family: fish-font("family-primary");
 
   &__trigger {
     position: relative;
@@ -13,20 +13,20 @@
     justify-content: space-between;
     width: 100%;
     padding: $spacing-2 $spacing-3;
-    border: 1px solid $gray-light;
+    border: 1px solid fish-color("gray-light");
     border-radius: 4px;
-    background-color: $white;
+    background-color: fish-color("white");
     cursor: pointer;
     transition: all 0.2s ease;
     outline: none;
 
     &:hover:not(.fish-select--disabled) {
-      border-color: $gray;
+      border-color: fish-color("gray");
     }
 
     &:focus {
-      border-color: $primary;
-      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+      border-color: fish-color("primary");
+      box-shadow: 0 0 0 3px fish-alpha("primary", 10%);
     }
   }
 
@@ -34,20 +34,20 @@
     flex: 1;
     font-size: $size-6;
     line-height: 1.5;
-    color: $gray-darkest;
+    color: fish-color("gray-darkest");
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
     &--placeholder {
-      color: $gray;
+      color: fish-color("gray");
     }
   }
 
   &__arrow {
     flex-shrink: 0;
     margin-left: $spacing-2;
-    color: $gray;
+    color: fish-color("gray");
     transition: transform 0.2s ease;
 
     &--open {
@@ -62,8 +62,8 @@
     right: 0;
     z-index: 1000;
     margin-top: $spacing-1;
-    background-color: $white;
-    border: 1px solid $gray-light;
+    background-color: fish-color("white");
+    border: 1px solid fish-color("gray-light");
     border-radius: 4px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     overflow: hidden;
@@ -78,22 +78,22 @@
     padding: $spacing-2 $spacing-3;
     font-size: $size-6;
     line-height: 1.5;
-    color: $gray-darkest;
+    color: fish-color("gray-darkest");
     cursor: pointer;
     transition: background-color 0.15s ease;
 
     &:hover:not(&--disabled) {
-      background-color: $gray-lightest;
+      background-color: fish-color("gray-lightest");
     }
 
     &--selected {
-      background-color: rgba($primary, 0.1);
-      color: $primary;
+      background-color: fish-alpha("primary", 10%);
+      color: fish-color("primary");
       font-weight: $weight-semibold;
     }
 
     &--disabled {
-      color: $gray-lighter;
+      color: fish-color("gray-lighter");
       cursor: not-allowed;
     }
   }
@@ -101,7 +101,7 @@
   &__error {
     margin-top: $spacing-1;
     font-size: $size-7;
-    color: $danger;
+    color: fish-color("danger");
   }
   
   &--small {
@@ -135,39 +135,39 @@
 
   &--filled {
     .fish-select__trigger {
-      background-color: $gray-lightest;
+      background-color: fish-color("gray-lightest");
       border-color: transparent;
     }
 
     &:hover:not(.fish-select--disabled) .fish-select__trigger {
-      background-color: $gray-lighter;
+      background-color: fish-color("gray-lighter");
     }
   }
   
   &--disabled {
     .fish-select__trigger {
-      background-color: $gray-lightest;
-      border-color: $gray-lighter;
+      background-color: fish-color("gray-lightest");
+      border-color: fish-color("gray-lighter");
       cursor: not-allowed;
     }
 
     .fish-select__value {
-      color: $gray-lighter;
+      color: fish-color("gray-lighter");
     }
 
     .fish-select__arrow {
-      color: $gray-lighter;
+      color: fish-color("gray-lighter");
     }
   }
 
   &--error {
     .fish-select__trigger {
-      border-color: $danger;
+      border-color: fish-color("danger");
     }
 
     &:focus .fish-select__trigger {
-      border-color: $danger;
-      box-shadow: 0 0 0 3px rgba($danger, 0.1);
+      border-color: fish-color("danger");
+      box-shadow: 0 0 0 3px fish-alpha("danger", 10%);
     }
   }
 }

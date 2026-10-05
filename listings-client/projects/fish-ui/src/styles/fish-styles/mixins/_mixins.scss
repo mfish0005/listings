@@ -53,13 +53,13 @@
 }
 
 // Solid button variant (filled background)
-@mixin button-solid-variant($base-color, $dark-shade-name) {
+@mixin button-solid-variant($base-color, $dark-color) {
   border-color: $base-color;
   
   &:hover:not(:disabled),
   &:active:not(:disabled) {
-    background-color: map-get($shadeMap, $dark-shade-name) !important;
-    border-color: map-get($shadeMap, $dark-shade-name);
+    background-color: $dark-color !important;
+    border-color: $dark-color;
   }
   
   &:active:not(:disabled) {
@@ -68,17 +68,17 @@
 }
 
 // Ghost/outline button variant
-@mixin button-ghost-variant($text-color, $light-shade-name, $lighter-shade-name) {
+@mixin button-ghost-variant($text-color, $hover-bg, $active-bg) {
   background-color: transparent;
   color: $text-color;
   border-color: transparent;
   
   &:hover:not(:disabled) {
-    background-color: map-get($shadeMap, $light-shade-name) !important;
+    background-color: $hover-bg !important;
   }
   
   &:active:not(:disabled) {
-    background-color: map-get($shadeMap, $lighter-shade-name) !important;
+    background-color: $active-bg !important;
     transform: translateY(1px);
   }
 }

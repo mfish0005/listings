@@ -46,6 +46,16 @@ $gray-darkest: #212529;   // Primary text
 @import './themes/my-theme';</code></pre>
     </div>
 
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">src/styles.scss (global styles, once)</span>
+      </div>
+      <pre><code>@import './styles/themes/my-theme';
+
+// Publish the theme so library components can use it
+@include fish-theme-vars;</code></pre>
+    </div>
+
     <div class="highlight-box">
       <strong>💡 That's it!</strong> Override just the variables you need. All variables use <code>!default</code>, so your overrides take precedence.
     </div>
@@ -104,15 +114,51 @@ $gray-darkest: #212529;   // Primary text
 &lt;p class="has-text-weight-bold"&gt;Bold weight (700)&lt;/p&gt;</code></pre>
     </div>
 
-    <h3>Components (Automatic)</h3>
+    <h3>Components (via CSS variables)</h3>
     <div class="code-block">
       <div class="code-header">
-        <span class="code-label">HTML - Components inherit theme</span>
+        <span class="code-label">HTML - Components follow the published theme</span>
       </div>
-      <pre><code>&lt;!-- All components use your theme colors --&gt;
+      <pre><code>&lt;!-- Colors and fonts come from the --fish-* variables written by fish-theme-vars --&gt;
 &lt;fish-button variant="primary"&gt;Primary Button&lt;/fish-button&gt;
 &lt;fish-button variant="danger"&gt;Danger Button&lt;/fish-button&gt;</code></pre>
     </div>
+  </section>
+
+  <section class="docs-section">
+    <h2>How Components Are Themed</h2>
+    <p>
+      Components are compiled with the library, so they cannot see your Sass variables.
+      Sass variables are the authoring API and CSS custom properties are the runtime contract.
+      <code>fish-theme-vars</code> publishes every token in the <code>$fish-tokens</code> registry as a <code>--fish-*</code> property,
+      and components and helper classes read those properties.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">Compiled component CSS</span>
+      </div>
+      <pre><code>background-color: var(--fish-primary);
+font-family: var(--fish-family-primary);</code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">Published by fish-theme-vars</span>
+      </div>
+      <pre><code>--fish-primary: #00bcd4;
+--fish-primary-dark: color-mix(in srgb, var(--fish-primary), black 15%);</code></pre>
+    </div>
+
+    <ul>
+      <li>The include is required setup. Components have no per-declaration fallback, so without it colors are missing.</li>
+      <li>Include <code>fish-theme-vars</code> once, in global styles, after importing fish-styles.</li>
+      <li>Scope a theme with a selector: <code>@include fish-theme-vars('.dark-section');</code></li>
+      <li>Hover shades (<code>primary-dark</code> and the other <code>*-dark</code> tokens) follow their base color live, unless your theme sets one by hand.</li>
+      <li>Change a theme at runtime with <code>document.documentElement.style.setProperty('--fish-primary', '#0f766e')</code>.</li>
+      <li>Component styles import <code>fish-styles/tools</code> (no CSS output), never <code>all</code>. Read colors with <code>fish-color("primary")</code> and fonts with <code>fish-font("family-primary")</code>, and use <code>fish-alpha("primary", 10%)</code> instead of <code>rgba()</code>.</li>
+      <li>In app styles, use the tokens for anything that should follow a scoped or runtime theme, such as <code>background-color: fish-color("gray-lightest")</code>.</li>
+    </ul>
   </section>
   
   <section class="docs-section">

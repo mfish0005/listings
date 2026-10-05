@@ -1,0 +1,38 @@
+@if (totalPages > 1) {
+  <nav class="fish-pagination is-flex-centered" aria-label="Pagination">
+    <button
+      type="button"
+      class="fish-pagination__button fish-pagination__button--step is-flex-centered"
+      aria-label="Previous page"
+      [disabled]="disabled || !hasPrevious"
+      (click)="goTo(page - 1)">
+      <fish-icon name="chevron-left" size="small" />
+    </button>
+
+    @for (item of items; track $index) {
+      @if (item === 'ellipsis') {
+        <span class="fish-pagination__ellipsis" aria-hidden="true">&hellip;</span>
+      } @else {
+        <button
+          type="button"
+          class="fish-pagination__button is-flex-centered"
+          [class.fish-pagination__button--current]="item === page"
+          [attr.aria-label]="'Page ' + item"
+          [attr.aria-current]="item === page ? 'page' : null"
+          [disabled]="disabled"
+          (click)="goTo(item)">
+          {{ item }}
+        </button>
+      }
+    }
+
+    <button
+      type="button"
+      class="fish-pagination__button fish-pagination__button--step is-flex-centered"
+      aria-label="Next page"
+      [disabled]="disabled || !hasNext"
+      (click)="goTo(page + 1)">
+      <fish-icon name="chevron-right" size="small" />
+    </button>
+  </nav>
+}

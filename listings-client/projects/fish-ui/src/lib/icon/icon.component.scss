@@ -1,4 +1,4 @@
-@import '../../styles/fish-styles/all.scss';
+@import '../../styles/fish-styles/tools';
 
 .fish-icon {
   display: inline-block;
@@ -23,21 +23,21 @@
 
   &--heart {
     &:hover {
-      color: $danger;
+      color: fish-color("danger");
       transform: scale(1.1);
     }
   }
 
   &--star {
     &:hover {
-      color: $warning;
+      color: fish-color("warning");
       transform: scale(1.1);
     }
   }
 
   &--fish {
     &:hover {
-      color: $primary;
+      color: fish-color("primary");
       transform: translateX(2px);
     }
   }
@@ -54,12 +54,12 @@
     opacity: 0.8;
   }
 
-  &.text-primary { color: $primary; }
-  &.text-secondary { color: $secondary; }
-  &.text-success { color: $success; }
-  &.text-warning { color: $warning; }
-  &.text-danger { color: $danger; }
-  &.text-info { color: $info; }
+  &.text-primary { color: fish-color("primary"); }
+  &.text-secondary { color: fish-color("secondary"); }
+  &.text-success { color: fish-color("success"); }
+  &.text-warning { color: fish-color("warning"); }
+  &.text-danger { color: fish-color("danger"); }
+  &.text-info { color: fish-color("info"); }
 }
 
 @keyframes wave {

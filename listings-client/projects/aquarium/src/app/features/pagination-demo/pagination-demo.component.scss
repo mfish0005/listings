@@ -1,0 +1,134 @@
+@import '../../../styles/aquarium-theme.scss';
+
+.demo-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.demo-header {
+  margin-bottom: 3rem;
+  
+  h1 {
+    font-size: $size-2;
+    margin: 0 0 1rem 0;
+    color: $gray-darkest;
+    font-weight: 300;
+  }
+  
+  p {
+    font-size: $size-5;
+    color: $gray-darker;
+    margin: 0;
+    line-height: 1.6;
+  }
+}
+
+.demo-section {
+  margin-bottom: 3rem;
+  
+  h2 {
+    font-size: $size-3;
+    margin: 0 0 0.75rem 0;
+    color: $gray-darkest;
+    font-weight: 400;
+  }
+  
+  > p {
+    color: $gray-darker;
+    margin: 0 0 2rem 0;
+    line-height: 1.6;
+  }
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.demo-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  
+  h3 {
+    font-size: $size-6;
+    margin: 0;
+    color: $gray-darkest;
+    font-weight: 500;
+  }
+}
+
+.demo-value {
+  font-size: $size-7;
+  color: $gray;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.code-example {
+  background-color: $gray-lightest;
+  border: 1px solid $gray-lighter;
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  
+  pre {
+    margin: 0;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: $size-7;
+    line-height: 1.4;
+    color: $gray-darkest;
+    overflow-x: auto;
+    
+    code {
+      background: none;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+    }
+  }
+}
+
+.properties-table {
+  background-color: $white;
+  border: 1px solid $gray-lighter;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 2rem 0;
+}
+
+.property-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid $gray-lighter;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:nth-child(even) {
+    background-color: $gray-lightest;
+  }
+}
+
+.property-name {
+  font-weight: 500;
+  color: $gray-darkest;
+  font-size: $size-7;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.property-type {
+  font-size: $size-7;
+  color: $primary;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.property-description {
+  font-size: $size-7;
+  color: $gray-darker;
+  line-height: 1.4;
+}

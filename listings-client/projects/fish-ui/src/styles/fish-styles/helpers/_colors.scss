@@ -1,16 +1,15 @@
-@import '../variables/all';
+@import '../tools';
 
 // Uses the $colorMap from our derived.scss file
 // Allows setting colors via .has-text-green, .has-background-primary, etc.
+// Values are CSS variable references, so published themes recolor the helpers too.
 @each $name, $pair in $colorMap {
-  $color: nth($pair, 1);
-
   .has-text-#{$name} {
-    color: $color !important;
+    color: fish-color($name) !important;
   }
 
   .has-background-#{$name} {
-    background-color: $color !important;
+    background-color: fish-color($name) !important;
   }
 }
 
@@ -18,10 +17,10 @@
 // Allows setting shades via .has-text-green-light, .has-background-red-darkest, etc.
 @each $name, $shade in $shadeMap {
   .has-text-#{$name} {
-    color: $shade !important;
+    color: fish-color($name) !important;
   }
 
   .has-background-#{$name} {
-    background-color: $shade !important;
+    background-color: fish-color($name) !important;
   }
 }

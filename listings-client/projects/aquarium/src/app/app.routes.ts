@@ -54,6 +54,10 @@ export const routes: Routes = [
         path: 'select',
         loadComponent: () => import('./features/select-demo/select-demo.component').then(m => m.SelectDemoComponent)
       },
+      {
+        path: 'pagination',
+        loadComponent: () => import('./features/pagination-demo/pagination-demo.component').then(m => m.PaginationDemoComponent)
+      },
     ]
   },
   {

@@ -1,4 +1,7 @@
 @import './styles/aquarium-theme.scss';
+@import '../../fish-ui/src/styles/fish-styles/all';
+
+@include fish-theme-vars;
 
 html, body {
   margin: 0;

@@ -1,0 +1,97 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>Pagination Component</h1>
+    <p>Numbered page navigation that collapses long ranges with ellipses. It follows the active theme through the published CSS variables.</p>
+  </div>
+
+  <div class="demo-section">
+    <h2>Basic Usage</h2>
+    <p>Bind the current page and the total number of pages. The component emits the requested page and leaves the data loading to you.</p>
+
+    <div class="demo-item">
+      <fish-pagination [page]="basicPage()" [totalPages]="5" (pageChange)="basicPage.set($event)"></fish-pagination>
+      <div class="demo-value">Current page: {{ basicPage() }}</div>
+    </div>
+
+    <div class="code-example">
+      <pre><code>&lt;fish-pagination
+  [page]="page()"
+  [totalPages]="5"
+  (pageChange)="page.set($event)"&gt;
+&lt;/fish-pagination&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Many Pages</h2>
+    <p>Pages far from the current one collapse into ellipses. The first and last pages always stay reachable.</p>
+
+    <div class="demo-item">
+      <fish-pagination [page]="manyPage()" [totalPages]="40" (pageChange)="manyPage.set($event)"></fish-pagination>
+      <div class="demo-value">Current page: {{ manyPage() }} of 40</div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Sibling Count</h2>
+    <p>Controls how many pages are shown on each side of the current page.</p>
+
+    <div class="demo-item">
+      <fish-pagination [page]="siblingPage()" [totalPages]="40" [siblingCount]="2" (pageChange)="siblingPage.set($event)"></fish-pagination>
+    </div>
+
+    <div class="code-example">
+      <pre><code>&lt;fish-pagination [page]="page()" [totalPages]="40" [siblingCount]="2"&gt;&lt;/fish-pagination&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Disabled</h2>
+    <p>Use while a request is in flight to prevent overlapping page changes.</p>
+
+    <div class="demo-item">
+      <fish-pagination [page]="disabledPage()" [totalPages]="5" [disabled]="true"></fish-pagination>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Single Page</h2>
+    <p>Nothing renders when there is only one page, so no conditional is needed in the consuming template.</p>
+
+    <div class="demo-item">
+      <fish-pagination [page]="singlePage()" [totalPages]="1"></fish-pagination>
+      <div class="demo-value">The pagination above renders nothing</div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>API</h2>
+    <div class="properties-table">
+      <div class="property-row">
+        <span class="property-name">page</span>
+        <span class="property-type">number</span>
+        <span class="property-description">Current page, starting at 1. Defaults to 1.</span>
+      </div>
+      <div class="property-row">
+        <span class="property-name">totalPages</span>
+        <span class="property-type">number</span>
+        <span class="property-description">Total number of pages. Nothing renders when it is 1 or less.</span>
+      </div>
+      <div class="property-row">
+        <span class="property-name">siblingCount</span>
+        <span class="property-type">number</span>
+        <span class="property-description">Pages shown on each side of the current page. Defaults to 1.</span>
+      </div>
+      <div class="property-row">
+        <span class="property-name">disabled</span>
+        <span class="property-type">boolean</span>
+        <span class="property-description">Blocks all page changes. Defaults to false.</span>
+      </div>
+      <div class="property-row">
+        <span class="property-name">pageChange</span>
+        <span class="property-type">EventEmitter&lt;number&gt;</span>
+        <span class="property-description">Emits the requested page.</span>
+      </div>
+    </div>
+  </div>
+</div>

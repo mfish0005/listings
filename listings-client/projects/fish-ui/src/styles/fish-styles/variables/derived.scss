@@ -10,6 +10,21 @@ $warning: $orange !default;
 $info: $blue !default;
 $danger: $red !default;
 
+// Hover and active shades follow the semantic colors, so a theme only needs to set the base color.
+// They are published as a live color-mix of the base color unless a theme overrides them (see fish-theme-vars).
+$dark-shade-mix: 15% !default;
+
+@function fish-dark-shade($color) {
+  @return mix(#000, $color, $dark-shade-mix);
+}
+
+$primary-dark: fish-dark-shade($primary) !default;
+$secondary-dark: fish-dark-shade($secondary) !default;
+$success-dark: fish-dark-shade($success) !default;
+$warning-dark: fish-dark-shade($warning) !default;
+$danger-dark: fish-dark-shade($danger) !default;
+$info-dark: fish-dark-shade($info) !default;
+
 // Text colors
 $text: $gray-darker !default;
 
@@ -56,6 +71,31 @@ $shadeMap: (
 // Typography - Configurable with !default
 $family-primary: $family-monospace !default;
 $family-secondary: $family-monospace !default;
+
+// The token registry: the single list of themable values.
+// fish-theme-vars publishes it as --fish-* custom properties, and fish-color()/fish-font() read it.
+// Built here so it reflects every !default override, including replaced $colorMap and $shadeMap.
+$fish-tokens: ();
+
+@each $name, $value in $colorMap {
+  $fish-tokens: map-merge($fish-tokens, ($name: nth($value, 1)));
+}
+
+@each $name, $value in $shadeMap {
+  $fish-tokens: map-merge($fish-tokens, ($name: $value));
+}
+
+$fish-tokens: map-merge($fish-tokens, (
+  "primary-dark": $primary-dark,
+  "secondary-dark": $secondary-dark,
+  "success-dark": $success-dark,
+  "warning-dark": $warning-dark,
+  "danger-dark": $danger-dark,
+  "info-dark": $info-dark,
+  "text": $text,
+  "family-primary": $family-primary,
+  "family-secondary": $family-secondary
+));
 
 // This defines our custom sizes so we can do .is-size-1 and .is-size-7 etc.
 $sizes: $size-1, $size-2, $size-3, $size-4, $size-5, $size-6, $size-7 !default;

@@ -1,0 +1,58 @@
+@import '../../styles/fish-styles/tools';
+
+.fish-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  font-family: fish-font("family-primary");
+}
+
+.fish-pagination__button {
+  display: inline-flex;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0 0.5rem;
+  border: 1px solid fish-color("gray-light");
+  border-radius: 0.375rem;
+  background-color: fish-color("white");
+  color: fish-color("text");
+  font-family: fish-font("family-primary");
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover:not(:disabled) {
+    background-color: fish-color("gray-lightest");
+    border-color: fish-color("gray");
+  }
+
+  &:focus-visible {
+    outline: 2px solid fish-color("primary");
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--current,
+  &--current:hover:not(:disabled) {
+    background-color: fish-color("primary");
+    border-color: fish-color("primary");
+    color: fish-color("white");
+    cursor: default;
+
+    &:disabled {
+      opacity: 1;
+    }
+  }
+}
+
+.fish-pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  min-width: 1.5rem;
+  justify-content: center;
+  color: fish-color("gray-dark");
+}

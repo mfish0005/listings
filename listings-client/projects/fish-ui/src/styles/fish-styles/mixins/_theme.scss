@@ -1,0 +1,25 @@
+@import '../variables/all';
+
+// A dark shade that still equals the derived formula follows its base color live.
+// A shade a theme set by hand is published as written.
+@function fish-published-value($name, $value) {
+  @if str-length($name) > 5 and str-slice($name, -5) == "-dark" {
+    $base: str-slice($name, 1, -6);
+
+    @if map-has-key($fish-tokens, $base) and $value == fish-dark-shade(map-get($fish-tokens, $base)) {
+      @return unquote("color-mix(in srgb, var(--fish-#{$base}), black #{$dark-shade-mix})");
+    }
+  }
+
+  @return inspect($value);
+}
+
+// Publishes every token in $fish-tokens as a --fish-* custom property.
+// Call once from global styles. Pass a selector to scope a theme to part of the page.
+@mixin fish-theme-vars($selector: ":root") {
+  #{$selector} {
+    @each $name, $value in $fish-tokens {
+      --fish-#{$name}: #{fish-published-value($name, $value)};
+    }
+  }
+}

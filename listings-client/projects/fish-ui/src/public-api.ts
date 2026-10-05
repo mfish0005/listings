@@ -12,3 +12,5 @@ export * from './lib/input/input.component';
 export * from './lib/textarea/textarea.component';
 export * from './lib/select/select.component';
 export * from './lib/select/select.types';
+export * from './lib/pagination/pagination.component';
+export * from './lib/pagination/pagination.utils';

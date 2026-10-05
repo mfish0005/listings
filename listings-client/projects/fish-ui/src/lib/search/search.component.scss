@@ -1,4 +1,4 @@
-@import '../../styles/fish-styles/all.scss';
+@import '../../styles/fish-styles/tools';
 
 .fish-search {
   position: relative;
@@ -14,26 +14,26 @@
 .fish-search__input {
   width: 100%;
   padding: 0.75rem 3rem 0.75rem 1rem;
-  border: 2px solid $gray-light;
+  border: 2px solid fish-color("gray-light");
   border-radius: 0.5rem;
   font-size: $size-6;
-  font-family: $family-primary;
-  background-color: $white;
-  color: $text;
+  font-family: fish-font("family-primary");
+  background-color: fish-color("white");
+  color: fish-color("text");
   transition: all 0.2s ease-in-out;
   outline: none;
 
   &:focus {
-    border-color: $primary;
-    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    border-color: fish-color("primary");
+    box-shadow: 0 0 0 3px fish-alpha("primary", 10%);
   }
 
   &::placeholder {
-    color: $gray;
+    color: fish-color("gray");
   }
 
   &:hover {
-    border-color: $gray;
+    border-color: fish-color("gray");
   }
 }
 
@@ -42,7 +42,7 @@
   right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  color: $gray;
+  color: fish-color("gray");
   pointer-events: none;
   display: flex;
   align-items: center;
@@ -56,7 +56,7 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: $gray;
+  color: fish-color("gray");
   cursor: pointer;
   padding: 0.25rem;
   border-radius: 0.25rem;
@@ -66,12 +66,12 @@
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    color: $text;
-    background-color: $gray-lightest;
+    color: fish-color("text");
+    background-color: fish-color("gray-lightest");
   }
 
   &:focus {
-    outline: 2px solid $primary;
+    outline: 2px solid fish-color("primary");
     outline-offset: 2px;
   }
 }

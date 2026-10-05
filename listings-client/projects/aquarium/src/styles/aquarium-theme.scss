@@ -103,7 +103,7 @@ $size-6: 1rem;      // 16px - Base text
 $size-7: 0.875rem;  // 14px - Small text
 
 // Import library last to override the defaults
-@import '../../../fish-ui/src/styles/fish-styles/all.scss';
+@import '../../../fish-ui/src/styles/fish-styles/tools';
 
 
 

@@ -1,0 +1,25 @@
+@import '../variables/all';
+
+// Component styles read themable values through these functions instead of Sass variables.
+// Each returns a reference to the --fish-* custom property that fish-theme-vars publishes,
+// so the value follows the active theme at runtime. Sass color functions cannot operate on it.
+@function fish-token($name) {
+  @if not map-has-key($fish-tokens, $name) {
+    @error "Unknown fish token \"#{$name}\".";
+  }
+
+  @return unquote("var(--fish-#{$name})");
+}
+
+@function fish-color($name) {
+  @return fish-token($name);
+}
+
+@function fish-font($name) {
+  @return fish-token($name);
+}
+
+// Translucent version of a color token, e.g. fish-alpha("primary", 10%)
+@function fish-alpha($name, $percent) {
+  @return unquote("color-mix(in srgb, #{fish-color($name)} #{$percent}, transparent)");
+}

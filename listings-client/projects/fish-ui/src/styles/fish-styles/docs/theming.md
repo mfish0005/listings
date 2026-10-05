@@ -6,7 +6,7 @@ All fish-styles variables are defined with `!default`, which means you can overr
 
 - **Build-time optimization** - Colors and fonts are resolved at compile time
 - **Automatic helper class updates** - All `.has-text-*`, `.has-background-*`, and size classes use your custom values
-- **Component inheritance** - Any components using fish-styles automatically get your theme
+- **Themed components** - Library components read your theme through CSS custom properties (see [Theming Components](#theming-components))
 - **Better performance** - No runtime JavaScript overhead
 
 ## Basic Usage
@@ -39,9 +39,57 @@ Import your theme file in your main styles:
 ```scss
 // src/styles.scss
 @import './themes/my-theme';
+
+@include fish-theme-vars;
 ```
 
-**That's it!** All fish-styles components and helper classes now use your custom theme.
+**That's it!** Helper classes and library components now use your custom theme.
+
+## Theming Components
+
+Library components are compiled with the library, so they cannot see Sass variables from your app. Sass variables are the authoring API; CSS custom properties are the runtime contract.
+
+`@include fish-theme-vars` writes every token in the `$fish-tokens` registry (colors, grays, palette, fonts) into a `--fish-{token}` custom property on `:root`. Components and helper classes read those properties, so one theme drives both.
+
+```css
+:root {
+  --fish-primary: #0f766e;
+  --fish-primary-dark: color-mix(in srgb, var(--fish-primary), black 15%);
+  --fish-family-primary: -apple-system, ...;
+}
+```
+
+- **The include is required setup.** Component styles reference `var(--fish-primary)` with no per-declaration fallback, so an app that never includes the mixin gets unstyled colors.
+- Include it **once**, in global styles, after importing fish-styles. Never from a component stylesheet.
+- Pass a selector to scope a theme to part of the page: `@include fish-theme-vars('.dark-section');`. The properties inherit, so this works through Angular's emulated encapsulation.
+- Hover and active shades (`primary-dark`, `success-dark`, ...) are published as a live `color-mix` of their base color, so changing `--fish-primary` updates them too. If your theme sets one by hand (`$primary-dark: #00acc1;`), it is published as written.
+- Runtime changes work on the element that declares the theme: `document.documentElement.style.setProperty('--fish-primary', '#0f766e')`.
+- In app styles, use the tokens for anything that should follow a scoped or runtime theme (`background-color: fish-color("gray-lightest")`). Keep Sass variables for values that may be fixed at build time.
+
+### Writing library components
+
+Component stylesheets import `tools` (variables, functions and mixins, no CSS output), never `all`. `all` adds the helper classes, which belong in the app's global stylesheet and would otherwise be compiled into every component.
+
+Read themable values through the token functions rather than Sass variables:
+
+```scss
+@import '../../styles/fish-styles/tools';
+
+.fish-example {
+  color: fish-color("text");
+  font-family: fish-font("family-primary");
+  border: 1px solid fish-color("gray-light");
+  box-shadow: 0 0 0 3px fish-alpha("primary", 10%);
+
+  @include button-solid-variant(fish-color("primary"), fish-color("primary-dark"));
+}
+```
+
+`fish-color()` and `fish-font()` return a `var(--fish-*)` reference and fail the build for an unknown token name. Because the result is no longer a Sass color, `darken()`, `rgba()` and similar functions cannot be applied to it. Use `fish-alpha("name", 10%)` for translucency and the `*-dark` tokens for hover shades.
+
+### Adding a token
+
+Add the variable to `initial.scss` or `derived.scss` (or to `$colorMap` / `$shadeMap`). Entries in those maps join the `$fish-tokens` registry automatically, and `fish-theme-vars`, `fish-color()` and the helper classes pick it up from there. Variables outside the maps need one line in the registry at the end of `derived.scss`.
 
 ## Override Variables
 
@@ -260,9 +308,9 @@ Once themed, all components and helper classes automatically use your custom val
 ## Best Practices
 
 1. **Override semantic colors first** - Use `$primary`, `$success`, etc. rather than literal color names
-2. **Define hover states** - Include dark variants like `$green-dark` for button hover effects  
+2. **Define hover states** - Hover shades derive from the semantic colors (`$primary-dark` is `darken($primary, 8%)`). Override `$primary-dark` only if you want something different  
 3. **Test thoroughly** - Ensure your theme works across all components and helper classes
-4. **Import order matters** - Always define variables BEFORE importing fish-styles
+4. **Import order matters** - Always define variables BEFORE importing fish-styles, and include `fish-theme-vars` AFTER
 5. **Consider accessibility** - Ensure color contrast meets WCAG guidelines
 6. **Use a dedicated theme file** - Keep theme variables separate from component styles
 
