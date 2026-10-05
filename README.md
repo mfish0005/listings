@@ -17,7 +17,30 @@ A listing search application built with a .NET 9 Web API and an Angular 20 UI. U
 - **Pagination**: numbered pager with a configurable page size
 - **UI states**: loading, no results, and error states. Server validation messages are shown to the user
 - **Shareable searches**: filters and page live in the URL, so refresh and back/forward work
-- **Deliberate error handling**: invalid input returns a `400` with Problem Details instead of a crash or a silent empty result
+- **Invalid input**: `minPrice` above `maxPrice`, a `pageSize` outside 1–100, a non-positive `targetBudget`, negative prices or bedrooms, and a `page` below 1 return `400` with Problem Details. A valid search that matches nothing, including an unknown city, returns `200` with an empty page, and the UI says that nothing matched.
+
+## Scoring
+
+Each result gets a relevance score from 0 to 1, rounded to 4 decimal places. When the user supplies a `targetBudget`, the score is how close the price is to that budget, blended with how recently the listing went live. The weights live in `ScoringOptions` (`listings-server/Listings.Services/Scoring`).
+
+**Budget fit** weighs 0.7, and is calculated only when a budget is set. Let `ratio = price / targetBudget`.
+
+- At the budget, fit is 1.
+- Under the budget, fit is `1 - 0.5 * (1 - ratio)`. A home at half the budget scores 0.75. A lower price is a mild penalty, because the buyer can still afford it.
+- Over the budget, fit is `max(0, 2 - ratio)`. It falls in a straight line and reaches 0 at twice the budget. A home at 1.2× the budget scores 0.8, which is already below a home at half the budget.
+
+**Recency** weighs 0.3, and is the whole score when no budget is given: `1 / (1 + ageInDays / 30)`. Listed today scores 1. Listed 30 days ago scores 0.5. Older listings approach 0 and never reach it, so a very old listing can still surface when nothing newer fits. A future `listedDate` is treated as today.
+
+With a budget, `relevance = 0.7 * budgetFit + 0.3 * recency`. Without one, `relevance = recency` and `budgetFit` is omitted.
+
+Ties break in this order: higher relevance, newer `listedDate`, lower price, then `source` and the feed id. Feed ids are unique per source, not across sources, so two feeds can both describe the same home and both stay in the results. The last two keys keep that order stable.
+
+Trade-offs:
+
+- Budget outweighs recency because a search with a target budget is about whether the buyer can afford the home. Recency separates homes that fit about equally. Both weights are constants in `ScoringOptions`.
+- Going over budget is penalized harder than coming in under it. A symmetric distance would treat $400k and $600k as equal against a $500k budget.
+- Recency decays smoothly. A listing from 31 days ago is only slightly behind one from 30 days ago. The 30-day scale matches this sample, where every listing is a few weeks to a couple of months old.
+- Filtering runs in the database. Scoring and paging run in memory on the matches. That is the right shape for 12 listings. A large feed would need the score in the query, so a page does not require loading every match first.
 
 ## Architecture
 
