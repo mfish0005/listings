@@ -27,7 +27,7 @@ public class ListingSearchService(ListingsDbContext context, ListingScorer score
     private static IQueryable<Listing> ApplyFilters(IQueryable<Listing> listings, ListingSearchQuery query)
     {
         var city = Clean(query.City)?.ToLower();
-        var keyword = Clean(query.Keyword)?.ToLower();
+        var keywords = SplitWords(query.Keyword);
 
         if (query.MinPrice is { } minPrice)
         {
@@ -46,10 +46,10 @@ public class ListingSearchService(ListingsDbContext context, ListingScorer score
 
         if (city is not null)
         {
-            listings = listings.Where(l => l.City.ToLower() == city);
+            listings = listings.Where(l => l.City.ToLower().StartsWith(city));
         }
 
-        if (keyword is not null)
+        foreach (var keyword in keywords)
         {
             listings = listings.Where(l => l.Description.ToLower().Contains(keyword));
         }
@@ -92,4 +92,7 @@ public class ListingSearchService(ListingsDbContext context, ListingScorer score
         score.Recency);
 
     private static string? Clean(string? value) => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+
+    private static string[] SplitWords(string? value) =>
+        (value ?? string.Empty).ToLower().Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
 }

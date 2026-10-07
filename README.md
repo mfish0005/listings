@@ -13,6 +13,7 @@ A listing search application built with a .NET 9 Web API and an Angular 20 UI. U
 ## Features
 
 - **Filters**: `minPrice`, `maxPrice`, `minBedrooms`, `city`, and a free-text `keyword` matched against the description
+- **Matching**: `city` matches the start of the name, ignoring case, so `Alex` finds Alexandria and `Fa` finds Fairfax and Falls Church. `keyword` is split into words, and every word must appear somewhere in the description, in any order, so `metro condo` and `condo metro` find the same listings. Each word is a substring match, so `pet` also matches "carpet". Neither filter tolerates typos. That would need full-text search, which is more than this service needs. `%` and `_` are matched literally.
 - **Ranking**: a relevance score from `targetBudget` and listing recency (see [Scoring](#scoring))
 - **Pagination**: numbered pager with a configurable page size
 - **UI states**: loading, no results, and error states. Server validation messages are shown to the user
@@ -226,6 +227,7 @@ With 300 filler listings, these searches return several pages. Try them together
 - `city=Springfield` for about 20 listings.
 - `minBedrooms=3` for most of the set.
 - `keyword=pet`, which matches any description containing "pet", including "No pets".
+- `city=Fa`, which matches every city starting with "Fa". Add `keyword=pet friendly` to see the word matching.
 - `minBedrooms=2` with `maxPrice=550000`, which narrows to the mid range.
 
 The tests for all of this are in `listings-server/Listings.Tests/Seed`. They run each lesson search through the real search service with a fixed clock and assert the orderings above.

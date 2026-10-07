@@ -58,14 +58,49 @@ public class ListingSearchServiceTests
     }
 
     [Fact]
-    public async Task City_RequiresFullMatch_NotPartial()
+    public async Task City_MatchesTheStartOfTheName()
     {
         var page = await Search(
-            new ListingSearchQuery { City = "Spring" },
+            new ListingSearchQuery { City = "Alex" },
+            ListingFactory.Create(externalId: "A1", city: "Alexandria"),
+            ListingFactory.Create(externalId: "A2", city: "Springfield"));
+
+        Assert.Equal(["A1"], ExternalIds(page));
+    }
+
+    [Fact]
+    public async Task City_MatchesAnyCityThatSharesThePrefix()
+    {
+        var page = await Search(
+            new ListingSearchQuery { City = "Fa" },
+            ListingFactory.Create(externalId: "A1", city: "Fairfax"),
+            ListingFactory.Create(externalId: "A2", city: "Falls Church"),
+            ListingFactory.Create(externalId: "A3", city: "Reston"));
+
+        Assert.Equal(["A1", "A2"], ExternalIds(page).Order().ToArray());
+    }
+
+    [Fact]
+    public async Task City_DoesNotMatchTheMiddleOfAName()
+    {
+        var page = await Search(
+            new ListingSearchQuery { City = "field" },
             ListingFactory.Create(city: "Springfield"));
 
         Assert.Equal(0, page.TotalCount);
-        Assert.Empty(page.Results);
+    }
+
+    [Theory]
+    [InlineData("%")]
+    [InlineData("_")]
+    [InlineData("[a-z]")]
+    public async Task City_TreatsWildcardCharactersLiterally(string city)
+    {
+        var page = await Search(
+            new ListingSearchQuery { City = city },
+            ListingFactory.Create(city: "Springfield"));
+
+        Assert.Equal(0, page.TotalCount);
     }
 
     [Fact]
@@ -77,6 +112,41 @@ public class ListingSearchServiceTests
             ListingFactory.Create(externalId: "A2", description: "Quiet street."));
 
         Assert.Equal(["A1"], ExternalIds(page));
+    }
+
+    [Fact]
+    public async Task Keyword_RequiresEveryWordInAnyOrder()
+    {
+        var page = await Search(
+            new ListingSearchQuery { Keyword = "metro condo" },
+            ListingFactory.Create(externalId: "A1", description: "Condo with easy access to the Metro."),
+            ListingFactory.Create(externalId: "A2", description: "Quiet condo on a cul-de-sac."),
+            ListingFactory.Create(externalId: "A3", description: "Walk to the Metro."));
+
+        Assert.Equal(["A1"], ExternalIds(page));
+    }
+
+    [Fact]
+    public async Task Keyword_IgnoresExtraWhitespaceAndRepeatedWords()
+    {
+        var page = await Search(
+            new ListingSearchQuery { Keyword = "   pet    pet \t friendly  " },
+            ListingFactory.Create(externalId: "A1", description: "Friendly neighbors. Pets welcome."),
+            ListingFactory.Create(externalId: "A2", description: "Pets welcome."));
+
+        Assert.Equal(["A1"], ExternalIds(page));
+    }
+
+    [Theory]
+    [InlineData("%")]
+    [InlineData("_")]
+    public async Task Keyword_TreatsWildcardCharactersLiterally(string keyword)
+    {
+        var page = await Search(
+            new ListingSearchQuery { Keyword = keyword },
+            ListingFactory.Create(description: "Quiet street."));
+
+        Assert.Equal(0, page.TotalCount);
     }
 
     [Fact]
