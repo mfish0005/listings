@@ -49,7 +49,7 @@ static ObjectResult CreateBindingProblem(ModelStateDictionary modelState)
             entry => JsonNamingPolicy.CamelCase.ConvertName(entry.Key),
             entry => entry.Value!.Errors.Select(error => error.ErrorMessage).ToArray());
 
-    return ValidationProblemFactory.CreateResult(errors);
+    return ValidationProblemFactory.CreateResult(errors, "Invalid request");
 }
 
 static async Task InitializeDatabaseAsync(IServiceProvider services)

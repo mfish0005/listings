@@ -6,12 +6,12 @@ public static class ValidationProblemFactory
 {
     private const string ProblemJsonContentType = "application/problem+json";
 
-    public static ObjectResult CreateResult(IDictionary<string, string[]> errors)
+    public static ObjectResult CreateResult(IDictionary<string, string[]> errors, string title)
     {
         var problem = new ValidationProblemDetails(errors)
         {
             Status = StatusCodes.Status400BadRequest,
-            Title = "Invalid search request",
+            Title = title,
             Detail = string.Join(" ", errors.Values.SelectMany(messages => messages))
         };
 

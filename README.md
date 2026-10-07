@@ -42,6 +42,42 @@ Trade-offs:
 - Recency decays smoothly. A listing from 31 days ago is only slightly behind one from 30 days ago. The 30-day scale matches this sample, where every listing is a few weeks to a couple of months old.
 - Filtering runs in the database. Scoring and paging run in memory on the matches. That is the right shape for 12 listings. A large feed would need the score in the query, so a page does not require loading every match first.
 
+## Managing Listings
+
+Besides search, the API can view, add and edit single listings.
+
+| Method | Route | Result |
+| --- | --- | --- |
+| `GET` | `/api/listings/{id}` | `200` with the listing, or `404` |
+| `POST` | `/api/listings` | `201` with the new listing and a `Location` header, or `400` |
+| `PUT` | `/api/listings/{id}` | `200` with the updated listing, `400`, or `404` |
+
+`POST` and `PUT` take the same body. `PUT` replaces every editable field, so send the whole listing.
+
+```json
+{
+  "address": "12 Test Lane",
+  "city": "Springfield",
+  "state": "VA",
+  "zip": "22150",
+  "price": 450000,
+  "bedrooms": 3,
+  "bathrooms": 2.5,
+  "sqft": 1800,
+  "latitude": 38.78,
+  "longitude": -77.18,
+  "listedDate": "2026-10-01",
+  "status": "active",
+  "description": "A bright, freshly painted home."
+}
+```
+
+- **Required:** every field except `status`, which defaults to `active`. A missing field is reported as missing, not stored as `0`.
+- **Limits:** `state` is 2 letters and `zip` is 5 digits, optionally followed by `-` and 4 digits. `price` and `sqft` are greater than 0. `bedrooms` runs from 0 to 20, and `bathrooms` is a whole or half number up to 20. `latitude` is within ±90 and `longitude` within ±180. `listedDate` cannot be in the future. `status` is `active`, `pending` or `sold`. Text is trimmed, `state` is upper-cased and `status` is lower-cased.
+- **Errors:** every problem is reported at once, as Problem Details with an `errors` entry per field. Validation runs before the lookup, so an invalid `PUT` to a missing id returns `400`.
+- **Identity:** `id`, `source` and `externalId` cannot be changed. A listing created through the API gets `source` `MANUAL` and a generated `externalId`, so it can never collide with a feed listing. Feed listings can be edited like any other.
+- **Not included:** deleting listings, and detecting duplicates when adding.
+
 ## Architecture
 
 ### Backend

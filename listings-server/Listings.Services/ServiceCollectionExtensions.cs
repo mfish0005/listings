@@ -1,3 +1,4 @@
+using Listings.Services.Catalog;
 using Listings.Services.Scoring;
 using Listings.Services.Search;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ListingScorer>();
         services.AddSingleton<ListingQueryValidator>();
         services.AddScoped<IListingSearchService, ListingSearchService>();
+        services.AddSingleton<ListingInputValidator>();
+        services.AddScoped<IListingService, ListingService>();
 
         return services;
     }
