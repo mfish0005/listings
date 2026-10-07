@@ -27,7 +27,7 @@ Each result gets a relevance score from 0 to 1, rounded to 4 decimal places. Whe
 
 - At the budget, fit is 1.
 - Under the budget, fit is `1 - 0.5 * (1 - ratio)`. A home at half the budget scores 0.75. A lower price is a mild penalty, because the buyer can still afford it.
-- Over the budget, fit is `max(0, 2 - ratio)`. It falls in a straight line and reaches 0 at twice the budget. A home at 1.2× the budget scores 0.8, which is already below a home at half the budget.
+- Over the budget, fit is `max(0, 2 - ratio)`. It falls in a straight line and reaches 0 at twice the budget. A home 20% over the budget scores 0.8, while a home 20% under scores 0.9.
 
 **Recency** weighs 0.3, and is the whole score when no budget is given: `1 / (1 + ageInDays / 30)`. Listed today scores 1. Listed 30 days ago scores 0.5. Older listings approach 0 and never reach it, so a very old listing can still surface when nothing newer fits. A future `listedDate` is treated as today.
 
@@ -119,6 +119,80 @@ npm run serve-aquarium
 ```
 
 The Aquarium app is available at `http://localhost:4201`. It consumes the built library, so `build-fish-ui` must be run first, and again after changing library code.
+
+## Demo Data and Example Searches
+
+The sample feed has 12 listings, which is too few to see the pager on a filtered search. An opt-in setting adds more, and it also adds three small groups of listings that make the scoring easy to follow.
+
+### Turning it on
+
+Set `Seed:DemoListings` to the number of extra filler listings you want. It defaults to `0`. Any one of these works, followed by a restart of the API:
+
+```bash
+dotnet run -- --Seed:DemoListings=300
+```
+
+```bash
+Seed__DemoListings=300 dotnet run
+```
+
+Or edit the `Seed` section of `listings-server/Listings.Api/appsettings.json`.
+
+- The demo rows are the three lesson groups (17 listings) plus the filler. Every demo row has an external id starting with `DEMO-`.
+- The filler is deterministic. It spreads across 15 Virginia cities, with varied bedrooms, prices, ages and pet wording, so city, bedroom, price and keyword searches all return several pages.
+- Restarting with the same number changes nothing. A different number replaces the `DEMO-` rows and leaves the sample feed alone. Setting `0` removes them.
+- Demo dates are measured from the day the rows were created. Change the number (for example `301`) to rebuild them with fresh dates.
+
+### Scoring lessons
+
+Each lesson lives in its own city, so a city search isolates it. Enter the city and a **target budget of 500000** in the UI. Every listing's description says what it is testing.
+
+**Budgetville: price only.** All seven are listed 10 days ago, so recency is the same for each and only the price changes.
+
+| Rank | Price | Budget fit | Score | Why |
+| --- | --- | --- | --- | --- |
+| 1 | $500,000 (1.0×) | 1.00 | 0.925 | Exactly on budget. |
+| 2 | $400,000 (0.8×) | 0.90 | 0.855 | Under budget is a mild penalty. |
+| 3 | $550,000 (1.1×) | 0.90 | 0.855 | Ties with the row above. The cheaper home wins the tie. |
+| 4 | $600,000 (1.2×) | 0.80 | 0.785 | Over budget falls faster. |
+| 5 | $250,000 (0.5×) | 0.75 | 0.750 | Half the budget loses 0.25 of fit, slightly more than 1.2× over loses (0.20). |
+| 6 | $750,000 (1.5×) | 0.50 | 0.575 | |
+| 7 | $1,000,000 (2.0×) | 0.00 | 0.225 | Twice the budget scores zero fit. Only recency is left. |
+
+**Agetown: age only.** All six cost exactly $500,000, so budget fit is 1 and only the age changes. The order is newest first, with or without a budget.
+
+| Rank | Listed | Recency | Score with budget |
+| --- | --- | --- | --- |
+| 1 | 1 day ago | 0.9677 | 0.9903 |
+| 2 | 15 days ago | 0.6667 | 0.9000 |
+| 3 | 30 days ago | 0.5000 | 0.8500 |
+| 4 | 60 days ago | 0.3333 | 0.8000 |
+| 5 | 120 days ago | 0.2000 | 0.7600 |
+| 6 | 365 days ago | 0.0759 | 0.7228 |
+
+Try it without a budget as well. The score is then just the recency column.
+
+**Balanceburg: price and age pull in opposite directions.**
+
+| Rank | Listing | Budget fit | Recency | Score |
+| --- | --- | --- | --- | --- |
+| 1 | 1.2× budget, listed yesterday | 0.80 | 0.9677 | 0.8503 |
+| 2 | 0.8× budget, listed 30 days ago | 0.90 | 0.5000 | 0.7800 |
+| 3 | On budget, listed 120 days ago | 1.00 | 0.2000 | 0.7600 |
+| 4 | 1.5× budget, listed today | 0.50 | 1.0000 | 0.6500 |
+
+The listing that is 20% over budget but listed yesterday beats the one that is exactly on budget but four months old. That is the 0.7 and 0.3 weighting at work. Without a budget the order flips to pure age: today, yesterday, 30 days, 120 days. This is the only lesson whose order drifts as real days pass, because the recency gaps shrink over time.
+
+### Paging with filters
+
+With 300 filler listings, these searches return several pages. Try them together with a target budget and watch the page count change:
+
+- `city=Springfield` for about 20 listings.
+- `minBedrooms=3` for most of the set.
+- `keyword=pet`, which matches any description containing "pet", including "No pets".
+- `minBedrooms=2` with `maxPrice=550000`, which narrows to the mid range.
+
+The tests for all of this are in `listings-server/Listings.Tests/Seed`. They run each lesson search through the real search service with a fixed clock and assert the orderings above.
 
 ## Connecting to the Database
 

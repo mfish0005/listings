@@ -12,7 +12,13 @@ public static class ListingSeeder
 
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
-    public static async Task SeedAsync(ListingsDbContext context)
+    public static async Task SeedAsync(ListingsDbContext context, SeedOptions options, DateOnly today)
+    {
+        await SeedSampleListingsAsync(context);
+        await SyncDemoListingsAsync(context, Math.Max(0, options.DemoListings), today);
+    }
+
+    private static async Task SeedSampleListingsAsync(ListingsDbContext context)
     {
         if (await context.Listings.AnyAsync())
         {
@@ -20,6 +26,25 @@ public static class ListingSeeder
         }
 
         context.Listings.AddRange(ReadSampleListings());
+        await context.SaveChangesAsync();
+    }
+
+    // The demo set is replaced only when its size changes, so a restart never touches rows you added.
+    private static async Task SyncDemoListingsAsync(ListingsDbContext context, int fillerCount, DateOnly today)
+    {
+        var existing = await context.Listings
+            .Where(listing => listing.ExternalId.StartsWith(DemoListingGenerator.ExternalIdPrefix))
+            .ToListAsync();
+
+        var wanted = fillerCount > 0 ? DemoListingGenerator.Generate(fillerCount, today) : [];
+
+        if (existing.Count == wanted.Count)
+        {
+            return;
+        }
+
+        context.Listings.RemoveRange(existing);
+        context.Listings.AddRange(wanted);
         await context.SaveChangesAsync();
     }
 

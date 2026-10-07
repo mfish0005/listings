@@ -22,6 +22,8 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddDbContext<ListingsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddListingServices();
+builder.Services.AddSingleton(
+    builder.Configuration.GetSection(SeedOptions.SectionName).Get<SeedOptions>() ?? new SeedOptions());
 
 var app = builder.Build();
 
@@ -54,7 +56,9 @@ static async Task InitializeDatabaseAsync(IServiceProvider services)
 {
     using var scope = services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<ListingsDbContext>();
+    var seedOptions = scope.ServiceProvider.GetRequiredService<SeedOptions>();
+    var today = DateOnly.FromDateTime(scope.ServiceProvider.GetRequiredService<TimeProvider>().GetLocalNow().DateTime);
 
     await context.Database.MigrateAsync();
-    await ListingSeeder.SeedAsync(context);
+    await ListingSeeder.SeedAsync(context, seedOptions, today);
 }
