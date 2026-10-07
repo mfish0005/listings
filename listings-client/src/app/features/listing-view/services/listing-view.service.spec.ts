@@ -3,15 +3,15 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { ListingDetail } from '../models/listing-detail.model';
 import { createListingDetail } from '../testing/listing-detail-factory';
-import { ListingDetailService } from './listing-detail.service';
+import { ListingViewService } from './listing-view.service';
 
-describe('ListingDetailService', () => {
-  let service: ListingDetailService;
+describe('ListingViewService', () => {
+  let service: ListingViewService;
   let http: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
-    service = TestBed.inject(ListingDetailService);
+    service = TestBed.inject(ListingViewService);
     http = TestBed.inject(HttpTestingController);
   });
 

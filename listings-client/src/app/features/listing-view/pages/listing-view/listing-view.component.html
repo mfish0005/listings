@@ -1,10 +1,13 @@
-<div>
+@let current = state();
+
+<div class="toolbar">
   <fish-button variant="secondary" (onClick)="goBack()">&larr; Back to results</fish-button>
+  @if (current.status === 'success') {
+    <fish-button (onClick)="edit(current.listing)">Edit listing</fish-button>
+  }
 </div>
 
 <section class="content" aria-live="polite">
-  @let current = state();
-
   @if (current.status === 'loading') {
     <div class="status">
       <fish-spinner size="large" label="Loading listing" />

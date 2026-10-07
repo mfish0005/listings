@@ -1,36 +1,37 @@
-import { DatePipe, CurrencyPipe, DecimalPipe, Location } from '@angular/common';
+import { DatePipe, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BadgeComponent, BadgeVariant, ButtonComponent, CardComponent, SpinnerComponent } from '@fish-ui/components';
 import { catchError, combineLatest, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
+import { LastSearch } from '../../../../shared/navigation/last-search';
 import { ListingDetail } from '../../models/listing-detail.model';
-import { toDetailErrorMessage } from '../../services/detail-error-message';
+import { toViewErrorMessage } from '../../services/view-error-message';
 import { describeListingAge, mapUrl, pricePerSqft } from '../../services/listing-figures';
-import { ListingDetailService } from '../../services/listing-detail.service';
+import { ListingViewService } from '../../services/listing-view.service';
 
-type DetailState =
+type ViewState =
   | { status: 'loading' }
   | { status: 'not-found' }
   | { status: 'error'; message: string }
   | { status: 'success'; listing: ListingDetail };
 
-const loading: DetailState = { status: 'loading' };
-const notFound: DetailState = { status: 'not-found' };
+const loading: ViewState = { status: 'loading' };
+const notFound: ViewState = { status: 'not-found' };
 
 @Component({
-  selector: 'app-listing-detail',
+  selector: 'app-listing-view',
   imports: [BadgeComponent, ButtonComponent, CardComponent, SpinnerComponent, CurrencyPipe, DatePipe, DecimalPipe],
-  templateUrl: './listing-detail.component.html',
-  styleUrl: './listing-detail.component.scss',
+  templateUrl: './listing-view.component.html',
+  styleUrl: './listing-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListingDetailComponent {
+export class ListingViewComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly location = inject(Location);
-  private readonly details = inject(ListingDetailService);
+  private readonly lastSearch = inject(LastSearch);
+  private readonly listings = inject(ListingViewService);
   private readonly refresh = new Subject<void>();
 
   private readonly id$ = this.route.paramMap.pipe(map(params => Number(params.get('id'))));
@@ -54,38 +55,31 @@ export class ListingDetailComponent {
     this.refresh.next();
   }
 
-  protected goBack(): void {
-    if (this.cameFromWithinTheApp()) {
-      this.location.back();
-      return;
-    }
-
-    this.router.navigate(['/']);
+  protected edit(listing: ListingDetail): void {
+    this.router.navigate(['/listings', listing.id, 'edit']);
   }
 
-  private load(id: number): Observable<DetailState> {
+  protected goBack(): void {
+    this.router.navigate(['/'], { queryParams: this.lastSearch.queryParams });
+  }
+
+  private load(id: number): Observable<ViewState> {
     if (!Number.isInteger(id)) {
       return of(notFound);
     }
 
-    return this.details.get(id).pipe(
-      map((listing): DetailState => ({ status: 'success', listing })),
+    return this.listings.get(id).pipe(
+      map((listing): ViewState => ({ status: 'success', listing })),
       catchError(error => of(toFailureState(error))),
       startWith(loading)
     );
   }
-
-  private cameFromWithinTheApp(): boolean {
-    const navigationState = this.location.getState() as { navigationId?: number } | null;
-
-    return (navigationState?.navigationId ?? 1) > 1;
-  }
 }
 
-function toFailureState(error: unknown): DetailState {
+function toFailureState(error: unknown): ViewState {
   if (error instanceof HttpErrorResponse && error.status === 404) {
     return notFound;
   }
 
-  return { status: 'error', message: toDetailErrorMessage(error) };
+  return { status: 'error', message: toViewErrorMessage(error) };
 }

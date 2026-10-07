@@ -19,6 +19,7 @@ A listing search application built with a .NET 9 Web API and an Angular 20 UI. U
 - **UI states**: loading, no results, and error states. Server validation messages are shown to the user
 - **Shareable searches**: filters and page live in the URL, so refresh and back/forward work
 - **Listing detail**: each result links to `/listings/{id}`, a page with the price, key facts, description, listing date and a map link. There are no photos in the data, so the page is laid out as text and fact tiles instead of showing placeholder images. "Back to results" returns to the same filters and page. A missing id shows a not-found message, and other failures show an error with a retry.
+- **Edit listing**: the detail page has an "Edit listing" button that opens `/listings/{id}/edit`, a form pre-filled with the listing. The fields are checked in the browser with the same rules and messages as the API, and anything the server still rejects is shown under the matching field. Saving returns to the listing, and the page then shows the updated values. Source and listing ID are shown but cannot be changed. The form is a shared component, so adding a listing can reuse it.
 - **Invalid input**: `minPrice` above `maxPrice`, a `pageSize` outside 1–100, a non-positive `targetBudget`, negative prices or bedrooms, and a `page` below 1 return `400` with Problem Details. A valid search that matches nothing, including an unknown city, returns `200` with an empty page, and the UI says that nothing matched.
 
 ## Scoring
@@ -97,7 +98,7 @@ Besides search, the API can view, add and edit single listings.
 ### Frontend
 ```
 ┌─────────────────┐
-│  Listings App     ← Search UI (features/listing-search)
+│  Listings App     ← Search, view and edit (features/listing-search, listing-view, listing-edit)
 ├─────────────────┤
 │  Aquarium App     ← Component library showcase
 ├─────────────────┤
@@ -257,7 +258,11 @@ listings/
 │   └── docker-compose.yml          # SQL Server container
 ├── listings-client/                # Angular workspace
 │   ├── src/                        # Listings app
-│   │   └── app/features/listing-search/
+│   │   └── app/
+│   │       ├── features/listing-search/   # Search and results
+│   │       ├── features/listing-view/   # View one listing
+│   │       ├── features/listing-edit/     # Edit one listing
+│   │       └── shared/                    # Listing form, HTTP and navigation helpers
 │   ├── projects/
 │   │   ├── fish-ui/                # Component library and fish-styles
 │   │   └── aquarium/               # Component showcase

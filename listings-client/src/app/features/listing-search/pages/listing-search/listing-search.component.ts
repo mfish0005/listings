@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonComponent, PaginationComponent, SpinnerComponent } from '@fish-ui/components';
 import { catchError, combineLatest, map, of, startWith, Subject, switchMap } from 'rxjs';
+import { LastSearch } from '../../../../shared/navigation/last-search';
 import { ListingCardComponent } from '../../components/listing-card/listing-card.component';
 import { ListingFiltersComponent } from '../../components/listing-filters/listing-filters.component';
 import { Listing, PagedResult } from '../../models/listing.model';
@@ -29,6 +30,7 @@ export class ListingSearchComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly listings = inject(ListingService);
+  private readonly lastSearch = inject(LastSearch);
   private readonly refresh = new Subject<void>();
 
   private readonly query$ = this.route.queryParamMap.pipe(map(fromParamMap));
@@ -47,6 +49,10 @@ export class ListingSearchComponent {
     ),
     { initialValue: loading }
   );
+
+  constructor() {
+    effect(() => this.lastSearch.remember(toQueryString(this.query())));
+  }
 
   protected onSearch(filters: ListingSearchFilters): void {
     const next = withFilters(filters);

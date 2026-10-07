@@ -6,11 +6,10 @@ interface ProblemDetails {
 }
 
 const unreachableMessage = 'Could not reach the listing service. Check that the API is running and try again.';
-const unexpectedMessage = 'Something went wrong while loading this listing. Please try again.';
 
-export function toDetailErrorMessage(error: unknown): string {
+export function toProblemMessage(error: unknown, fallback: string): string {
   if (!(error instanceof HttpErrorResponse)) {
-    return unexpectedMessage;
+    return fallback;
   }
 
   if (error.status === 0) {
@@ -19,5 +18,5 @@ export function toDetailErrorMessage(error: unknown): string {
 
   const problem = error.error as ProblemDetails | null;
 
-  return problem?.detail ?? problem?.title ?? unexpectedMessage;
+  return problem?.detail ?? problem?.title ?? fallback;
 }

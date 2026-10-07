@@ -1,22 +1,21 @@
-import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, ParamMap, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { LastSearch } from '../../../../shared/navigation/last-search';
 import { ListingDetail } from '../../models/listing-detail.model';
-import { ListingDetailService } from '../../services/listing-detail.service';
+import { ListingViewService } from '../../services/listing-view.service';
 import { createListingDetail } from '../../testing/listing-detail-factory';
-import { ListingDetailComponent } from './listing-detail.component';
+import { ListingViewComponent } from './listing-view.component';
 
-describe('ListingDetailComponent', () => {
-  let fixture: ComponentFixture<ListingDetailComponent>;
+describe('ListingViewComponent', () => {
+  let fixture: ComponentFixture<ListingViewComponent>;
   let paramMap: BehaviorSubject<ParamMap>;
   let responses: Subject<ListingDetail>[];
   let requestedIds: number[];
   let router: jasmine.SpyObj<Router>;
-  let location: { back: jasmine.Spy; getState: jasmine.Spy };
 
-  const detailService = {
+  const viewService = {
     get: (id: number): Observable<ListingDetail> => {
       const response = new Subject<ListingDetail>();
       requestedIds.push(id);
@@ -48,19 +47,17 @@ describe('ListingDetailComponent', () => {
     responses = [];
     paramMap = new BehaviorSubject(convertToParamMap({ id: '7' }));
     router = jasmine.createSpyObj<Router>('Router', ['navigate']);
-    location = { back: jasmine.createSpy('back'), getState: jasmine.createSpy('getState').and.returnValue({ navigationId: 2 }) };
 
     await TestBed.configureTestingModule({
-      imports: [ListingDetailComponent],
+      imports: [ListingViewComponent],
       providers: [
         { provide: ActivatedRoute, useValue: { paramMap: paramMap.asObservable() } },
         { provide: Router, useValue: router },
-        { provide: Location, useValue: location },
-        { provide: ListingDetailService, useValue: detailService }
+        { provide: ListingViewService, useValue: viewService }
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ListingDetailComponent);
+    fixture = TestBed.createComponent(ListingViewComponent);
     fixture.detectChanges();
   });
 
@@ -168,19 +165,51 @@ describe('ListingDetailComponent', () => {
     expect(find('fish-spinner')).not.toBeNull();
   });
 
-  it('goes back in history when the user arrived from within the app', () => {
-    find<HTMLButtonElement>('fish-button button')!.click();
+  describe('edit button', () => {
+    function editButton(): HTMLButtonElement | undefined {
+      return Array.from(fixture.nativeElement.querySelectorAll('.toolbar button') as NodeListOf<HTMLButtonElement>).find(
+        button => button.textContent?.includes('Edit listing')
+      );
+    }
 
-    expect(location.back).toHaveBeenCalled();
-    expect(router.navigate).not.toHaveBeenCalled();
+    it('opens the edit page for the listing', () => {
+      respondWith(createListingDetail({ id: 7 }));
+
+      editButton()!.click();
+
+      expect(router.navigate).toHaveBeenCalledWith(['/listings', 7, 'edit']);
+    });
+
+    it('is not offered while loading', () => {
+      expect(editButton()).toBeUndefined();
+    });
+
+    it('is not offered when the listing could not be found', () => {
+      failWith(new HttpErrorResponse({ status: 404 }));
+
+      expect(editButton()).toBeUndefined();
+    });
+
+    it('is not offered when loading failed', () => {
+      failWith(new HttpErrorResponse({ status: 500 }));
+
+      expect(editButton()).toBeUndefined();
+    });
   });
 
-  it('goes to the search page when the page was opened directly', () => {
-    location.getState.and.returnValue({ navigationId: 1 });
+  describe('back to results', () => {
+    it('returns to the last search with its filters and page', () => {
+      TestBed.inject(LastSearch).remember({ city: 'Vienna', page: '2' });
 
-    find<HTMLButtonElement>('fish-button button')!.click();
+      find<HTMLButtonElement>('fish-button button')!.click();
 
-    expect(router.navigate).toHaveBeenCalledWith(['/']);
-    expect(location.back).not.toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['/'], { queryParams: { city: 'Vienna', page: '2' } });
+    });
+
+    it('returns to an unfiltered search when no search was made', () => {
+      find<HTMLButtonElement>('fish-button button')!.click();
+
+      expect(router.navigate).toHaveBeenCalledWith(['/'], { queryParams: {} });
+    });
   });
 });

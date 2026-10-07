@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Params, provideRouter, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { LastSearch } from '../../../../shared/navigation/last-search';
 import { Listing, PagedResult } from '../../models/listing.model';
 import { ListingSearchQuery } from '../../models/listing-search-query.model';
 import { ListingService } from '../../services/listing.service';
@@ -72,6 +73,19 @@ describe('ListingSearchComponent', () => {
     expect(searchCalls[searchCalls.length - 1]).toEqual(
       jasmine.objectContaining({ city: 'Vienna', targetBudget: '450000', page: 2 })
     );
+  });
+
+  it('remembers the search so other pages can return to it', () => {
+    setQueryParams({ city: 'Vienna', keyword: ' metro ', page: '3' });
+
+    expect(TestBed.inject(LastSearch).queryParams).toEqual({ city: 'Vienna', keyword: 'metro', page: '3' });
+  });
+
+  it('forgets filters once the search is cleared', () => {
+    setQueryParams({ city: 'Vienna' });
+    setQueryParams({});
+
+    expect(TestBed.inject(LastSearch).queryParams).toEqual({});
   });
 
   it('shows a spinner while loading', () => {

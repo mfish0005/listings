@@ -1,0 +1,52 @@
+<form class="listing-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div class="listing-form__fields">
+    @for (field of textFields; track field.name) {
+      <label class="listing-form__field" [class.listing-form__field--full]="field.fullWidth">
+        <span class="is-size-7 has-text-weight-semibold">{{ field.label }}</span>
+        <fish-input
+          [formControlName]="field.name"
+          [type]="field.type"
+          [placeholder]="field.placeholder"
+          [maxLength]="field.maxLength ?? null"
+          [variant]="errorOf(field.name) ? 'danger' : 'default'"
+        />
+        @if (errorOf(field.name); as message) {
+          <span class="listing-form__error is-size-7 has-text-danger">{{ message }}</span>
+        }
+      </label>
+    }
+
+    <div class="listing-form__field">
+      <span class="is-size-7 has-text-weight-semibold">Status</span>
+      <fish-select
+        formControlName="status"
+        [options]="statusOptions"
+        [error]="!!errorOf('status')"
+        [errorMessage]="errorOf('status') ?? ''"
+      />
+    </div>
+
+    <label class="listing-form__field listing-form__field--full">
+      <span class="is-size-7 has-text-weight-semibold">Description</span>
+      <fish-textarea
+        formControlName="description"
+        placeholder="Describe the home"
+        [rows]="5"
+        [maxLength]="descriptionMaxLength"
+        [variant]="errorOf('description') ? 'danger' : 'default'"
+      />
+      @if (errorOf('description'); as message) {
+        <span class="listing-form__error is-size-7 has-text-danger">{{ message }}</span>
+      }
+    </label>
+  </div>
+
+  @if (showSummary) {
+    <p class="is-size-6 has-text-danger is-marginless" role="alert">Fix the highlighted fields and try again.</p>
+  }
+
+  <div class="listing-form__actions">
+    <fish-button variant="secondary" [disabled]="submitting()" (onClick)="cancel.emit()">Cancel</fish-button>
+    <fish-button type="submit" [loading]="submitting()">{{ submitLabel() }}</fish-button>
+  </div>
+</form>

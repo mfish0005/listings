@@ -1,0 +1,29 @@
+@import '../../../styles/variables';
+
+.listing-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &__fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+
+    &--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+}

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ListingDetail } from '../models/listing-detail.model';
 
 @Injectable({ providedIn: 'root' })
-export class ListingDetailService {
+export class ListingViewService {
   private readonly http = inject(HttpClient);
 
   get(id: number): Observable<ListingDetail> {

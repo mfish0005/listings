@@ -1,0 +1,51 @@
+<section class="edit" aria-live="polite">
+  @let current = state();
+  @let outcome = saveState();
+
+  @if (current.status === 'loading') {
+    <div class="status">
+      <fish-spinner size="large" label="Loading listing" />
+    </div>
+  } @else if (current.status === 'not-found' || outcome.status === 'gone') {
+    <div class="status">
+      <h2 class="is-size-5 is-marginless">We couldn't find that listing</h2>
+      <p class="is-size-6 has-text-gray-dark is-marginless">It may have been removed, or the link may be wrong.</p>
+      <fish-button variant="secondary" (onClick)="returnToResults()">Back to results</fish-button>
+    </div>
+  } @else if (current.status === 'error') {
+    <div class="status status--error" role="alert">
+      <h2 class="is-size-5 has-text-danger is-marginless">We couldn't load this listing</h2>
+      <p class="is-size-6 is-marginless">{{ current.message }}</p>
+      <div class="status__actions">
+        <fish-button variant="secondary" (onClick)="returnToResults()">Back</fish-button>
+        <fish-button variant="secondary" (onClick)="retry()">Try again</fish-button>
+      </div>
+    </div>
+  } @else {
+    @let listing = current.listing;
+
+    <fish-card>
+      <div class="edit__content">
+        <header class="edit__header">
+          <h2 class="is-size-4 has-text-weight-semibold is-marginless">Edit listing</h2>
+          <p class="is-size-7 has-text-gray-dark is-marginless">
+            {{ listing.source }} &middot; {{ listing.externalId }}
+          </p>
+        </header>
+
+        @if (outcome.status === 'failed') {
+          <div class="edit__alert has-text-danger is-size-6" role="alert">{{ outcome.message }}</div>
+        }
+
+        <app-listing-form
+          [listing]="listing"
+          submitLabel="Save changes"
+          [submitting]="outcome.status === 'saving'"
+          [serverErrors]="outcome.status === 'failed' ? outcome.fieldErrors : noFieldErrors"
+          (save)="save(listing, $event)"
+          (cancel)="returnToListing(listing.id)"
+        />
+      </div>
+    </fish-card>
+  }
+</section>
