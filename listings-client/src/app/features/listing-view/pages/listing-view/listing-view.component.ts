@@ -2,9 +2,10 @@ import { DatePipe, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationBehaviorOptions, Router } from '@angular/router';
 import { BadgeComponent, BadgeVariant, ButtonComponent, CardComponent, SpinnerComponent } from '@fish-ui/components';
 import { catchError, combineLatest, map, Observable, of, startWith, Subject, switchMap } from 'rxjs';
+import { DeleteListingComponent } from '../../../../shared/listing-delete/delete-listing.component';
 import { LastSearch } from '../../../../shared/navigation/last-search';
 import { ListingDetail } from '../../models/listing-detail.model';
 import { toViewErrorMessage } from '../../services/view-error-message';
@@ -22,7 +23,7 @@ const notFound: ViewState = { status: 'not-found' };
 
 @Component({
   selector: 'app-listing-view',
-  imports: [BadgeComponent, ButtonComponent, CardComponent, SpinnerComponent, CurrencyPipe, DatePipe, DecimalPipe],
+  imports: [BadgeComponent, ButtonComponent, CardComponent, DeleteListingComponent, SpinnerComponent, CurrencyPipe, DatePipe, DecimalPipe],
   templateUrl: './listing-view.component.html',
   styleUrl: './listing-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -60,7 +61,15 @@ export class ListingViewComponent {
   }
 
   protected goBack(): void {
-    this.router.navigate(['/'], { queryParams: this.lastSearch.queryParams });
+    this.returnToResults();
+  }
+
+  protected onDeleted(): void {
+    this.returnToResults({ replaceUrl: true });
+  }
+
+  private returnToResults(options: NavigationBehaviorOptions = {}): void {
+    this.router.navigate(['/'], { queryParams: this.lastSearch.queryParams, ...options });
   }
 
   private load(id: number): Observable<ViewState> {

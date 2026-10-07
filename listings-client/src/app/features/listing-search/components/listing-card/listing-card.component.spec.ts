@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
+import { EMPTY } from 'rxjs';
+import { DeleteListingComponent } from '../../../../shared/listing-delete/delete-listing.component';
+import { ListingDeleteService } from '../../../../shared/listing-delete/listing-delete.service';
 import { createListing } from '../../testing/listing-factory';
 import { Listing } from '../../models/listing.model';
 import { ListingCardComponent } from './listing-card.component';
@@ -16,7 +20,7 @@ describe('ListingCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ListingCardComponent],
-      providers: [provideRouter([])]
+      providers: [provideRouter([]), { provide: ListingDeleteService, useValue: { delete: () => EMPTY } }]
     }).compileComponents();
     fixture = TestBed.createComponent(ListingCardComponent);
   });
@@ -36,10 +40,40 @@ describe('ListingCardComponent', () => {
     render(createListing({ id: 42 }));
 
     const links = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('a')) as HTMLAnchorElement[];
-    expect(links.length).toBe(2);
-    links.forEach(link => expect(link.getAttribute('href')).toBe('/listings/42'));
+    expect(links.length).toBe(3);
+    expect(links[0].getAttribute('href')).toBe('/listings/42');
     expect(links[0].textContent).toContain('123 Main St');
+    expect(links[1].getAttribute('href')).toBe('/listings/42');
     expect(links[1].textContent).toContain('View details');
+  });
+
+  it('links to the edit page for the listing', () => {
+    render(createListing({ id: 42 }));
+
+    const edit = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('a')).find(
+      link => link.textContent?.trim() === 'Edit'
+    ) as HTMLAnchorElement;
+
+    expect(edit.getAttribute('href')).toBe('/listings/42/edit');
+  });
+
+  it('offers to delete the listing, naming it in the confirmation', () => {
+    render(createListing({ id: 42, address: '9 Elm Ct' }));
+
+    const deleteListing = fixture.debugElement.query(By.directive(DeleteListingComponent)).componentInstance as DeleteListingComponent;
+
+    expect(deleteListing.listingId()).toBe(42);
+    expect(deleteListing.address()).toBe('9 Elm Ct');
+  });
+
+  it('reports when the listing has been deleted', () => {
+    render(createListing());
+    let deleted = 0;
+    fixture.componentInstance.deleted.subscribe(() => deleted++);
+
+    fixture.debugElement.query(By.directive(DeleteListingComponent)).componentInstance.deleted.emit();
+
+    expect(deleted).toBe(1);
   });
 
   it('marks active listings as success and others as warning', () => {

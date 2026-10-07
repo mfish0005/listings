@@ -6,6 +6,11 @@
   gap: 1.5rem;
 }
 
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .results {
   display: flex;
   flex-direction: column;

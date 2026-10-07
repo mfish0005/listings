@@ -1,7 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute, convertToParamMap, ParamMap, Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
+import { DeleteListingComponent } from '../../../../shared/listing-delete/delete-listing.component';
+import { ListingDeleteService } from '../../../../shared/listing-delete/listing-delete.service';
 import { LastSearch } from '../../../../shared/navigation/last-search';
 import { ListingDetail } from '../../models/listing-detail.model';
 import { ListingViewService } from '../../services/listing-view.service';
@@ -53,7 +56,8 @@ describe('ListingViewComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: { paramMap: paramMap.asObservable() } },
         { provide: Router, useValue: router },
-        { provide: ListingViewService, useValue: viewService }
+        { provide: ListingViewService, useValue: viewService },
+        { provide: ListingDeleteService, useValue: { delete: () => EMPTY } }
       ]
     }).compileComponents();
 
@@ -194,6 +198,44 @@ describe('ListingViewComponent', () => {
       failWith(new HttpErrorResponse({ status: 500 }));
 
       expect(editButton()).toBeUndefined();
+    });
+  });
+
+  describe('delete button', () => {
+    function deleteListing(): DeleteListingComponent | undefined {
+      return fixture.debugElement.query(By.directive(DeleteListingComponent))?.componentInstance;
+    }
+
+    it('is offered for the loaded listing', () => {
+      respondWith(createListingDetail({ id: 7, address: '9 Elm Ct' }));
+
+      expect(deleteListing()!.listingId()).toBe(7);
+      expect(deleteListing()!.address()).toBe('9 Elm Ct');
+    });
+
+    it('is not offered while loading', () => {
+      expect(deleteListing()).toBeUndefined();
+    });
+
+    it('is not offered when the listing could not be found', () => {
+      failWith(new HttpErrorResponse({ status: 404 }));
+
+      expect(deleteListing()).toBeUndefined();
+    });
+
+    it('is not offered when loading failed', () => {
+      failWith(new HttpErrorResponse({ status: 500 }));
+
+      expect(deleteListing()).toBeUndefined();
+    });
+
+    it('returns to the last search once deleted, without leaving the deleted listing in history', () => {
+      TestBed.inject(LastSearch).remember({ city: 'Vienna', page: '2' });
+      respondWith(createListingDetail({ id: 7 }));
+
+      deleteListing()!.deleted.emit();
+
+      expect(router.navigate).toHaveBeenCalledOnceWith(['/'], { queryParams: { city: 'Vienna', page: '2' }, replaceUrl: true });
     });
   });
 

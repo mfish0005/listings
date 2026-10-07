@@ -170,4 +170,27 @@ public class ListingsControllerTests
             service => service.UpdateAsync(It.IsAny<int>(), It.IsAny<ListingInput>(), It.IsAny<CancellationToken>()),
             Times.Never);
     }
+
+    [Fact]
+    public async Task Delete_Returns204_WhenTheListingWasDeleted()
+    {
+        _listingService.Setup(service => service.DeleteAsync(7, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+
+        var result = await _controller.Delete(7, CancellationToken.None);
+
+        Assert.IsType<NoContentResult>(result);
+    }
+
+    [Fact]
+    public async Task Delete_Returns404ProblemDetails_WhenTheListingDoesNotExist()
+    {
+        _listingService.Setup(service => service.DeleteAsync(7, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+
+        var result = await _controller.Delete(7, CancellationToken.None);
+
+        var notFound = Assert.IsType<NotFoundObjectResult>(result);
+        var problem = Assert.IsType<ProblemDetails>(notFound.Value);
+        Assert.Equal(404, problem.Status);
+        Assert.Contains("7", problem.Detail);
+    }
 }

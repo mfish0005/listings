@@ -1,5 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { listingStatuses } from './listing-form.model';
+import { todayAsIsoDate } from './today';
 
 export type Rule = (value: string) => string | null;
 
@@ -64,13 +65,6 @@ export const notAfter = (label: string, latest: () => string): Rule => value =>
 
 export const oneOf = (label: string, allowed: readonly string[]): Rule => value =>
   allowed.includes(value) ? null : `${label} must be one of: ${allowed.join(', ')}.`;
-
-export function todayAsIsoDate(now: Date = new Date()): string {
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-
-  return `${now.getFullYear()}-${month}-${day}`;
-}
 
 export const listingFieldRules = {
   address: [required('Address'), maxLength('Address', listingLimits.addressMaxLength)],

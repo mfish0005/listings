@@ -19,7 +19,9 @@ A listing search application built with a .NET 9 Web API and an Angular 20 UI. U
 - **UI states**: loading, no results, and error states. Server validation messages are shown to the user
 - **Shareable searches**: filters and page live in the URL, so refresh and back/forward work
 - **Listing detail**: each result links to `/listings/{id}`, a page with the price, key facts, description, listing date and a map link. There are no photos in the data, so the page is laid out as text and fact tiles instead of showing placeholder images. "Back to results" returns to the same filters and page. A missing id shows a not-found message, and other failures show an error with a retry.
-- **Edit listing**: the detail page has an "Edit listing" button that opens `/listings/{id}/edit`, a form pre-filled with the listing. The fields are checked in the browser with the same rules and messages as the API, and anything the server still rejects is shown under the matching field. Saving returns to the listing, and the page then shows the updated values. Source and listing ID are shown but cannot be changed. The form is a shared component, so adding a listing can reuse it.
+- **Edit listing**: the detail page has an "Edit listing" button that opens `/listings/{id}/edit`, a form pre-filled with the listing. The fields are checked in the browser with the same rules and messages as the API, and anything the server still rejects is shown under the matching field. Saving returns to the listing, and the page then shows the updated values. Source and listing ID are shown but cannot be changed.
+- **Add listing**: the "Add listing" button on the search page opens `/listings/new`, the same form, empty and listed today. You never enter an ID. The database assigns the numeric `id`, and the API sets the source to `MANUAL` with a generated `externalId`. After saving you land on the new listing. Cancel returns to the search you came from.
+- **Delete listing**: every search result has Edit and Delete beside View details, and the listing page has Edit listing and Delete. Delete asks for confirmation, naming the address, before anything is removed. After deleting from a result, the results refresh with the same filters, and deleting the last result on a later page moves you back a page. After deleting from the listing page you return to the search you came from. A listing that was already deleted elsewhere is treated as deleted, and any other failure is shown in the dialog so you can retry.
 - **Invalid input**: `minPrice` above `maxPrice`, a `pageSize` outside 1–100, a non-positive `targetBudget`, negative prices or bedrooms, and a `page` below 1 return `400` with Problem Details. A valid search that matches nothing, including an unknown city, returns `200` with an empty page, and the UI says that nothing matched.
 
 ## Scoring
@@ -47,13 +49,14 @@ Trade-offs:
 
 ## Managing Listings
 
-Besides search, the API can view, add and edit single listings.
+Besides search, the API can view, add, edit and delete single listings.
 
 | Method | Route | Result |
 | --- | --- | --- |
 | `GET` | `/api/listings/{id}` | `200` with the listing, or `404` |
 | `POST` | `/api/listings` | `201` with the new listing and a `Location` header, or `400` |
 | `PUT` | `/api/listings/{id}` | `200` with the updated listing, `400`, or `404` |
+| `DELETE` | `/api/listings/{id}` | `204` with no body, or `404` |
 
 `POST` and `PUT` take the same body. `PUT` replaces every editable field, so send the whole listing.
 
@@ -79,7 +82,8 @@ Besides search, the API can view, add and edit single listings.
 - **Limits:** `state` is 2 letters and `zip` is 5 digits, optionally followed by `-` and 4 digits. `price` and `sqft` are greater than 0. `bedrooms` runs from 0 to 20, and `bathrooms` is a whole or half number up to 20. `latitude` is within ±90 and `longitude` within ±180. `listedDate` cannot be in the future. `status` is `active`, `pending` or `sold`. Text is trimmed, `state` is upper-cased and `status` is lower-cased.
 - **Errors:** every problem is reported at once, as Problem Details with an `errors` entry per field. Validation runs before the lookup, so an invalid `PUT` to a missing id returns `400`.
 - **Identity:** `id`, `source` and `externalId` cannot be changed. A listing created through the API gets `source` `MANUAL` and a generated `externalId`, so it can never collide with a feed listing. Feed listings can be edited like any other.
-- **Not included:** deleting listings, and detecting duplicates when adding.
+- **Deleting:** a delete is permanent, since there is no soft delete or undo. Deleting an id that does not exist returns `404`, and the UI treats that as already deleted.
+- **Not included:** detecting duplicates when adding.
 
 ## Architecture
 
@@ -98,7 +102,7 @@ Besides search, the API can view, add and edit single listings.
 ### Frontend
 ```
 ┌─────────────────┐
-│  Listings App     ← Search, view and edit (features/listing-search, listing-view, listing-edit)
+│  Listings App     ← Search, view, add and edit (features/listing-search, listing-view, listing-create, listing-edit)
 ├─────────────────┤
 │  Aquarium App     ← Component library showcase
 ├─────────────────┤
@@ -180,6 +184,7 @@ Or edit the `Seed` section of `listings-server/Listings.Api/appsettings.json`.
 - The demo rows are the three lesson groups (17 listings) plus the filler. Every demo row has an external id starting with `DEMO-`.
 - The filler is deterministic. It spreads across 15 Virginia cities, with varied bedrooms, prices, ages and pet wording, so city, bedroom, price and keyword searches all return several pages.
 - Restarting with the same number changes nothing. A different number replaces the `DEMO-` rows and leaves the sample feed alone. Setting `0` removes them.
+- Deleting a demo listing changes the demo row count, so the next restart rebuilds the whole `DEMO-` set. That brings the deleted row back and discards any edits to demo rows. To get rid of demo rows for good, set `Seed:DemoListings` to `0`. Sample feed listings are only seeded into an empty table, so deleting those is permanent.
 - Demo dates are measured from the day the rows were created. Change the number (for example `301`) to rebuild them with fresh dates.
 
 ### Scoring lessons
@@ -261,8 +266,9 @@ listings/
 │   │   └── app/
 │   │       ├── features/listing-search/   # Search and results
 │   │       ├── features/listing-view/   # View one listing
+│   │       ├── features/listing-create/   # Add a listing
 │   │       ├── features/listing-edit/     # Edit one listing
-│   │       └── shared/                    # Listing form, HTTP and navigation helpers
+│   │       └── shared/                    # Listing form, delete, dialog, HTTP and navigation helpers
 │   ├── projects/
 │   │   ├── fish-ui/                # Component library and fish-styles
 │   │   └── aquarium/               # Component showcase

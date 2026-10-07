@@ -1,5 +1,5 @@
 import { FormControl } from '@angular/forms';
-import { listingLimits, listingFieldRules, notAfter, todayAsIsoDate, validate } from './listing-form.validators';
+import { listingLimits, listingFieldRules, notAfter, validate } from './listing-form.validators';
 
 function messageFor(field: keyof typeof listingFieldRules, value: string): string | null {
   const errors = validate(...listingFieldRules[field])(new FormControl(value));
@@ -127,10 +127,6 @@ describe('listing form validators', () => {
       expect(rule('2026-10-05')).toBeNull();
       expect(rule('2026-10-04')).toBeNull();
       expect(rule('2026-10-06')).toBe('Listed date cannot be in the future.');
-    });
-
-    it('formats today as an ISO date in local time', () => {
-      expect(todayAsIsoDate(new Date(2026, 0, 9, 23, 59))).toBe('2026-01-09');
     });
   });
 

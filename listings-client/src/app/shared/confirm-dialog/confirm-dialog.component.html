@@ -1,0 +1,18 @@
+<dialog #dialog class="confirm" [attr.aria-label]="heading()" (cancel)="onEscape($event)">
+  <div class="confirm__content">
+    <h2 class="is-size-5 has-text-weight-semibold is-marginless">{{ heading() }}</h2>
+
+    <div class="is-size-6 has-text-gray-darker">
+      <ng-content />
+    </div>
+
+    @if (error(); as message) {
+      <p class="confirm__error has-text-danger is-size-6 is-marginless" role="alert">{{ message }}</p>
+    }
+
+    <div class="confirm__actions">
+      <fish-button variant="secondary" [disabled]="busy()" (onClick)="dismissed.emit()">Cancel</fish-button>
+      <fish-button [variant]="confirmVariant()" [loading]="busy()" (onClick)="confirmed.emit()">{{ confirmLabel() }}</fish-button>
+    </div>
+  </div>
+</dialog>

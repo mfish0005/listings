@@ -1,3 +1,5 @@
+import { todayAsIsoDate } from './today';
+
 export interface ListingInput {
   address: string;
   city: string;
@@ -38,7 +40,7 @@ const emptyValues: ListingFormValues = {
 
 export function toFormValues(listing: ListingInput | null): ListingFormValues {
   if (listing === null) {
-    return { ...emptyValues };
+    return { ...emptyValues, listedDate: todayAsIsoDate() };
   }
 
   return {

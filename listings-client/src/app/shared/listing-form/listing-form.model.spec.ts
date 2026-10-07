@@ -1,4 +1,5 @@
 import { ListingFormValues, ListingInput, toFormValues, toListingInput } from './listing-form.model';
+import { todayAsIsoDate } from './today';
 
 const listing: ListingInput = {
   address: '123 Main St',
@@ -36,11 +37,12 @@ describe('listing form model', () => {
       expect(values.status).toBe('pending');
     });
 
-    it('starts a new listing blank but active', () => {
+    it('starts a new listing blank, listed today, and active', () => {
       const values = toFormValues(null);
 
       expect(values.address).toBe('');
       expect(values.price).toBe('');
+      expect(values.listedDate).toBe(todayAsIsoDate());
       expect(values.status).toBe('active');
     });
 

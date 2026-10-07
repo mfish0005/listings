@@ -3,7 +3,14 @@
 <div class="toolbar">
   <fish-button variant="secondary" (onClick)="goBack()">&larr; Back to results</fish-button>
   @if (current.status === 'success') {
-    <fish-button (onClick)="edit(current.listing)">Edit listing</fish-button>
+    <div class="toolbar__actions">
+      <fish-button (onClick)="edit(current.listing)">Edit listing</fish-button>
+      <app-delete-listing
+        [listingId]="current.listing.id"
+        [address]="current.listing.address"
+        (deleted)="onDeleted()"
+      />
+    </div>
   }
 </div>
 

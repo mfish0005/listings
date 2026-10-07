@@ -1,0 +1,29 @@
+@import '../../../styles/variables';
+
+.confirm {
+  width: calc(100% - 2rem);
+  max-width: 28rem;
+  padding: 0;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: fish-color("white");
+  color: inherit;
+  box-shadow: 0 10px 25px -3px fish-alpha("gray-darker", 30%);
+
+  &::backdrop {
+    background-color: fish-alpha("gray-darker", 50%);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+}

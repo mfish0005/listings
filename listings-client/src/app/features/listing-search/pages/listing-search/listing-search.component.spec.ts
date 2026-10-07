@@ -1,8 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Params, provideRouter, Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
+import { ListingDeleteService } from '../../../../shared/listing-delete/listing-delete.service';
 import { LastSearch } from '../../../../shared/navigation/last-search';
+import { ListingCardComponent } from '../../components/listing-card/listing-card.component';
 import { Listing, PagedResult } from '../../models/listing.model';
 import { ListingSearchQuery } from '../../models/listing-search-query.model';
 import { ListingService } from '../../services/listing.service';
@@ -58,7 +61,8 @@ describe('ListingSearchComponent', () => {
       providers: [
         provideRouter([]),
         { provide: ActivatedRoute, useValue: { queryParamMap: queryParams.asObservable() } },
-        { provide: ListingService, useValue: listingService }
+        { provide: ListingService, useValue: listingService },
+        { provide: ListingDeleteService, useValue: { delete: () => EMPTY } }
       ]
     }).compileComponents();
 
@@ -86,6 +90,14 @@ describe('ListingSearchComponent', () => {
     setQueryParams({});
 
     expect(TestBed.inject(LastSearch).queryParams).toEqual({});
+  });
+
+  it('opens the add listing page', () => {
+    const buttons = Array.from(fixture.nativeElement.querySelectorAll('.toolbar button') as NodeListOf<HTMLButtonElement>);
+
+    buttons.find(button => button.textContent?.includes('Add listing'))!.click();
+
+    expect(navigate).toHaveBeenCalledWith(['/listings/new']);
   });
 
   it('shows a spinner while loading', () => {
@@ -146,6 +158,44 @@ describe('ListingSearchComponent', () => {
     find<HTMLButtonElement>('[role="alert"] button')!.click();
 
     expect(searchCalls.length).toBe(callsBeforeRetry + 1);
+  });
+
+  describe('after a listing is deleted', () => {
+    function deleteFirstListing(): void {
+      fixture.debugElement.query(By.directive(ListingCardComponent)).componentInstance.deleted.emit();
+      fixture.detectChanges();
+    }
+
+    it('searches again with the same filters', () => {
+      setQueryParams({ city: 'Vienna', page: '2' });
+      respondWith(createPage({ results: [createListing({ id: 1 }), createListing({ id: 2 })], page: 2, totalCount: 12, totalPages: 3 }));
+      const callsBeforeDelete = searchCalls.length;
+
+      deleteFirstListing();
+
+      expect(searchCalls.length).toBe(callsBeforeDelete + 1);
+      expect(searchCalls[searchCalls.length - 1]).toEqual(jasmine.objectContaining({ city: 'Vienna', page: 2 }));
+      expect(navigate).not.toHaveBeenCalled();
+    });
+
+    it('moves to the previous page when the last listing on a later page was deleted', () => {
+      setQueryParams({ city: 'Vienna', page: '3' });
+      respondWith(createPage({ results: [createListing({ id: 9 })], page: 3, totalCount: 9, totalPages: 3 }));
+
+      deleteFirstListing();
+
+      expect(navigate).toHaveBeenCalledWith([], { queryParams: { city: 'Vienna', page: '2' } });
+    });
+
+    it('stays on the first page when its last listing was deleted', () => {
+      respondWith(createPage({ results: [createListing({ id: 1 })], page: 1, totalCount: 1, totalPages: 1 }));
+      const callsBeforeDelete = searchCalls.length;
+
+      deleteFirstListing();
+
+      expect(searchCalls.length).toBe(callsBeforeDelete + 1);
+      expect(navigate).not.toHaveBeenCalled();
+    });
   });
 
   it('navigates to the chosen page and keeps the filters', () => {

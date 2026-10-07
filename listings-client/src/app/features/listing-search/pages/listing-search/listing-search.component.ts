@@ -69,6 +69,23 @@ export class ListingSearchComponent {
     this.navigate({ ...this.query(), page });
   }
 
+  protected onListingDeleted(): void {
+    const current = this.state();
+    const query = this.query();
+    const removedLastResultOnPage = current.status === 'success' && current.page.results.length === 1 && query.page > 1;
+
+    if (removedLastResultOnPage) {
+      this.navigate({ ...query, page: query.page - 1 });
+      return;
+    }
+
+    this.refresh.next();
+  }
+
+  protected addListing(): void {
+    this.router.navigate(['/listings/new']);
+  }
+
   protected retry(): void {
     this.refresh.next();
   }

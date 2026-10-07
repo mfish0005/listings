@@ -1,3 +1,7 @@
+<div class="toolbar">
+  <fish-button (onClick)="addListing()">Add listing</fish-button>
+</div>
+
 <app-listing-filters [filters]="query()" (search)="onSearch($event)" />
 
 <section class="results" aria-live="polite">
@@ -29,7 +33,7 @@
 
         <ul class="results__list">
           @for (listing of result.results; track listing.id) {
-            <li><app-listing-card [listing]="listing" /></li>
+            <li><app-listing-card [listing]="listing" (deleted)="onListingDeleted()" /></li>
           }
         </ul>
       } @else {

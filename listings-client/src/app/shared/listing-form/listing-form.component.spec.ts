@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FieldErrors, ListingInput } from './listing-form.model';
 import { ListingFormComponent } from './listing-form.component';
-import { todayAsIsoDate } from './listing-form.validators';
+import { todayAsIsoDate } from './today';
 
 const listing: ListingInput = {
   address: '123 Main St',
@@ -228,11 +228,12 @@ describe('ListingFormComponent', () => {
   });
 
   describe('without a listing', () => {
-    it('starts blank with an active status', () => {
+    it('starts blank, listed today, and active', () => {
       fixture.detectChanges();
 
       expect(fieldInput('Address').value).toBe('');
       expect(fieldInput('Price').value).toBe('');
+      expect(fieldInput('Listed date').value).toBe(todayAsIsoDate());
       expect(text()).toContain('active');
     });
   });

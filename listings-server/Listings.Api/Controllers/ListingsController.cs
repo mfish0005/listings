@@ -77,6 +77,16 @@ public class ListingsController(
         return listing is null ? ListingNotFound(id) : Ok(listing);
     }
 
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        var deleted = await listingService.DeleteAsync(id, cancellationToken);
+
+        return deleted ? NoContent() : ListingNotFound(id);
+    }
+
     private NotFoundObjectResult ListingNotFound(int id) => NotFound(new ProblemDetails
     {
         Status = StatusCodes.Status404NotFound,

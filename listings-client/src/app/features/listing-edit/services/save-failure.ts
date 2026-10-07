@@ -1,10 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { toProblemMessage } from '../../../shared/http/problem-message';
-import { FieldErrors } from '../../../shared/listing-form/listing-form.model';
+import { ServerFailure, toServerFailure } from '../../../shared/listing-form/server-failure';
 
-export type SaveFailure =
-  | { status: 'gone' }
-  | { status: 'failed'; message: string; fieldErrors: FieldErrors };
+export type SaveFailure = { status: 'gone' } | ({ status: 'failed' } & ServerFailure);
 
 const unexpectedMessage = 'Something went wrong while saving this listing. Please try again.';
 
@@ -13,11 +10,5 @@ export function toSaveFailure(error: unknown): SaveFailure {
     return { status: 'gone' };
   }
 
-  const problem = error instanceof HttpErrorResponse ? (error.error as { errors?: FieldErrors } | null) : null;
-
-  return {
-    status: 'failed',
-    message: toProblemMessage(error, unexpectedMessage),
-    fieldErrors: problem?.errors ?? {}
-  };
+  return { status: 'failed', ...toServerFailure(error, unexpectedMessage) };
 }

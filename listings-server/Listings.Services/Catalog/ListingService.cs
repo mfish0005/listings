@@ -44,6 +44,21 @@ public class ListingService(ListingsDbContext context) : IListingService
         return ToDetail(listing);
     }
 
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var listing = await context.Listings.FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
+
+        if (listing is null)
+        {
+            return false;
+        }
+
+        context.Listings.Remove(listing);
+        await context.SaveChangesAsync(cancellationToken);
+
+        return true;
+    }
+
     private static void Apply(Listing listing, ListingInput input)
     {
         listing.Address = input.Address!.Trim();

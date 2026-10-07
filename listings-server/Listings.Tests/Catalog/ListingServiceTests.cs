@@ -194,4 +194,68 @@ public class ListingServiceTests
         Assert.Null(updated);
         Assert.Equal(0, await context.Listings.CountAsync());
     }
+
+    [Fact]
+    public async Task Delete_RemovesTheListing()
+    {
+        await using var context = CreateContext();
+        var service = new ListingService(context);
+        var created = await service.CreateAsync(ListingInputFactory.Valid());
+
+        var deleted = await service.DeleteAsync(created.Id);
+
+        Assert.True(deleted);
+        Assert.Null(await service.GetAsync(created.Id));
+        Assert.Equal(0, await context.Listings.CountAsync());
+    }
+
+    [Fact]
+    public async Task Delete_LeavesOtherListingsAlone()
+    {
+        await using var context = CreateContext();
+        var service = new ListingService(context);
+        var first = await service.CreateAsync(ListingInputFactory.Valid());
+        var second = await service.CreateAsync(ListingInputFactory.Valid());
+
+        await service.DeleteAsync(first.Id);
+
+        Assert.NotNull(await service.GetAsync(second.Id));
+        Assert.Equal(1, await context.Listings.CountAsync());
+    }
+
+    [Fact]
+    public async Task Delete_CanRemoveAFeedListing()
+    {
+        await using var context = CreateContext();
+        var feedListing = new Listing { Source = "MLS_A", ExternalId = "A1" };
+        context.Listings.Add(feedListing);
+        await context.SaveChangesAsync();
+
+        var deleted = await new ListingService(context).DeleteAsync(feedListing.Id);
+
+        Assert.True(deleted);
+        Assert.Equal(0, await context.Listings.CountAsync());
+    }
+
+    [Fact]
+    public async Task Delete_ReturnsFalse_WhenTheListingDoesNotExist()
+    {
+        await using var context = CreateContext();
+
+        var deleted = await new ListingService(context).DeleteAsync(999);
+
+        Assert.False(deleted);
+    }
+
+    [Fact]
+    public async Task Delete_CannotRemoveTheSameListingTwice()
+    {
+        await using var context = CreateContext();
+        var service = new ListingService(context);
+        var created = await service.CreateAsync(ListingInputFactory.Valid());
+
+        await service.DeleteAsync(created.Id);
+
+        Assert.False(await service.DeleteAsync(created.Id));
+    }
 }

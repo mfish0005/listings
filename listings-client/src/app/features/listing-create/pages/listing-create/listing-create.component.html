@@ -1,0 +1,24 @@
+@let outcome = state();
+
+<fish-card>
+  <div class="create__content">
+    <header class="create__header">
+      <h2 class="is-size-4 has-text-weight-semibold is-marginless">Add listing</h2>
+      <p class="is-size-7 has-text-gray-dark is-marginless">
+        The listing ID is assigned when you save, and the source is set to MANUAL.
+      </p>
+    </header>
+
+    @if (outcome.status === 'failed') {
+      <div class="create__alert has-text-danger is-size-6" role="alert">{{ outcome.message }}</div>
+    }
+
+    <app-listing-form
+      submitLabel="Add listing"
+      [submitting]="outcome.status === 'saving'"
+      [serverErrors]="outcome.status === 'failed' ? outcome.fieldErrors : noFieldErrors"
+      (save)="save($event)"
+      (cancel)="cancel()"
+    />
+  </div>
+</fish-card>

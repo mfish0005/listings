@@ -1,0 +1,14 @@
+<fish-button [variant]="variant()" [size]="size()" (onClick)="ask()">Delete</fish-button>
+
+<app-confirm-dialog
+  heading="Delete this listing?"
+  confirmLabel="Delete"
+  confirmVariant="danger"
+  [open]="dialogOpen()"
+  [busy]="deleting()"
+  [error]="errorMessage()"
+  (confirmed)="confirm()"
+  (dismissed)="cancel()"
+>
+  <p class="is-marginless"><strong>{{ address() }}</strong> will be permanently deleted. This can't be undone.</p>
+</app-confirm-dialog>

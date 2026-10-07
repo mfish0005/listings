@@ -27,6 +27,14 @@
       <fish-badge size="small" [rounded]="true" variant="secondary" [outline]="true">{{ listing().source }}</fish-badge>
       <span>Listed {{ listing().listedDate | date: 'mediumDate' }}</span>
       <a class="listing-card__details has-text-weight-semibold" [routerLink]="['/listings', listing().id]">View details</a>
+      <a class="listing-card__details has-text-weight-semibold" [routerLink]="['/listings', listing().id, 'edit']">Edit</a>
+      <app-delete-listing
+        variant="ghost"
+        size="small"
+        [listingId]="listing().id"
+        [address]="listing().address"
+        (deleted)="deleted.emit()"
+      />
       <span class="listing-card__score has-text-weight-semibold" title="Relevance score">
         Score {{ listing().relevanceScore | number: '1.2-2' }}
       </span>

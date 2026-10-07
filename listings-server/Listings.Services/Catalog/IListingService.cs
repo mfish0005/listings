@@ -9,4 +9,6 @@ public interface IListingService
     Task<ListingDetail> CreateAsync(ListingInput input, CancellationToken cancellationToken = default);
 
     Task<ListingDetail?> UpdateAsync(int id, ListingInput input, CancellationToken cancellationToken = default);
+
+    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
 }
