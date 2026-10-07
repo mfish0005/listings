@@ -15,9 +15,10 @@ A listing search application built with a .NET 9 Web API and an Angular 20 UI. U
 - **Filters**: `minPrice`, `maxPrice`, `minBedrooms`, `city`, and a free-text `keyword` matched against the description
 - **Matching**: `city` matches the start of the name, ignoring case, so `Alex` finds Alexandria and `Fa` finds Fairfax and Falls Church. `keyword` is split into words, and every word must appear somewhere in the description, in any order, so `metro condo` and `condo metro` find the same listings. Each word is a substring match, so `pet` also matches "carpet". Neither filter tolerates typos. That would need full-text search, which is more than this service needs. `%` and `_` are matched literally.
 - **Ranking**: a relevance score from `targetBudget` and listing recency (see [Scoring](#scoring))
-- **Pagination**: numbered pager with a configurable page size
+- **Pagination**: numbered pager, 4 results per page by default, configurable from 1 to 100
 - **UI states**: loading, no results, and error states. Server validation messages are shown to the user
 - **Shareable searches**: filters and page live in the URL, so refresh and back/forward work
+- **Listing detail**: each result links to `/listings/{id}`, a page with the price, key facts, description, listing date and a map link. There are no photos in the data, so the page is laid out as text and fact tiles instead of showing placeholder images. "Back to results" returns to the same filters and page. A missing id shows a not-found message, and other failures show an error with a retry.
 - **Invalid input**: `minPrice` above `maxPrice`, a `pageSize` outside 1–100, a non-positive `targetBudget`, negative prices or bedrooms, and a `page` below 1 return `400` with Problem Details. A valid search that matches nothing, including an unknown city, returns `200` with an empty page, and the UI says that nothing matched.
 
 ## Scoring

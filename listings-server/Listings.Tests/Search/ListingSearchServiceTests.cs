@@ -43,7 +43,7 @@ public class ListingSearchServiceTests
         Assert.Equal(3, page.TotalPages);
         Assert.Equal(1, page.Page);
         Assert.Equal(ListingSearchLimits.DefaultPageSize, page.PageSize);
-        Assert.Equal(5, page.Results.Count);
+        Assert.Equal(ListingSearchLimits.DefaultPageSize, page.Results.Count);
     }
 
     [Fact]

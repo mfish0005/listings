@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, convertToParamMap, Params, Router } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, Params, provideRouter, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Listing, PagedResult } from '../../models/listing.model';
 import { ListingSearchQuery } from '../../models/listing-search-query.model';
@@ -13,7 +13,7 @@ describe('ListingSearchComponent', () => {
   let queryParams: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
   let searchResponses: Subject<PagedResult<Listing>>[];
   let searchCalls: ListingSearchQuery[];
-  let router: jasmine.SpyObj<Router>;
+  let navigate: jasmine.Spy;
 
   const listingService = {
     search: (query: ListingSearchQuery): Observable<PagedResult<Listing>> => {
@@ -51,17 +51,17 @@ describe('ListingSearchComponent', () => {
     searchCalls = [];
     searchResponses = [];
     queryParams = new BehaviorSubject(convertToParamMap({}));
-    router = jasmine.createSpyObj<Router>('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       imports: [ListingSearchComponent],
       providers: [
+        provideRouter([]),
         { provide: ActivatedRoute, useValue: { queryParamMap: queryParams.asObservable() } },
-        { provide: Router, useValue: router },
         { provide: ListingService, useValue: listingService }
       ]
     }).compileComponents();
 
+    navigate = spyOn(TestBed.inject(Router), 'navigate').and.resolveTo(true);
     fixture = TestBed.createComponent(ListingSearchComponent);
     fixture.detectChanges();
   });
@@ -140,7 +140,7 @@ describe('ListingSearchComponent', () => {
 
     find<HTMLButtonElement>('button[aria-label="Page 2"]')!.click();
 
-    expect(router.navigate).toHaveBeenCalledWith([], { queryParams: { city: 'Vienna', page: '2' } });
+    expect(navigate).toHaveBeenCalledWith([], { queryParams: { city: 'Vienna', page: '2' } });
   });
 
   it('ignores a stale response when a newer search starts', () => {

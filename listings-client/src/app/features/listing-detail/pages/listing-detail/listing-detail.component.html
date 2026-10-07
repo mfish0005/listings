@@ -1,0 +1,113 @@
+<div>
+  <fish-button variant="secondary" (onClick)="goBack()">&larr; Back to results</fish-button>
+</div>
+
+<section class="content" aria-live="polite">
+  @let current = state();
+
+  @if (current.status === 'loading') {
+    <div class="status">
+      <fish-spinner size="large" label="Loading listing" />
+    </div>
+  } @else if (current.status === 'not-found') {
+    <div class="status">
+      <h2 class="is-size-5 is-marginless">We couldn't find that listing</h2>
+      <p class="is-size-6 has-text-gray-dark is-marginless">It may have been removed, or the link may be wrong.</p>
+    </div>
+  } @else if (current.status === 'error') {
+    <div class="status status--error" role="alert">
+      <h2 class="is-size-5 has-text-danger is-marginless">We couldn't load this listing</h2>
+      <p class="is-size-6 is-marginless">{{ current.message }}</p>
+      <fish-button variant="secondary" (onClick)="retry()">Try again</fish-button>
+    </div>
+  } @else {
+    @let listing = current.listing;
+
+    <fish-card>
+      <article class="summary">
+        <header class="summary__header">
+          <div>
+            <h2 class="is-size-3 has-text-weight-semibold is-marginless">{{ listing.address }}</h2>
+            <p class="is-size-6 has-text-gray-dark is-marginless">
+              {{ listing.city }}, {{ listing.state }} {{ listing.zip }}
+            </p>
+          </div>
+          <div class="summary__price">
+            <p class="is-size-2 has-text-weight-bold has-text-primary is-marginless">
+              {{ listing.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+            </p>
+            <fish-badge size="small" [rounded]="true" [variant]="statusVariant(listing)">{{ listing.status }}</fish-badge>
+          </div>
+        </header>
+
+        <dl class="facts">
+          <div class="facts__item">
+            <dt class="is-size-7 has-text-gray-dark">Bedrooms</dt>
+            <dd class="is-size-4 has-text-weight-semibold">{{ listing.bedrooms }}</dd>
+          </div>
+          <div class="facts__item">
+            <dt class="is-size-7 has-text-gray-dark">Bathrooms</dt>
+            <dd class="is-size-4 has-text-weight-semibold">{{ listing.bathrooms }}</dd>
+          </div>
+          <div class="facts__item">
+            <dt class="is-size-7 has-text-gray-dark">Square feet</dt>
+            <dd class="is-size-4 has-text-weight-semibold">{{ listing.sqft | number }}</dd>
+          </div>
+          <div class="facts__item">
+            <dt class="is-size-7 has-text-gray-dark">Price per sq ft</dt>
+            <dd class="is-size-4 has-text-weight-semibold">
+              @if (pricePerSqft(listing); as perSqft) {
+                {{ perSqft | currency: 'USD' : 'symbol' : '1.0-0' }}
+              } @else {
+                &mdash;
+              }
+            </dd>
+          </div>
+        </dl>
+      </article>
+    </fish-card>
+
+    <fish-card>
+      <section class="about">
+        <h3 class="is-size-5 has-text-weight-semibold is-marginless">About this home</h3>
+        <p class="is-size-6 has-text-gray-darker is-marginless">{{ listing.description }}</p>
+      </section>
+    </fish-card>
+
+    <div class="more">
+      <fish-card>
+        <section class="about">
+          <h3 class="is-size-5 has-text-weight-semibold is-marginless">Listing details</h3>
+          <dl class="details">
+            <dt class="is-size-7 has-text-gray-dark">Listed</dt>
+            <dd class="is-size-6">
+              {{ listing.listedDate | date: 'mediumDate' }} ({{ describeListingAge(listing.listedDate) }})
+            </dd>
+            <dt class="is-size-7 has-text-gray-dark">Source</dt>
+            <dd class="is-size-6">{{ listing.source }}</dd>
+            <dt class="is-size-7 has-text-gray-dark">Listing ID</dt>
+            <dd class="is-size-6">{{ listing.externalId }}</dd>
+          </dl>
+        </section>
+      </fish-card>
+
+      <fish-card>
+        <section class="about">
+          <h3 class="is-size-5 has-text-weight-semibold is-marginless">Location</h3>
+          <dl class="details">
+            <dt class="is-size-7 has-text-gray-dark">Latitude</dt>
+            <dd class="is-size-6">{{ listing.latitude | number: '1.4-4' }}</dd>
+            <dt class="is-size-7 has-text-gray-dark">Longitude</dt>
+            <dd class="is-size-6">{{ listing.longitude | number: '1.4-4' }}</dd>
+            <dt class="is-size-7 has-text-gray-dark">Map</dt>
+            <dd class="is-size-6">
+              <a class="map-link" [href]="mapUrl(listing)" target="_blank" rel="noopener noreferrer">
+                Open in OpenStreetMap
+              </a>
+            </dd>
+          </dl>
+        </section>
+      </fish-card>
+    </div>
+  }
+</section>

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { createListing } from '../../testing/listing-factory';
 import { Listing } from '../../models/listing.model';
 import { ListingCardComponent } from './listing-card.component';
@@ -13,7 +14,10 @@ describe('ListingCardComponent', () => {
   }
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [ListingCardComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [ListingCardComponent],
+      providers: [provideRouter([])]
+    }).compileComponents();
     fixture = TestBed.createComponent(ListingCardComponent);
   });
 
@@ -26,6 +30,16 @@ describe('ListingCardComponent', () => {
     expect(text).toContain('2,100 sqft');
     expect(text).toContain('Score 0.83');
     expect(text).toContain('MLS_A');
+  });
+
+  it('links the address and a view details link to the listing page', () => {
+    render(createListing({ id: 42 }));
+
+    const links = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('a')) as HTMLAnchorElement[];
+    expect(links.length).toBe(2);
+    links.forEach(link => expect(link.getAttribute('href')).toBe('/listings/42'));
+    expect(links[0].textContent).toContain('123 Main St');
+    expect(links[1].textContent).toContain('View details');
   });
 
   it('marks active listings as success and others as warning', () => {
