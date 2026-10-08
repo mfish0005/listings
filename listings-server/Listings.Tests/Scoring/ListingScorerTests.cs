@@ -54,11 +54,20 @@ public class ListingScorerTests
     }
 
     [Fact]
-    public void BudgetFit_IsGentlyReduced_WhenUnderBudget()
+    public void BudgetFit_IsOne_WhenUnderBudget()
     {
         var score = _scorer.Score(250_000, DaysAgo(0), Budget);
 
-        Assert.Equal(0.75, score.BudgetFit!.Value, Precision);
+        Assert.Equal(1.0, score.BudgetFit!.Value, Precision);
+    }
+
+    [Fact]
+    public void Relevance_IsTheSame_ForAnyPriceAtOrUnderBudget_WhenListedTheSameDay()
+    {
+        var cheap = _scorer.Score(250_000, DaysAgo(5), Budget);
+        var onBudget = _scorer.Score(Budget, DaysAgo(5), Budget);
+
+        Assert.Equal(onBudget.Relevance, cheap.Relevance);
     }
 
     [Fact]

@@ -31,9 +31,8 @@ Each result gets a relevance score from 0 to 1, rounded to 4 decimal places. Whe
 
 **Budget fit** weighs 0.7, and is calculated only when a budget is set. Let `ratio = price / targetBudget`.
 
-- At the budget, fit is 1.
-- Under the budget, fit is `1 - 0.5 * (1 - ratio)`. A home at half the budget scores 0.75. A lower price is a mild penalty, because the buyer can still afford it.
-- Over the budget, fit is `max(0, 2 - ratio)`. It falls in a straight line and reaches 0 at twice the budget. A home 20% over the budget scores 0.8, while a home 20% under scores 0.9.
+- At or under the budget, fit is 1. A cheaper home is not penalized, because the buyer can still afford it.
+- Over the budget, fit is `max(0, 2 - ratio)`. It falls in a straight line and reaches 0 at twice the budget. A home 20% over the budget scores 0.8, while a home 20% under scores 1.
 
 **Recency** weighs 0.3, and is the whole score when no budget is given: `1 / (1 + ageInDays / 30)`. Listed today scores 1. Listed 30 days ago scores 0.5. Older listings approach 0 and never reach it, so a very old listing can still surface when nothing newer fits. A future `listedDate` is treated as today.
 
@@ -44,7 +43,7 @@ Ties break in this order: higher relevance, newer `listedDate`, lower price, the
 Trade-offs:
 
 - Budget outweighs recency because a search with a target budget is about whether the buyer can afford the home. Recency separates homes that fit about equally. Both weights are constants in `ScoringOptions`.
-- Going over budget is penalized harder than coming in under it. A symmetric distance would treat $400k and $600k as equal against a $500k budget.
+- Going over budget is penalized, and coming in under it is not. A symmetric distance would treat $400k and $600k as equal against a $500k budget. The cost is that every price at or under the budget has the same fit, so recency and then the lower price decide the order among them.
 - Recency decays smoothly. A listing from 31 days ago is only slightly behind one from 30 days ago. The 30-day scale matches this sample, where every listing is a few weeks to a couple of months old.
 - Filtering runs in the database. Scoring and paging run in memory on the matches. That is the right shape for 12 listings. A large feed would need the score in the query, so a page does not require loading every match first.
 
@@ -221,11 +220,11 @@ Each lesson lives in its own city, so a city search isolates it. Enter the city 
 
 | Rank | Price | Budget fit | Score | Why |
 | --- | --- | --- | --- | --- |
-| 1 | $500,000 (1.0×) | 1.00 | 0.925 | Exactly on budget. |
-| 2 | $400,000 (0.8×) | 0.90 | 0.855 | Under budget is a mild penalty. |
-| 3 | $550,000 (1.1×) | 0.90 | 0.855 | Ties with the row above. The cheaper home wins the tie. |
-| 4 | $600,000 (1.2×) | 0.80 | 0.785 | Over budget falls faster. |
-| 5 | $250,000 (0.5×) | 0.75 | 0.750 | Half the budget loses 0.25 of fit, slightly more than 1.2× over loses (0.20). |
+| 1 | $250,000 (0.5×) | 1.00 | 0.925 | Under budget is a full fit. It ties with the next two, and the lowest price wins the tie. |
+| 2 | $400,000 (0.8×) | 1.00 | 0.925 | Ties with the row above. |
+| 3 | $500,000 (1.0×) | 1.00 | 0.925 | Exactly on budget. |
+| 4 | $550,000 (1.1×) | 0.90 | 0.855 | Over budget starts losing fit. |
+| 5 | $600,000 (1.2×) | 0.80 | 0.785 | |
 | 6 | $750,000 (1.5×) | 0.50 | 0.575 | |
 | 7 | $1,000,000 (2.0×) | 0.00 | 0.225 | Twice the budget scores zero fit. Only recency is left. |
 
@@ -247,7 +246,7 @@ Try it without a budget as well. The score is then just the recency column.
 | Rank | Listing | Budget fit | Recency | Score |
 | --- | --- | --- | --- | --- |
 | 1 | 1.2× budget, listed yesterday | 0.80 | 0.9677 | 0.8503 |
-| 2 | 0.8× budget, listed 30 days ago | 0.90 | 0.5000 | 0.7800 |
+| 2 | 0.8× budget, listed 30 days ago | 1.00 | 0.5000 | 0.8500 |
 | 3 | On budget, listed 120 days ago | 1.00 | 0.2000 | 0.7600 |
 | 4 | 1.5× budget, listed today | 0.50 | 1.0000 | 0.6500 |
 

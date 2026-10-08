@@ -221,7 +221,7 @@ public class ListingSearchServiceTests
     }
 
     [Fact]
-    public async Task WithBudget_ClosestToBudgetComesFirst_WhenListedOnTheSameDay()
+    public async Task WithBudget_AtOrUnderBudgetComesBeforeOverBudget_WhenListedOnTheSameDay()
     {
         var page = await Search(
             new ListingSearchQuery { TargetBudget = 500_000 },
@@ -229,7 +229,7 @@ public class ListingSearchServiceTests
             ListingFactory.Create(externalId: "UNDER", price: 400_000),
             ListingFactory.Create(externalId: "EXACT", price: 500_000));
 
-        Assert.Equal(["EXACT", "UNDER", "OVER"], ExternalIds(page));
+        Assert.Equal(["UNDER", "EXACT", "OVER"], ExternalIds(page));
     }
 
     [Fact]

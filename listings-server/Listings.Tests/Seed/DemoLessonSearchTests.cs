@@ -35,25 +35,25 @@ public class DemoLessonSearchTests
         page.Results.Select(result => result.ExternalId.Replace(DemoListingGenerator.ExternalIdPrefix, string.Empty)).ToArray();
 
     [Fact]
-    public async Task PriceLesson_RanksByHowCloseThePriceIsToTheBudget()
+    public async Task PriceLesson_RanksEverythingAtOrUnderBudgetAheadOfOverBudget()
     {
         var page = await SearchLesson(DemoListingGenerator.PriceLessonCity, Budget);
 
-        Assert.Equal(["PRICE-3", "PRICE-2", "PRICE-4", "PRICE-5", "PRICE-1", "PRICE-6", "PRICE-7"], LessonIds(page));
+        Assert.Equal(["PRICE-1", "PRICE-2", "PRICE-3", "PRICE-4", "PRICE-5", "PRICE-6", "PRICE-7"], LessonIds(page));
     }
 
     [Fact]
-    public async Task PriceLesson_IsKindToUnderBudgetAndHarshToOverBudget()
+    public async Task PriceLesson_FitsEverythingAtOrUnderBudgetFullyAndPenalisesOverBudget()
     {
         var page = await SearchLesson(DemoListingGenerator.PriceLessonCity, Budget);
 
         var fitById = page.Results.ToDictionary(r => r.ExternalId, r => r.BudgetFit);
 
+        Assert.Equal(1.0, fitById["DEMO-PRICE-1"]);
+        Assert.Equal(1.0, fitById["DEMO-PRICE-2"]);
         Assert.Equal(1.0, fitById["DEMO-PRICE-3"]);
-        Assert.Equal(0.9, fitById["DEMO-PRICE-2"]);
         Assert.Equal(0.9, fitById["DEMO-PRICE-4"]);
         Assert.Equal(0.8, fitById["DEMO-PRICE-5"]);
-        Assert.Equal(0.75, fitById["DEMO-PRICE-1"]);
         Assert.Equal(0.5, fitById["DEMO-PRICE-6"]);
         Assert.Equal(0.0, fitById["DEMO-PRICE-7"]);
     }
@@ -63,12 +63,11 @@ public class DemoLessonSearchTests
     {
         var page = await SearchLesson(DemoListingGenerator.PriceLessonCity, Budget);
 
-        var underBudget = page.Results.Single(r => r.ExternalId == "DEMO-PRICE-2");
-        var overBudget = page.Results.Single(r => r.ExternalId == "DEMO-PRICE-4");
+        var atOrUnderBudget = page.Results.Where(r => r.BudgetFit == 1.0).ToList();
 
-        Assert.Equal(underBudget.RelevanceScore, overBudget.RelevanceScore);
-        Assert.True(underBudget.Price < overBudget.Price);
-        Assert.Equal(["PRICE-2", "PRICE-4"], LessonIds(page).Where(id => id is "PRICE-2" or "PRICE-4"));
+        Assert.Equal(3, atOrUnderBudget.Count);
+        Assert.Single(atOrUnderBudget.Select(r => r.RelevanceScore).Distinct());
+        Assert.Equal(atOrUnderBudget.OrderBy(r => r.Price), atOrUnderBudget);
     }
 
     [Fact]

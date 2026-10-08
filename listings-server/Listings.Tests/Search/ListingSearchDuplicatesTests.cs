@@ -41,14 +41,14 @@ public class ListingSearchDuplicatesTests
     [Fact]
     public async Task TheRepresentativeFollowsTheTargetBudget()
     {
-        var cheaper = ListingFactory.Create(source: "MLS_A", externalId: "A1", address: "123 Main St", price: 450_000, listedDate: "2026-09-20");
-        var dearer = ListingFactory.Create(source: "MLS_B", externalId: "B7", address: "123 Main Street", price: 470_000, listedDate: "2026-09-20");
+        var cheaperOlder = ListingFactory.Create(source: "MLS_A", externalId: "A1", address: "123 Main St", price: 450_000, listedDate: "2026-09-05");
+        var dearerNewer = ListingFactory.Create(source: "MLS_B", externalId: "B7", address: "123 Main Street", price: 520_000, listedDate: "2026-09-25");
 
-        var nearCheaper = await SearchHarness.Search(new ListingSearchQuery { TargetBudget = 445_000 }, cheaper, dearer);
-        var nearDearer = await SearchHarness.Search(new ListingSearchQuery { TargetBudget = 475_000 }, cheaper, dearer);
+        var budgetFitsCheaper = await SearchHarness.Search(new ListingSearchQuery { TargetBudget = 450_000 }, cheaperOlder, dearerNewer);
+        var budgetFitsBoth = await SearchHarness.Search(new ListingSearchQuery { TargetBudget = 600_000 }, cheaperOlder, dearerNewer);
 
-        Assert.Equal(["A1"], ExternalIds(nearCheaper));
-        Assert.Equal(["B7"], ExternalIds(nearDearer));
+        Assert.Equal(["A1"], ExternalIds(budgetFitsCheaper));
+        Assert.Equal(["B7"], ExternalIds(budgetFitsBoth));
     }
 
     [Fact]

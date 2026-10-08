@@ -29,9 +29,7 @@ public class ListingScorer(ScoringOptions options, TimeProvider timeProvider)
     {
         var priceToBudget = (double)(price / targetBudget);
 
-        return priceToBudget <= 1
-            ? 1 - options.UnderBudgetSlope * (1 - priceToBudget)
-            : Math.Max(0, 2 - priceToBudget);
+        return priceToBudget <= 1 ? 1 : Math.Max(0, 2 - priceToBudget);
     }
 
     private double Round(double value) => Math.Round(value, options.Decimals, MidpointRounding.AwayFromZero);
