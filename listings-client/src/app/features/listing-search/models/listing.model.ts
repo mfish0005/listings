@@ -1,3 +1,11 @@
+export interface ListingAlternate {
+  id: number;
+  source: string;
+  externalId: string;
+  price: number;
+  listedDate: string;
+}
+
 export interface Listing {
   id: number;
   source: string;
@@ -18,6 +26,7 @@ export interface Listing {
   relevanceScore: number;
   budgetFit: number | null;
   recency: number;
+  alsoListedBy: ListingAlternate[];
 }
 
 export interface PagedResult<T> {

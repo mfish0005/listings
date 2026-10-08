@@ -21,8 +21,17 @@ public class ListingSearchService(ListingsDbContext context, ListingScorer score
             .ThenBy(result => result.ExternalId, StringComparer.Ordinal)
             .ToList();
 
-        return ToPage(ranked, query.Page, query.PageSize);
+        return ToPage(query.IncludeDuplicates ? ranked : CollapseDuplicates(ranked), query.Page, query.PageSize);
     }
+
+    private static List<ListingResult> CollapseDuplicates(List<ListingResult> ranked) =>
+        ranked
+            .GroupBy(result => PropertyKey.For(result.Address, result.City, result.State))
+            .Select(group => group.First() with { AlsoListedBy = group.Skip(1).Select(ToAlternate).ToList() })
+            .ToList();
+
+    private static ListingAlternate ToAlternate(ListingResult result) =>
+        new(result.Id, result.Source, result.ExternalId, result.Price, result.ListedDate);
 
     private static IQueryable<Listing> ApplyFilters(IQueryable<Listing> listings, ListingSearchQuery query)
     {
@@ -89,7 +98,8 @@ public class ListingSearchService(ListingsDbContext context, ListingScorer score
         listing.Description,
         score.Relevance,
         score.BudgetFit,
-        score.Recency);
+        score.Recency,
+        []);
 
     private static string? Clean(string? value) => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
 

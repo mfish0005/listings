@@ -8,6 +8,7 @@ public record ListingSearchQuery
     public string? City { get; init; }
     public string? Keyword { get; init; }
     public decimal? TargetBudget { get; init; }
+    public bool IncludeDuplicates { get; init; }
     public int Page { get; init; } = ListingSearchLimits.DefaultPage;
     public int PageSize { get; init; } = ListingSearchLimits.DefaultPageSize;
 }

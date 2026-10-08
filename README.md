@@ -15,6 +15,7 @@ A listing search application built with a .NET 9 Web API and an Angular 20 UI. U
 - **Filters**: `minPrice`, `maxPrice`, `minBedrooms`, `city`, and a free-text `keyword` matched against the description
 - **Matching**: `city` matches the start of the name, ignoring case, so `Alex` finds Alexandria and `Fa` finds Fairfax and Falls Church. `keyword` is split into words, and every word must appear somewhere in the description, in any order, so `metro condo` and `condo metro` find the same listings. Each word is a substring match, so `pet` also matches "carpet". Neither filter tolerates typos. That would need full-text search, which is more than this service needs. `%` and `_` are matched literally.
 - **Ranking**: a relevance score from `targetBudget` and listing recency (see [Scoring](#scoring))
+- **Duplicate listings**: the same home often arrives from more than one feed. Search shows it once, using the listing that scores best, and notes the others on the card (see [Duplicate listings](#duplicate-listings))
 - **Pagination**: numbered pager, 4 results per page by default, configurable from 1 to 100
 - **UI states**: loading, no results, and error states. Server validation messages are shown to the user
 - **Shareable searches**: filters and page live in the URL, so refresh and back/forward work
@@ -38,7 +39,7 @@ Each result gets a relevance score from 0 to 1, rounded to 4 decimal places. Whe
 
 With a budget, `relevance = 0.7 * budgetFit + 0.3 * recency`. Without one, `relevance = recency` and `budgetFit` is omitted.
 
-Ties break in this order: higher relevance, newer `listedDate`, lower price, then `source` and the feed id. Feed ids are unique per source, not across sources, so two feeds can both describe the same home and both stay in the results. The last two keys keep that order stable.
+Ties break in this order: higher relevance, newer `listedDate`, lower price, then `source` and the feed id. Feed ids are unique per source, not across sources, so the last two keys are what keep the order stable when everything else is equal. A home listed by two feeds is collapsed into one result after scoring (see [Duplicate listings](#duplicate-listings)).
 
 Trade-offs:
 
@@ -46,6 +47,31 @@ Trade-offs:
 - Going over budget is penalized harder than coming in under it. A symmetric distance would treat $400k and $600k as equal against a $500k budget.
 - Recency decays smoothly. A listing from 31 days ago is only slightly behind one from 30 days ago. The 30-day scale matches this sample, where every listing is a few weeks to a couple of months old.
 - Filtering runs in the database. Scoring and paging run in memory on the matches. That is the right shape for 12 listings. A large feed would need the score in the query, so a page does not require loading every match first.
+
+## Duplicate listings
+
+Feeds overlap. In the sample data, 4 of the 12 listings are another feed's copy of a home that is already there, with a slightly different price, date, description and address wording. Showing both would put the same home in the results twice, so search collapses them. The sample feed becomes 8 homes.
+
+**Matching.** Two listings are the same home when they have the same key, built by `PropertyKey` (`listings-server/Listings.Services/Search`) from the address, city and state:
+
+- Case, spacing and punctuation are ignored, so `55 ELM Ct.` and `55 Elm Court` match.
+- Street words are spelled out: `St` becomes `street`, `Ave` becomes `avenue`, and likewise `Rd`, `Dr`, `Ln`, `Ct`, `Blvd`, `Cir`, `Pl`, `Ter`, `Pkwy`, `Hwy`, plus the directions `N`, `SW` and so on.
+- The unit is kept, but how it is written is not: `Apt 4B`, `Unit 4b`, `#4B`, `Suite 4B` and `Ste 4B` are all `4b`. Different units in one building stay separate homes, because merging two flats would be worse than showing a duplicate.
+- Zip is left out of the key, because feeds disagree about it. In the sample, `456 Oak Ave` is in 22150 for one feed and 22151 for the other.
+
+**Which listing is shown.** Search scores and sorts every matching listing first, then keeps the first listing for each home. So the one shown is the one that ranks best for that search: with a `targetBudget` it is the closer price, without one it is the newer listing, and ties fall to the usual lower price, source and id. The home takes the position of its best listing in the ranking.
+
+**What the user sees.** The card shows that listing, with "Also listed by MLS_B at $452,000" linking to each of the others. Each result also carries `alsoListedBy` in the API, with the `id`, `source`, `externalId`, `price` and `listedDate` of the others. The filter form has "Show duplicates", sent as `includeDuplicates=true`, which turns collapsing off. The option is part of the URL, so it survives a refresh.
+
+**Interaction with the rest of search:**
+
+- Filters run first. With `minPrice=451000`, a home whose $450,000 listing is filtered out is shown through its $452,000 listing, and `alsoListedBy` only names listings that matched.
+- Paging and `totalCount` count homes, not listings, so "Showing 1–4 of 8" matches what the pager walks through.
+- The collapse runs on the same in-memory list that is scored, so it adds no query. At scale the key would be computed when a listing is ingested and stored in an indexed column, so the database could do the grouping.
+
+**What it does not catch.** The key only matches addresses that differ in wording the rules know about. A typo, an unusual abbreviation, or a unit written without `Apt`, `Unit`, `Suite` or `#` is treated as a different home. The next step would be a second signal: the same coordinates (rounded to a few metres) together with the same bedrooms, bathrooms and square footage. Descriptions and prices are never compared, since feeds legitimately differ there. For example, 789 Pine Rd is "no pets" in one feed and "pets not permitted" in the other. The description shown is the shown listing's own.
+
+Listings added through the API are treated like any other. If one has the same address as an existing listing, search shows the two as a single home. The add form does not warn about that.
 
 ## Managing Listings
 
@@ -165,7 +191,7 @@ The Aquarium app is available at `http://localhost:4201`. It consumes the built 
 
 ## Demo Data and Example Searches
 
-The sample feed has 12 listings, which is too few to see the pager on a filtered search. An opt-in setting adds more, and it also adds three small groups of listings that make the scoring easy to follow.
+The sample feed has 12 listings (8 distinct homes, see [Duplicate listings](#duplicate-listings)), which is too few to see the pager on a filtered search. An opt-in setting adds more, and it also adds three small groups of listings that make the scoring easy to follow.
 
 ### Turning it on
 

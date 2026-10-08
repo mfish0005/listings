@@ -47,6 +47,27 @@ describe('ListingCardComponent', () => {
     expect(links[1].textContent).toContain('View details');
   });
 
+  it('says nothing about other feeds when the home is listed once', () => {
+    const text = render(createListing());
+
+    expect(text).not.toContain('Also listed by');
+  });
+
+  it('shows where else the home is listed, linking to each listing', () => {
+    const text = render(createListing({
+      alsoListedBy: [
+        { id: 7, source: 'MLS_B', externalId: 'B7', price: 452000, listedDate: '2026-08-27' },
+        { id: 9, source: 'MLS_C', externalId: 'C3', price: 449500, listedDate: '2026-08-20' }
+      ]
+    }));
+
+    const links = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('.listing-card__other')) as HTMLAnchorElement[];
+
+    expect(text).toContain('Also listed by');
+    expect(links.map(link => link.textContent?.trim())).toEqual(['MLS_B at $452,000', 'MLS_C at $449,500']);
+    expect(links.map(link => link.getAttribute('href'))).toEqual(['/listings/7', '/listings/9']);
+  });
+
   it('links to the edit page for the listing', () => {
     render(createListing({ id: 42 }));
 

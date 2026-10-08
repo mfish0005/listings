@@ -26,6 +26,11 @@ describe('listing search params', () => {
       expect(toQueryString({ ...emptyFilters, page: 1 })).toEqual({});
       expect(toQueryString({ ...emptyFilters, page: 3 })).toEqual({ page: '3' });
     });
+
+    it('includes the duplicates option only when it is on', () => {
+      expect(toQueryString({ ...emptyFilters, includeDuplicates: true, page: 1 })).toEqual({ includeDuplicates: 'true' });
+      expect(toQueryString({ ...emptyFilters, includeDuplicates: false, page: 1 })).toEqual({});
+    });
   });
 
   describe('fromParamMap', () => {
@@ -37,6 +42,14 @@ describe('listing search params', () => {
 
     it('defaults to the first page and empty filters', () => {
       expect(fromParamMap(convertToParamMap({}))).toEqual({ ...emptyFilters, page: 1 });
+    });
+
+    it('reads the duplicates option, which is on only for the value true', () => {
+      expect(fromParamMap(convertToParamMap({ includeDuplicates: 'true' })).includeDuplicates).toBeTrue();
+
+      for (const value of ['false', '1', 'yes', '']) {
+        expect(fromParamMap(convertToParamMap({ includeDuplicates: value })).includeDuplicates).toBeFalse();
+      }
     });
 
     it('falls back to the first page for an unusable page value', () => {

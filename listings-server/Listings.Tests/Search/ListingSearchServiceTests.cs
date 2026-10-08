@@ -10,21 +10,8 @@ namespace Listings.Tests.Search;
 
 public class ListingSearchServiceTests
 {
-    private static async Task<PagedResult<ListingResult>> Search(ListingSearchQuery query, params Listing[] listings)
-    {
-        var options = new DbContextOptionsBuilder<ListingsDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-
-        await using var context = new ListingsDbContext(options);
-        context.Listings.AddRange(listings);
-        await context.SaveChangesAsync();
-
-        var scorer = new ListingScorer(new ScoringOptions(), TestClock.Create());
-        var service = new ListingSearchService(context, scorer);
-
-        return await service.SearchAsync(query);
-    }
+    private static Task<PagedResult<ListingResult>> Search(ListingSearchQuery query, params Listing[] listings) =>
+        SearchHarness.Search(query, listings);
 
     private static string[] ExternalIds(PagedResult<ListingResult> page) =>
         page.Results.Select(result => result.ExternalId).ToArray();
@@ -340,16 +327,5 @@ public class ListingSearchServiceTests
 
         Assert.Equal(12, allIds.Distinct().Count());
         Assert.Equal(12, allIds.Count);
-    }
-
-    [Fact]
-    public async Task Duplicates_FromDifferentSources_AreBothKept()
-    {
-        var page = await Search(
-            new ListingSearchQuery(),
-            ListingFactory.Create(source: "MLS_A", externalId: "A1", address: "123 Main St, Apt 4B"),
-            ListingFactory.Create(source: "MLS_B", externalId: "B7", address: "123 Main Street, Unit 4B"));
-
-        Assert.Equal(2, page.TotalCount);
     }
 }

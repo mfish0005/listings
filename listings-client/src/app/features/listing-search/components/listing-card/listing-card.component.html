@@ -22,6 +22,17 @@
 
     <p class="is-size-6 has-text-gray-darker is-marginless">{{ listing().description }}</p>
 
+    @if (listing().alsoListedBy.length) {
+      <p class="listing-card__also is-size-7 has-text-gray-dark is-marginless">
+        <span>Also listed by</span>
+        @for (other of listing().alsoListedBy; track other.id) {
+          <a class="listing-card__other has-text-weight-semibold" [routerLink]="['/listings', other.id]">
+            {{ other.source }} at {{ other.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+          </a>
+        }
+      </p>
+    }
+
     <footer class="listing-card__footer is-size-7 has-text-gray-dark">
       <fish-badge size="small" [rounded]="true" [variant]="statusVariant()">{{ listing().status }}</fish-badge>
       <fish-badge size="small" [rounded]="true" variant="secondary" [outline]="true">{{ listing().source }}</fish-badge>

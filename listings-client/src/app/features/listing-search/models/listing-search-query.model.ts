@@ -1,4 +1,4 @@
-export interface ListingSearchFilters {
+export interface ListingSearchTextFilters {
   minPrice: string;
   maxPrice: string;
   minBedrooms: string;
@@ -6,6 +6,10 @@ export interface ListingSearchFilters {
   keyword: string;
   targetBudget: string;
   pageSize: string;
+}
+
+export interface ListingSearchFilters extends ListingSearchTextFilters {
+  includeDuplicates: boolean;
 }
 
 export interface ListingSearchQuery extends ListingSearchFilters {
@@ -19,7 +23,16 @@ export const emptyFilters: ListingSearchFilters = {
   city: '',
   keyword: '',
   targetBudget: '',
-  pageSize: ''
+  pageSize: '',
+  includeDuplicates: false
 };
 
-export const filterKeys = Object.keys(emptyFilters) as (keyof ListingSearchFilters)[];
+export const textFilterKeys: (keyof ListingSearchTextFilters)[] = [
+  'minPrice',
+  'maxPrice',
+  'minBedrooms',
+  'city',
+  'keyword',
+  'targetBudget',
+  'pageSize'
+];

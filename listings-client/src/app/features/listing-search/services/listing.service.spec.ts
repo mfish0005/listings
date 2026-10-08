@@ -28,6 +28,14 @@ describe('ListingService', () => {
     request.flush({});
   });
 
+  it('asks for duplicate listings only when the option is on', () => {
+    service.search({ ...emptyFilters, includeDuplicates: true, page: 1 }).subscribe();
+
+    const request = http.expectOne(req => req.url === '/api/listings');
+    expect(request.request.params.get('includeDuplicates')).toBe('true');
+    request.flush({});
+  });
+
   it('returns the paged result from the API', () => {
     const body: PagedResult<Listing> = { results: [], page: 1, pageSize: 5, totalCount: 0, totalPages: 0 };
     let received: PagedResult<Listing> | undefined;

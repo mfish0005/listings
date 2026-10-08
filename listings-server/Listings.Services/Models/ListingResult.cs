@@ -19,4 +19,5 @@ public record ListingResult(
     string Description,
     double RelevanceScore,
     double? BudgetFit,
-    double Recency);
+    double Recency,
+    IReadOnlyList<ListingAlternate> AlsoListedBy);

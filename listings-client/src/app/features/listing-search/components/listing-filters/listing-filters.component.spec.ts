@@ -54,6 +54,32 @@ describe('ListingFiltersComponent', () => {
     expect(emitted).toEqual([{ ...emptyFilters, city: 'Fairfax', minBedrooms: '3' }]);
   });
 
+  it('hides duplicate listings of the same home unless asked', () => {
+    expect(inputFor('same home').checked).toBeFalse();
+
+    setFilters({ ...emptyFilters, includeDuplicates: true });
+
+    expect(inputFor('same home').checked).toBeTrue();
+  });
+
+  it('emits the duplicates option when it is switched on', () => {
+    inputFor('same home').click();
+
+    clickButton('Search');
+
+    expect(emitted).toEqual([{ ...emptyFilters, includeDuplicates: true }]);
+  });
+
+  it('switches the duplicates option off when cleared', () => {
+    setFilters({ ...emptyFilters, includeDuplicates: true });
+
+    clickButton('Clear');
+    fixture.detectChanges();
+
+    expect(emitted).toEqual([emptyFilters]);
+    expect(inputFor('same home').checked).toBeFalse();
+  });
+
   it('emits empty filters when cleared', () => {
     setFilters({ ...emptyFilters, city: 'Vienna' });
 

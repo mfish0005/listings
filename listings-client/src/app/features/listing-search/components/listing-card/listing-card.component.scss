@@ -22,6 +22,17 @@
     font-weight: $weight-semibold;
   }
 
+  &__also {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.75rem;
+  }
+
+  &__other {
+    color: fish-color("primary");
+  }
+
   &__footer {
     display: flex;
     flex-wrap: wrap;

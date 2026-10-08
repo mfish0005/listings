@@ -21,6 +21,7 @@ export function createListing(overrides: Partial<Listing> = {}): Listing {
     relevanceScore: 0.83,
     budgetFit: 1,
     recency: 0.5,
+    alsoListedBy: [],
     ...overrides
   };
 }
