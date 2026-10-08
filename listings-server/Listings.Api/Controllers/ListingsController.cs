@@ -17,6 +17,11 @@ public class ListingsController(
     private const string InvalidSearchTitle = "Invalid search request";
     private const string InvalidListingTitle = "Invalid listing";
 
+    /// <summary>Searches listings, ranked by relevance.</summary>
+    /// <remarks>
+    /// Filters narrow the results. <c>targetBudget</c> only changes their order. Without it, results are ranked by recency alone.
+    /// Listings of the same home from different feeds are collapsed into the best-ranked one unless <c>includeDuplicates</c> is true.
+    /// </remarks>
     [HttpGet]
     [ProducesResponseType(typeof(PagedResult<ListingResult>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -32,6 +37,7 @@ public class ListingsController(
         return Ok(await searchService.SearchAsync(query, cancellationToken));
     }
 
+    /// <summary>Gets one listing by its database id.</summary>
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(ListingDetail), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -42,6 +48,8 @@ public class ListingsController(
         return listing is null ? ListingNotFound(id) : Ok(listing);
     }
 
+    /// <summary>Creates a listing.</summary>
+    /// <remarks>The database assigns the id. The source is set to <c>MANUAL</c> and the external id is generated.</remarks>
     [HttpPost]
     [ProducesResponseType(typeof(ListingDetail), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -59,6 +67,7 @@ public class ListingsController(
         return CreatedAtAction(nameof(Get), new { id = listing.Id }, listing);
     }
 
+    /// <summary>Replaces the editable fields of a listing.</summary>
     [HttpPut("{id:int}")]
     [ProducesResponseType(typeof(ListingDetail), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -77,6 +86,7 @@ public class ListingsController(
         return listing is null ? ListingNotFound(id) : Ok(listing);
     }
 
+    /// <summary>Deletes a listing.</summary>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
