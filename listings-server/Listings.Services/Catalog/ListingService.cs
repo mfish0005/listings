@@ -1,15 +1,14 @@
-using Listings.Data.Context;
 using Listings.Data.Entities;
+using Listings.Data.Repositories;
 using Listings.Services.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Listings.Services.Catalog;
 
-public class ListingService(ListingsDbContext context) : IListingService
+public class ListingService(IListingRepository repository) : IListingService
 {
     public async Task<ListingDetail?> GetAsync(int id, CancellationToken cancellationToken = default)
     {
-        var listing = await context.Listings.AsNoTracking().FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
+        var listing = await repository.GetAsync(id, cancellationToken);
 
         return listing is null ? null : ToDetail(listing);
     }
@@ -23,15 +22,14 @@ public class ListingService(ListingsDbContext context) : IListingService
         };
 
         Apply(listing, input);
-        context.Listings.Add(listing);
-        await context.SaveChangesAsync(cancellationToken);
+        await repository.AddAsync(listing, cancellationToken);
 
         return ToDetail(listing);
     }
 
     public async Task<ListingDetail?> UpdateAsync(int id, ListingInput input, CancellationToken cancellationToken = default)
     {
-        var listing = await context.Listings.FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
+        var listing = await repository.GetAsync(id, cancellationToken);
 
         if (listing is null)
         {
@@ -39,25 +37,13 @@ public class ListingService(ListingsDbContext context) : IListingService
         }
 
         Apply(listing, input);
-        await context.SaveChangesAsync(cancellationToken);
+        await repository.UpdateAsync(listing, cancellationToken);
 
         return ToDetail(listing);
     }
 
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
-    {
-        var listing = await context.Listings.FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
-
-        if (listing is null)
-        {
-            return false;
-        }
-
-        context.Listings.Remove(listing);
-        await context.SaveChangesAsync(cancellationToken);
-
-        return true;
-    }
+    public Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default) =>
+        repository.DeleteAsync(id, cancellationToken);
 
     private static void Apply(Listing listing, ListingInput input)
     {

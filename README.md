@@ -119,7 +119,7 @@ Besides search, the API can view, add, edit and delete single listings.
 ├──────────────────┤
 │ Listings.Services ← Search, scoring, query validation
 ├──────────────────┤
-│ Listings.Data     ← EF Core, migrations, seed data
+│ Listings.Data     ← EF Core, repository, migrations, seed data
 └──────────────────┘
   Listings.Tests    ← xUnit tests for scoring, validation, search and the controller
 ```
@@ -283,7 +283,7 @@ listings/
 ├── listings-server/                # .NET Web API
 │   ├── Listings.Api/               # Controllers, Swagger, error handling
 │   ├── Listings.Services/          # Search, scoring, validation
-│   ├── Listings.Data/              # EF Core, migrations, seed data
+│   ├── Listings.Data/              # EF Core, repository, migrations, seed data
 │   ├── Listings.Tests/             # xUnit tests
 │   └── docker-compose.yml          # SQL Server container
 ├── listings-client/                # Angular workspace

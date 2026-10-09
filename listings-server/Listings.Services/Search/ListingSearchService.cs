@@ -1,17 +1,16 @@
-using Listings.Data.Context;
 using Listings.Data.Entities;
+using Listings.Data.Repositories;
 using Listings.Services.Models;
 using Listings.Services.Scoring;
-using Microsoft.EntityFrameworkCore;
 
 namespace Listings.Services.Search;
 
-public class ListingSearchService(ListingsDbContext context, ListingScorer scorer) : IListingSearchService
+public class ListingSearchService(IListingRepository repository, ListingScorer scorer) : IListingSearchService
 {
     public async Task<PagedResult<ListingResult>> SearchAsync(ListingSearchQuery query, CancellationToken cancellationToken = default)
-    {
-        var candidates = await ApplyFilters(context.Listings.AsNoTracking(), query).ToListAsync(cancellationToken);
-
+    {        
+        var candidates = await repository.SearchAsync(ToFilter(query), cancellationToken);
+        
         var ranked = candidates
             .Select(listing => ToResult(listing, scorer.Score(listing.Price, listing.ListedDate, query.TargetBudget)))
             .OrderByDescending(result => result.RelevanceScore)
@@ -24,6 +23,15 @@ public class ListingSearchService(ListingsDbContext context, ListingScorer score
         return ToPage(query.IncludeDuplicates ? ranked : CollapseDuplicates(ranked), query.Page, query.PageSize);
     }
 
+    private static ListingFilter ToFilter(ListingSearchQuery query) => new()
+    {
+        MinPrice = query.MinPrice,
+        MaxPrice = query.MaxPrice,
+        MinBedrooms = query.MinBedrooms,
+        City = query.City,
+        Keyword = query.Keyword
+    };
+    
     private static List<ListingResult> CollapseDuplicates(List<ListingResult> ranked) =>
         ranked
             .GroupBy(result => PropertyKey.For(result.Address, result.City, result.State))
@@ -33,45 +41,11 @@ public class ListingSearchService(ListingsDbContext context, ListingScorer score
     private static ListingAlternate ToAlternate(ListingResult result) =>
         new(result.Id, result.Source, result.ExternalId, result.Price, result.ListedDate);
 
-    private static IQueryable<Listing> ApplyFilters(IQueryable<Listing> listings, ListingSearchQuery query)
-    {
-        var city = Clean(query.City)?.ToLower();
-        var keywords = SplitWords(query.Keyword);
-
-        if (query.MinPrice is { } minPrice)
-        {
-            listings = listings.Where(l => l.Price >= minPrice);
-        }
-
-        if (query.MaxPrice is { } maxPrice)
-        {
-            listings = listings.Where(l => l.Price <= maxPrice);
-        }
-
-        if (query.MinBedrooms is { } minBedrooms)
-        {
-            listings = listings.Where(l => l.Bedrooms >= minBedrooms);
-        }
-
-        if (city is not null)
-        {
-            listings = listings.Where(l => l.City.ToLower().StartsWith(city));
-        }
-
-        foreach (var keyword in keywords)
-        {
-            listings = listings.Where(l => l.Description.ToLower().Contains(keyword));
-        }
-
-        return listings;
-    }
-
     private static PagedResult<ListingResult> ToPage(List<ListingResult> ranked, int page, int pageSize)
     {
         var totalCount = ranked.Count;
         var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
-        var skipped = (long)(page - 1) * pageSize;
-
+        var skipped = (long)(page - 1) * pageSize;        
         var results = skipped >= totalCount
             ? []
             : ranked.Skip((int)skipped).Take(pageSize).ToList();
@@ -100,9 +74,4 @@ public class ListingSearchService(ListingsDbContext context, ListingScorer score
         score.BudgetFit,
         score.Recency,
         []);
-
-    private static string? Clean(string? value) => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
-
-    private static string[] SplitWords(string? value) =>
-        (value ?? string.Empty).ToLower().Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
 }

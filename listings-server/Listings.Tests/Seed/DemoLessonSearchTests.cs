@@ -1,4 +1,5 @@
 using Listings.Data.Context;
+using Listings.Data.Repositories;
 using Listings.Data.Seed;
 using Listings.Services.Models;
 using Listings.Services.Scoring;
@@ -21,7 +22,7 @@ public class DemoLessonSearchTests
         await using var context = new ListingsDbContext(options);
         await ListingSeeder.SeedAsync(context, new SeedOptions { DemoListings = 1 }, TestClock.Today);
 
-        var service = new ListingSearchService(context, new ListingScorer(new ScoringOptions(), TestClock.Create()));
+        var service = new ListingSearchService(new ListingRepository(context), new ListingScorer(new ScoringOptions(), TestClock.Create()));
 
         return await service.SearchAsync(new ListingSearchQuery
         {

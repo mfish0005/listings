@@ -1,5 +1,6 @@
 using Listings.Data.Context;
 using Listings.Data.Entities;
+using Listings.Data.Repositories;
 using Listings.Services.Catalog;
 using Listings.Services.Models;
 using Listings.Services.Scoring;
@@ -25,7 +26,7 @@ public class ListingServiceTests
     {
         await using var context = CreateContext();
 
-        var created = await new ListingService(context).CreateAsync(ListingInputFactory.Valid());
+        var created = await new ListingService(new ListingRepository(context)).CreateAsync(ListingInputFactory.Valid());
 
         Assert.True(created.Id > 0);
         Assert.Equal(ListingSources.Manual, created.Source);
@@ -37,7 +38,7 @@ public class ListingServiceTests
     public async Task Create_GivesEveryListingItsOwnExternalId()
     {
         await using var context = CreateContext();
-        var service = new ListingService(context);
+        var service = new ListingService(new ListingRepository(context));
 
         var first = await service.CreateAsync(ListingInputFactory.Valid());
         var second = await service.CreateAsync(ListingInputFactory.Valid());
@@ -60,7 +61,7 @@ public class ListingServiceTests
             Status = null
         };
 
-        var created = await new ListingService(context).CreateAsync(input);
+        var created = await new ListingService(new ListingRepository(context)).CreateAsync(input);
 
         Assert.Equal("12 Test Lane", created.Address);
         Assert.Equal("Springfield", created.City);
@@ -75,7 +76,7 @@ public class ListingServiceTests
     {
         await using var context = CreateContext();
 
-        var created = await new ListingService(context).CreateAsync(ListingInputFactory.Valid() with { Status = "Pending" });
+        var created = await new ListingService(new ListingRepository(context)).CreateAsync(ListingInputFactory.Valid() with { Status = "Pending" });
 
         Assert.Equal(ListingStatuses.Pending, created.Status);
     }
@@ -84,8 +85,8 @@ public class ListingServiceTests
     public async Task Create_MakesTheListingFindableBySearch()
     {
         await using var context = CreateContext();
-        await new ListingService(context).CreateAsync(ListingInputFactory.Valid() with { City = "Newtown", Price = 300_000m });
-        var search = new ListingSearchService(context, new ListingScorer(new ScoringOptions(), TestClock.Create()));
+        await new ListingService(new ListingRepository(context)).CreateAsync(ListingInputFactory.Valid() with { City = "Newtown", Price = 300_000m });
+        var search = new ListingSearchService(new ListingRepository(context), new ListingScorer(new ScoringOptions(), TestClock.Create()));
 
         var page = await search.SearchAsync(new ListingSearchQuery { City = "newtown", MaxPrice = 350_000m });
 
@@ -97,7 +98,7 @@ public class ListingServiceTests
     public async Task Get_ReturnsTheListing()
     {
         await using var context = CreateContext();
-        var service = new ListingService(context);
+        var service = new ListingService(new ListingRepository(context));
         var created = await service.CreateAsync(ListingInputFactory.Valid());
 
         var found = await service.GetAsync(created.Id);
@@ -110,14 +111,14 @@ public class ListingServiceTests
     {
         await using var context = CreateContext();
 
-        Assert.Null(await new ListingService(context).GetAsync(999));
+        Assert.Null(await new ListingService(new ListingRepository(context)).GetAsync(999));
     }
 
     [Fact]
     public async Task Update_ReplacesTheEditableFields()
     {
         await using var context = CreateContext();
-        var service = new ListingService(context);
+        var service = new ListingService(new ListingRepository(context));
         var created = await service.CreateAsync(ListingInputFactory.Valid());
         var edit = ListingInputFactory.Valid() with
         {
@@ -144,7 +145,7 @@ public class ListingServiceTests
     public async Task Update_KeepsTheIdentityOfTheListing()
     {
         await using var context = CreateContext();
-        var service = new ListingService(context);
+        var service = new ListingService(new ListingRepository(context));
         var created = await service.CreateAsync(ListingInputFactory.Valid());
 
         var updated = await service.UpdateAsync(created.Id, ListingInputFactory.Valid() with { City = "Reston" });
@@ -163,7 +164,7 @@ public class ListingServiceTests
         context.Listings.Add(feedListing);
         await context.SaveChangesAsync();
 
-        var updated = await new ListingService(context).UpdateAsync(feedListing.Id, ListingInputFactory.Valid() with { City = "Reston" });
+        var updated = await new ListingService(new ListingRepository(context)).UpdateAsync(feedListing.Id, ListingInputFactory.Valid() with { City = "Reston" });
 
         Assert.NotNull(updated);
         Assert.Equal("MLS_A", updated.Source);
@@ -175,7 +176,7 @@ public class ListingServiceTests
     public async Task Update_LeavesOtherListingsAlone()
     {
         await using var context = CreateContext();
-        var service = new ListingService(context);
+        var service = new ListingService(new ListingRepository(context));
         var first = await service.CreateAsync(ListingInputFactory.Valid() with { City = "Springfield" });
         var second = await service.CreateAsync(ListingInputFactory.Valid() with { City = "Vienna" });
 
@@ -189,7 +190,7 @@ public class ListingServiceTests
     {
         await using var context = CreateContext();
 
-        var updated = await new ListingService(context).UpdateAsync(999, ListingInputFactory.Valid());
+        var updated = await new ListingService(new ListingRepository(context)).UpdateAsync(999, ListingInputFactory.Valid());
 
         Assert.Null(updated);
         Assert.Equal(0, await context.Listings.CountAsync());
@@ -199,7 +200,7 @@ public class ListingServiceTests
     public async Task Delete_RemovesTheListing()
     {
         await using var context = CreateContext();
-        var service = new ListingService(context);
+        var service = new ListingService(new ListingRepository(context));
         var created = await service.CreateAsync(ListingInputFactory.Valid());
 
         var deleted = await service.DeleteAsync(created.Id);
@@ -213,7 +214,7 @@ public class ListingServiceTests
     public async Task Delete_LeavesOtherListingsAlone()
     {
         await using var context = CreateContext();
-        var service = new ListingService(context);
+        var service = new ListingService(new ListingRepository(context));
         var first = await service.CreateAsync(ListingInputFactory.Valid());
         var second = await service.CreateAsync(ListingInputFactory.Valid());
 
@@ -231,7 +232,7 @@ public class ListingServiceTests
         context.Listings.Add(feedListing);
         await context.SaveChangesAsync();
 
-        var deleted = await new ListingService(context).DeleteAsync(feedListing.Id);
+        var deleted = await new ListingService(new ListingRepository(context)).DeleteAsync(feedListing.Id);
 
         Assert.True(deleted);
         Assert.Equal(0, await context.Listings.CountAsync());
@@ -242,7 +243,7 @@ public class ListingServiceTests
     {
         await using var context = CreateContext();
 
-        var deleted = await new ListingService(context).DeleteAsync(999);
+        var deleted = await new ListingService(new ListingRepository(context)).DeleteAsync(999);
 
         Assert.False(deleted);
     }
@@ -251,7 +252,7 @@ public class ListingServiceTests
     public async Task Delete_CannotRemoveTheSameListingTwice()
     {
         await using var context = CreateContext();
-        var service = new ListingService(context);
+        var service = new ListingService(new ListingRepository(context));
         var created = await service.CreateAsync(ListingInputFactory.Valid());
 
         await service.DeleteAsync(created.Id);

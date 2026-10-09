@@ -1,3 +1,4 @@
+using Listings.Data.Repositories;
 using Listings.Services.Catalog;
 using Listings.Services.Scoring;
 using Listings.Services.Search;
@@ -13,6 +14,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(new ScoringOptions());
         services.AddSingleton<ListingScorer>();
         services.AddSingleton<ListingQueryValidator>();
+        services.AddScoped<IListingRepository, ListingRepository>();
         services.AddScoped<IListingSearchService, ListingSearchService>();
         services.AddSingleton<ListingInputValidator>();
         services.AddScoped<IListingService, ListingService>();

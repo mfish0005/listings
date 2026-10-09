@@ -1,5 +1,6 @@
 using Listings.Data.Context;
 using Listings.Data.Entities;
+using Listings.Data.Repositories;
 using Listings.Services.Models;
 using Listings.Services.Scoring;
 using Listings.Services.Search;
@@ -31,6 +32,6 @@ public static class SearchHarness
     {
         var scorer = new ListingScorer(new ScoringOptions(), TestClock.Create());
 
-        return new ListingSearchService(context, scorer).SearchAsync(query);
+        return new ListingSearchService(new ListingRepository(context), scorer).SearchAsync(query);
     }
 }
